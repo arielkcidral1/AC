@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Doce Manhã Confeitaria — Demonstração Básico</title>
+<meta name="description" content="Bolos, docinhos e kits de festa feitos à mão. Encomende pelo WhatsApp.">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff6f0;--pink:#ff6f91;--pink2:#ffd3de;--cocoa:#5a3a35;--mint:#c5efdc;--butter:#ffe6a3;--lilac:#e4d7ff;--peach:#ffd9c2;--mut:#8a6b65;--hf:'Fredoka',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--cocoa);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.demo-bar{background:#222;color:#fff;font:500 13px/1 system-ui,sans-serif;padding:11px 16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.demo-bar a{text-decoration:underline}.demo-bar span{opacity:.75}
+.wrap{width:min(1120px,92%);margin:0 auto}
+header{padding:18px 0}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border-radius:99px;padding:12px 14px 12px 28px;box-shadow:0 8px 30px -14px rgba(255,111,145,.5)}
+.logo{font:400 1.7rem 'Pacifico',cursive;color:var(--pink)}
+header nav{display:flex;gap:26px;font:500 1rem var(--hf)}
+header nav a:hover{color:var(--pink)}
+.btn{display:inline-block;background:var(--pink);color:#fff;font:600 1rem var(--hf);padding:13px 28px;border-radius:99px;box-shadow:0 6px 0 #d94f72}
+.btn--o{background:#fff;color:var(--pink);box-shadow:0 6px 0 var(--pink2)}
+.btn--s{padding:10px 22px;box-shadow:none}
+/* hero */
+.hero{position:relative;padding:50px 0 90px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;position:relative}
+.blob{position:absolute;border-radius:50%;z-index:0}
+.b1{width:420px;height:420px;background:var(--pink2);right:-80px;top:-60px}
+.b2{width:200px;height:200px;background:var(--butter);left:-60px;bottom:-40px}
+.hero .wrap>*{position:relative;z-index:1}
+.pill{display:inline-block;background:var(--mint);font:600 .85rem var(--hf);padding:6px 16px;border-radius:99px}
+h1{font:700 clamp(2.8rem,6.4vw,5rem)/1.02 var(--hf);margin:16px 0 18px}
+h1 em{font:400 1em 'Pacifico',cursive;color:var(--pink);display:inline-block;transform:rotate(-3deg)}
+.hero p{color:var(--mut);font-size:1.12rem;max-width:44ch;margin-bottom:30px}
+.hero__btns{display:flex;gap:16px;flex-wrap:wrap}
+.hero__row{display:flex;gap:24px;margin-top:38px;flex-wrap:wrap}
+.hero__row div{display:flex;gap:10px;align-items:center;font-weight:700;font-size:.92rem}
+.hero__row i{font-style:normal;width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1.2rem;box-shadow:0 4px 12px -6px rgba(0,0,0,.3)}
+.cake{max-width:420px;margin:0 auto;display:block}
+.wave{display:block;width:100%;height:60px}
+/* sections */
+.sec{padding:80px 0}
+.head{text-align:center;margin-bottom:46px}
+.head .pill{background:var(--butter)}
+h2{font:700 clamp(2rem,4.6vw,3.2rem)/1.1 var(--hf);margin-top:12px}
+h2 em{font:400 1em 'Pacifico',cursive;color:var(--pink)}
+.head p{color:var(--mut);max-width:52ch;margin:12px auto 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prod{border-radius:30px;padding:28px;position:relative;overflow:hidden}
+.prod .em{font-size:4.4rem;line-height:1;display:block;margin-bottom:10px}
+.prod h3{font:600 1.35rem var(--hf)}
+.prod p{font-size:.92rem;color:rgba(90,58,53,.8);margin:6px 0 18px;min-height:3.2em}
+.prod .row{display:flex;justify-content:space-between;align-items:center}
+.prod .pr{font:700 1.5rem var(--hf)}
+.prod .pr small{font-size:.78rem;font-weight:500}
+.tagx{position:absolute;top:18px;right:-34px;background:var(--cocoa);color:#fff;font:600 .72rem var(--hf);padding:5px 40px;transform:rotate(35deg)}
+.c1{background:var(--pink2)}.c2{background:var(--butter)}.c3{background:var(--mint)}.c4{background:var(--lilac)}.c5{background:var(--peach)}.c6{background:#d7ecff}
+/* sizes */
+.sizes{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+.card{background:#fff;border-radius:30px;padding:34px;box-shadow:0 14px 40px -24px rgba(90,58,53,.35)}
+.card h3{font:600 1.4rem var(--hf);margin-bottom:16px}
+table{width:100%;border-collapse:collapse}
+th{font:600 .8rem var(--hf);text-align:left;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;padding-bottom:10px}
+td{padding:13px 0;border-top:2px dashed var(--pink2);font-size:.96rem}
+td:last-child,th:last-child{text-align:right}
+td b{font:600 1.1rem var(--hf);color:var(--pink)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+.chips span{background:var(--bg);border:2px solid var(--pink2);border-radius:99px;padding:6px 16px;font-weight:700;font-size:.9rem}
+.chips.m span{border-color:var(--mint)}
+.card h4{font:600 1rem var(--hf);margin-bottom:10px;color:var(--mut)}
+/* kits */
+.kit{background:#fff;border-radius:30px;padding:34px;text-align:center;box-shadow:0 14px 40px -24px rgba(90,58,53,.35)}
+.kit--hot{background:var(--pink);color:#fff}
+.kit .em{font-size:3rem}
+.kit h3{font:600 1.5rem var(--hf);margin:6px 0}
+.kit .pr{font:700 2.6rem var(--hf);margin:6px 0 12px}
+.kit ul{list-style:none;display:grid;gap:8px;font-size:.95rem;margin-bottom:24px}
+.kit li::before{content:"♥ ";color:var(--pink)}
+.kit--hot li::before{color:var(--butter)}
+.kit--hot .btn{background:#fff;color:var(--pink);box-shadow:0 6px 0 rgba(0,0,0,.15)}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.step{text-align:center}
+.step b{display:grid;place-items:center;width:74px;height:74px;border-radius:50%;margin:0 auto 14px;font:700 1.8rem var(--hf);color:#fff;background:var(--pink);box-shadow:0 6px 0 #d94f72}
+.step:nth-child(2) b{background:#f6b73c;box-shadow:0 6px 0 #d49518}
+.step:nth-child(3) b{background:#4cc39a;box-shadow:0 6px 0 #2e9c77}
+.step:nth-child(4) b{background:#9b7bff;box-shadow:0 6px 0 #7756e0}
+.step h3{font:600 1.15rem var(--hf)}
+.step p{font-size:.92rem;color:var(--mut)}
+/* about + reviews */
+.about{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:center}
+.about__art{aspect-ratio:1;border-radius:50%;background:var(--butter);display:grid;place-items:center;font-size:8rem;position:relative}
+.about__art::after{content:"Marina, a confeiteira";position:absolute;bottom:6%;background:#fff;padding:8px 20px;border-radius:99px;font:600 .95rem var(--hf);box-shadow:0 8px 20px -10px rgba(0,0,0,.3)}
+.about p{color:var(--mut);margin:14px 0}
+.bub{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.bub blockquote{background:#fff;border-radius:26px 26px 26px 6px;padding:28px;box-shadow:0 14px 40px -24px rgba(90,58,53,.35)}
+.bub .st{color:#f6b73c;letter-spacing:3px}
+.bub p{margin:10px 0 14px;font-size:.98rem}
+.bub cite{font:600 .95rem var(--hf);font-style:normal;color:var(--pink)}
+/* faq + contact */
+.faq{max-width:780px;margin:0 auto}
+details{background:#fff;border-radius:22px;padding:20px 26px;margin-bottom:14px;box-shadow:0 10px 30px -22px rgba(90,58,53,.4)}
+summary{font:600 1.1rem var(--hf);cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--pink);font-size:1.5rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--mut);margin-top:10px}
+.cta{background:var(--pink);color:#fff;border-radius:44px;padding:64px 40px;text-align:center;position:relative;overflow:hidden}
+.cta::before,.cta::after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.12)}
+.cta::before{left:-60px;top:-60px}.cta::after{right:-50px;bottom:-70px}
+.cta h2{margin:0 0 12px;position:relative}.cta h2 em{color:var(--butter)}
+.cta p{max-width:46ch;margin:0 auto 26px;position:relative;opacity:.95}
+.cta .btn{background:#fff;color:var(--pink);box-shadow:0 6px 0 rgba(0,0,0,.15);position:relative}
+.info{display:flex;justify-content:center;gap:34px;margin-top:34px;flex-wrap:wrap;position:relative;font-weight:700;font-size:.95rem}
+footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.9rem}
+
+/* sabores do mês */
+.season{background:var(--cocoa);color:#fff;border-radius:44px;padding:52px 46px;position:relative;overflow:hidden}
+.season::before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;background:var(--pink);opacity:.25;right:-90px;top:-110px}
+.season .top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:30px;position:relative}
+.season h2{margin:8px 0 0}.season h2 em{color:var(--butter)}
+.season .pill{background:var(--butter);color:var(--cocoa)}
+.season p.d{opacity:.85;max-width:40ch}
+.flv{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative}
+.flv div{background:rgba(255,255,255,.08);border:2px dashed rgba(255,255,255,.25);border-radius:26px;padding:24px;text-align:center}
+.flv .em{font-size:2.6rem;display:block;margin-bottom:6px}
+.flv h3{font:600 1.1rem var(--hf)}.flv p{font-size:.85rem;opacity:.8;margin-top:4px}
+/* coleções */
+.colls{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.col{border-radius:32px;padding:28px 24px;min-height:300px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.col .em{font-size:3.4rem;line-height:1}
+.col h3{font:600 1.4rem var(--hf);margin:auto 0 6px}
+.col p{font-size:.9rem;color:rgba(90,58,53,.85)}
+.col small{display:inline-block;margin-top:14px;background:rgba(255,255,255,.7);border-radius:99px;padding:5px 14px;font:600 .8rem var(--hf)}
+.col::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.35);right:-40px;top:-40px}
+/* galeria */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:16px}
+.gal div{border-radius:28px;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;position:relative;overflow:hidden}
+.gal .em{position:absolute;top:14px;right:18px;font-size:3.4rem}
+.gal span{background:rgba(255,255,255,.85);border-radius:99px;padding:5px 14px;font:600 .82rem var(--hf);align-self:flex-start}
+.g1{grid-column:span 2;grid-row:span 2;background:linear-gradient(140deg,#ffc2d1,#ff8fab)}
+.g1 .em{font-size:7rem;top:24px;right:34px}
+.g2{background:linear-gradient(140deg,#fff0b3,#ffd166)}.g3{background:linear-gradient(140deg,#c5efdc,#7ad7b0)}
+.g4{background:linear-gradient(140deg,#e4d7ff,#b9a0ff)}.g5{grid-column:span 2;background:linear-gradient(140deg,#ffd9c2,#ffab84)}
+.g6{background:linear-gradient(140deg,#d7ecff,#8ec5ff)}
+/* datas */
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+.cal{background:#fff;border-radius:30px;padding:34px;box-shadow:0 14px 40px -24px rgba(90,58,53,.35)}
+.cal h3{font:600 1.4rem var(--hf);margin-bottom:16px}
+.cal .r{display:flex;align-items:center;gap:16px;padding:14px 0;border-top:2px dashed var(--pink2)}
+.cal .r:first-of-type{border-top:0}
+.cal .d{flex:none;width:64px;height:64px;border-radius:20px;background:var(--pink2);display:grid;place-items:center;text-align:center;font:700 1.4rem/1 var(--hf);color:var(--pink)}
+.cal .d small{display:block;font:600 .62rem var(--hf);text-transform:uppercase;letter-spacing:.06em;color:var(--cocoa)}
+.cal .r b{display:block;font:600 1.05rem var(--hf)}.cal .r span{font-size:.86rem;color:var(--mut)}
+.diet{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.diet div{border-radius:24px;padding:22px;text-align:center}
+.diet .em{font-size:2rem;display:block}.diet b{font:600 1.05rem var(--hf)}.diet p{font-size:.84rem;color:rgba(90,58,53,.8)}
+/* footer */
+.fx{background:var(--cocoa);color:#fff;border-radius:44px 44px 0 0;padding:56px 0 24px;margin-top:40px}
+.fx .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
+.fx .lg{font:400 1.9rem 'Pacifico',cursive;color:var(--pink2);margin-bottom:10px}
+.fx h4{font:600 1rem var(--hf);margin-bottom:12px;color:var(--butter)}
+.fx ul{list-style:none;display:grid;gap:7px;font-size:.9rem;opacity:.85}
+.fx p{font-size:.9rem;opacity:.85}
+.fx .end{margin-top:36px;padding-top:20px;border-top:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:.82rem;opacity:.7}
+.cupom{background:var(--butter);border-radius:30px;padding:34px 40px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border:3px dashed var(--pink)}
+.cupom h3{font:700 1.7rem var(--hf)}.cupom p{color:var(--mut)}
+.cupom b{font:700 2rem var(--hf);color:var(--pink);background:#fff;border-radius:14px;padding:8px 22px;letter-spacing:.06em}
+@media(max-width:860px){.flv,.colls,.gal{grid-template-columns:1fr 1fr}.g1,.g5{grid-column:span 2}.dates,.fx .cols{grid-template-columns:1fr}.season{padding:34px 24px}}
+@media(max-width:860px){
+ header nav{display:none}.hero .wrap,.sizes,.about{grid-template-columns:1fr}.grid,.bub{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.about__art{max-width:260px;margin:0 auto}
+}
+</style>
+</head>
+<body>
+<span id="topo"></span>
+<div class="demo-bar"><span>Demonstração · Plano Básico</span><a href="../index.html#precos">← Voltar aos preços</a></div>
+
+<header><div class="wrap">
+  <a class="logo" href="#">Doce Manhã</a>
+  <nav><a href="#queridinhos">Queridinhos</a><a href="#bolos">Bolos</a><a href="#festa">Festa</a><a href="#como">Como pedir</a><a href="#faq">Dúvidas</a></nav>
+  <a class="btn btn--s" href="#contato">Encomendar</a>
+</div></header>
+
+<section class="hero">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="wrap">
+    <div>
+      <span class="pill">🍰 Confeitaria artesanal · feito no dia</span>
+      <h1>Doces que <em>abraçam</em> o seu dia.</h1>
+      <p>Bolos, docinhos e tortas feitos à mão, com ingredientes de verdade e muito carinho. Para aniversários, casamentos, encontros ou só porque hoje merece.</p>
+      <div class="hero__btns"><a class="btn" href="#contato">Fazer minha encomenda</a><a class="btn btn--o" href="#queridinhos">Ver os queridinhos</a></div>
+      <div class="hero__row"><div><i>🥚</i>Ovos caipiras</div><div><i>🧈</i>Manteiga de verdade</div><div><i>🚫</i>Sem corantes artificiais</div></div>
+    </div>
+    <svg class="cake" viewBox="0 0 400 420" role="img" aria-label="Ilustração de um bolo de três andares">
+      <ellipse cx="200" cy="392" rx="170" ry="16" fill="#f3c9c0"/>
+      <rect x="40" y="290" width="320" height="96" rx="20" fill="#ffb3c6"/>
+      <path d="M40 310c20 26 34 0 54 20s34-4 56 18 32-6 52 16 34-8 52 14 30-14 54 6V290H40z" fill="#fff"/>
+      <rect x="80" y="200" width="240" height="90" rx="20" fill="#ffe6a3"/>
+      <path d="M80 220c18 24 30 0 48 18s30-4 50 16 30-8 46 12 30-10 46 8 34-12 50 2V200H80z" fill="#fff"/>
+      <rect x="120" y="120" width="160" height="80" rx="18" fill="#c5efdc"/>
+      <path d="M120 138c14 20 24 0 38 14s24-2 40 12 24-6 38 10 30-10 44 4V120H120z" fill="#fff"/>
+      <circle cx="200" cy="100" r="18" fill="#e63955"/><path d="M200 82c2-14 12-22 26-24" stroke="#4a8a4a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <g fill="#ff6f91"><circle cx="90" cy="356" r="9"/><circle cx="150" cy="364" r="9"/><circle cx="210" cy="356" r="9"/><circle cx="270" cy="364" r="9"/><circle cx="326" cy="356" r="9"/></g>
+      <g fill="#f6b73c"><circle cx="112" cy="266" r="7"/><circle cx="184" cy="270" r="7"/><circle cx="256" cy="266" r="7"/></g>
+    </svg>
+  </div>
+</section>
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30c120 40 240 40 360 10S600 0 720 20s240 40 360 20 240-30 360-10V60H0z" fill="#ffe9ee"/></svg>
+
+<section class="sec" id="queridinhos" style="background:#ffe9ee;margin-top:-1px"><div class="wrap">
+  <div class="head"><span class="pill">Os mais pedidos</span><h2>Nossos <em>queridinhos</em></h2><p>Receitas de família, feitas em pequenas fornadas para chegarem fresquinhas na sua mesa.</p></div>
+  <div class="grid">
+    <div class="prod c1"><span class="tagx">mais vendido</span><span class="em">🎂</span><h3>Bolo de ninho com morango</h3><p>Massa fofinha, creme de leite ninho e morangos frescos.</p><div class="row"><div class="pr"><small>1 kg · </small>R$ 95</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c2"><span class="em">🍫</span><h3>Brigadeiro gourmet</h3><p>Chocolate belga 50%, cobertura crocante. Cento a partir de:</p><div class="row"><div class="pr">R$ 120</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c3"><span class="em">🍋</span><h3>Torta de limão siciliano</h3><p>Base amanteigada, creme cítrico e merengue maçaricado.</p><div class="row"><div class="pr">R$ 78</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c4"><span class="em">🧁</span><h3>Cupcakes decorados</h3><p>Caixa com 6, sabores à escolha e toppers personalizados.</p><div class="row"><div class="pr">R$ 54</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c5"><span class="em">🥧</span><h3>Cheesecake de goiabada</h3><p>Cremoso, com calda artesanal de goiabada cascão.</p><div class="row"><div class="pr">R$ 85</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c6"><span class="em">🍪</span><h3>Caixa de cookies</h3><p>Seis cookies gigantes com gotas de chocolate e nozes.</p><div class="row"><div class="pr">R$ 42</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+  </div>
+</div></section>
+
+<section class="sec" style="padding-bottom:0"><div class="wrap">
+  <div class="season">
+    <div class="top"><div><span class="pill">Edição limitada · setembro</span><h2>Sabores da <em>primavera</em></h2></div><p class="d">Quatro sabores que só existem enquanto a estação durar. Encomende antes que acabem.</p></div>
+    <div class="flv">
+      <div><span class="em">🍓</span><h3>Morango com pistache</h3><p>Bolo de 1 kg · R$ 110</p></div>
+      <div><span class="em">🌸</span><h3>Flor de laranjeira</h3><p>Cupcake · R$ 12 a unidade</p></div>
+      <div><span class="em">🍑</span><h3>Pêssego e mascarpone</h3><p>Torta · R$ 88</p></div>
+      <div><span class="em">🫐</span><h3>Mirtilo e limão</h3><p>Cheesecake · R$ 92</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="bolos"><div class="wrap">
+  <div class="head"><span class="pill">Bolos personalizados</span><h2>Do <em>tamanho</em> da sua festa</h2><p>Escolha o tamanho, a massa e o recheio. A decoração a gente combina juntas.</p></div>
+  <div class="sizes">
+    <div class="card"><h3>Tamanhos e valores</h3>
+      <table><tr><th>Tamanho</th><th>Serve</th><th>A partir de</th></tr>
+        <tr><td>Mini (1 kg)</td><td>10 a 12</td><td><b>R$ 95</b></td></tr>
+        <tr><td>Pequeno (2 kg)</td><td>20 a 25</td><td><b>R$ 180</b></td></tr>
+        <tr><td>Médio (3 kg)</td><td>30 a 40</td><td><b>R$ 260</b></td></tr>
+        <tr><td>Grande (5 kg)</td><td>50 a 65</td><td><b>R$ 420</b></td></tr>
+        <tr><td>2 andares</td><td>70 a 90</td><td><b>R$ 590</b></td></tr>
+      </table>
+    </div>
+    <div class="card"><h3>Monte o seu</h3>
+      <h4>Massas</h4><div class="chips"><span>Baunilha</span><span>Chocolate</span><span>Red velvet</span><span>Cenoura</span><span>Limão</span></div>
+      <h4>Recheios</h4><div class="chips m"><span>Brigadeiro</span><span>Ninho</span><span>Doce de leite</span><span>Frutas vermelhas</span><span>Maracujá</span><span>Ganache</span></div>
+      <h4>Cobertura</h4><div class="chips"><span>Chantilly</span><span>Pasta americana</span><span>Buttercream</span></div>
+      <p style="font-size:.9rem;color:var(--mut)">Recheios premium (frutas vermelhas, ganache belga) têm acréscimo de R$ 20 por quilo.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><span class="pill">Para cada ocasião</span><h2>Nossas <em>coleções</em></h2><p>Temas prontos para você escolher e personalizar. Se preferir, criamos um do zero com a sua ideia.</p></div>
+  <div class="colls">
+    <div class="col c1"><span class="em">🎈</span><h3>Aniversário infantil</h3><p>Personagens, cores vibrantes e topper personalizado com o nome do aniversariante.</p><small>a partir de R$ 130</small></div>
+    <div class="col c3"><span class="em">💐</span><h3>Casamentos</h3><p>Bolos de dois ou três andares com flores naturais e mesa de doces finos.</p><small>a partir de R$ 590</small></div>
+    <div class="col c4"><span class="em">🍼</span><h3>Chá de bebê</h3><p>Tons suaves, docinhos delicados e bolo com tema à sua escolha.</p><small>a partir de R$ 160</small></div>
+    <div class="col c2"><span class="em">🏢</span><h3>Corporativo</h3><p>Caixas de brindes, coffee break doce e bolos com a logo da empresa.</p><small>sob orçamento</small></div>
+  </div>
+</div></section>
+
+<section class="sec" id="festa" style="background:#fff0d6"><div class="wrap">
+  <div class="head"><span class="pill">Festa completa</span><h2>Kits para <em>celebrar</em></h2><p>Tudo pronto para você só aproveitar. Entrega e montagem inclusas na região central.</p></div>
+  <div class="grid">
+    <div class="kit"><div class="em">🎈</div><h3>Mini festa</h3><div class="pr">R$ 290</div><ul><li>Bolo de 1 kg</li><li>25 docinhos</li><li>Toppers e velas</li></ul><a class="btn btn--o" href="#contato">Quero este</a></div>
+    <div class="kit kit--hot"><div class="em">🎉</div><h3>Festa da família</h3><div class="pr">R$ 620</div><ul><li>Bolo de 3 kg personalizado</li><li>100 docinhos variados</li><li>12 cupcakes decorados</li><li>Painel e topper</li></ul><a class="btn" href="#contato">Quero este</a></div>
+    <div class="kit"><div class="em">💍</div><h3>Casamento intimista</h3><div class="pr">R$ 1.290</div><ul><li>Bolo de 2 andares</li><li>150 docinhos finos</li><li>Mesa decorada</li></ul><a class="btn btn--o" href="#contato">Quero este</a></div>
+  </div>
+</div></section>
+
+<section class="sec" style="background:#fff0d6"><div class="wrap">
+  <div class="head"><span class="pill">Galeria</span><h2>Um pouquinho do nosso <em>trabalho</em></h2><p>Algumas das encomendas que passaram pela nossa cozinha neste ano.</p></div>
+  <div class="gal">
+    <div class="g1"><span class="em">🎂</span><span>Bolo naked com frutas vermelhas</span></div>
+    <div class="g2"><span class="em">🧁</span><span>Cupcakes de baunilha</span></div>
+    <div class="g3"><span class="em">🍰</span><span>Torta de matcha</span></div>
+    <div class="g4"><span class="em">🍩</span><span>Mini donuts</span></div>
+    <div class="g5"><span class="em">🎉</span><span>Mesa de doces · festa de 15 anos</span></div>
+    <div class="g6"><span class="em">🍮</span><span>Pudim de leite</span></div>
+  </div>
+</div></section>
+
+<section class="sec" id="como"><div class="wrap">
+  <div class="head"><span class="pill">Passo a passo</span><h2>Como <em>encomendar</em></h2></div>
+  <div class="steps">
+    <div class="step"><b>1</b><h3>Conte a ideia</h3><p>Chame no WhatsApp com data, número de pessoas e tema.</p></div>
+    <div class="step"><b>2</b><h3>Receba o orçamento</h3><p>Em até 2 horas você recebe valores e sugestões.</p></div>
+    <div class="step"><b>3</b><h3>Reserve a data</h3><p>50% de sinal via Pix garante sua data na agenda.</p></div>
+    <div class="step"><b>4</b><h3>Receba com carinho</h3><p>Retire na loja ou receba em casa, fresquinho.</p></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><span class="pill">Planeje com antecedência</span><h2>Datas <em>especiais</em></h2><p>Nas datas mais procuradas, a agenda enche cedo. Veja até quando aceitamos encomendas.</p></div>
+  <div class="dates">
+    <div class="cal"><h3>Calendário de encomendas</h3>
+      <div class="r"><div class="d">12<small>Mai</small></div><div><b>Dia das Mães</b><span>Encomende até 30 de abril</span></div></div>
+      <div class="r"><div class="d">20<small>Abr</small></div><div><b>Páscoa</b><span>Ovos e cestas até 5 de abril</span></div></div>
+      <div class="r"><div class="d">24<small>Jun</small></div><div><b>Festa Junina</b><span>Doces típicos até 10 de junho</span></div></div>
+      <div class="r"><div class="d">25<small>Dez</small></div><div><b>Natal e Ano Novo</b><span>Panetones e tortas até 10 de dezembro</span></div></div>
+    </div>
+    <div>
+      <div class="cal" style="margin-bottom:24px"><h3>Doces para todos</h3>
+        <div class="diet">
+          <div class="c3"><span class="em">🌾</span><b>Sem glúten</b><p>Bolos e brownies</p></div>
+          <div class="c1"><span class="em">🥛</span><b>Sem lactose</b><p>Toda a linha de bolos</p></div>
+          <div class="c2"><span class="em">🌱</span><b>Veganos</b><p>Cupcakes e tortas</p></div>
+          <div class="c4"><span class="em">🍬</span><b>Zero açúcar</b><p>Sob encomenda</p></div>
+        </div>
+      </div>
+      <div class="cupom"><div><h3>Primeira encomenda?</h3><p>Use o cupom e ganhe 10% de desconto.</p></div><b>DOCE10</b></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" style="background:#ffe9ee"><div class="wrap about">
+  <div class="about__art">👩‍🍳</div>
+  <div>
+    <span class="pill" style="background:var(--butter)">Nossa história</span>
+    <h2 style="margin-bottom:6px">Feito com <em>amor</em>, do zero</h2>
+    <p>A Doce Manhã nasceu em 2018 na cozinha de casa, quando a Marina fez o bolo de aniversário da sobrinha e todo mundo pediu bis. Hoje são milhares de bolos depois, mas a receita continua a mesma: ingredientes frescos, nada de pó pronto e muito cuidado em cada detalhe.</p>
+    <p>Cada encomenda é feita por uma pessoa só, do início ao fim. Por isso, a agenda é limitada e o resultado é sempre especial.</p>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><span class="pill">Depoimentos</span><h2>Quem <em>provou</em>, aprovou</h2></div>
+  <div class="bub">
+    <blockquote><div class="st">★★★★★</div><p>O bolo da festa da minha filha estava lindo e uma delícia. Todo mundo perguntou quem tinha feito!</p><cite>Patrícia S.</cite></blockquote>
+    <blockquote><div class="st">★★★★★</div><p>Pontual, caprichosa e o brigadeiro é o melhor que já comi. Já virou fornecedora oficial da família.</p><cite>Rafael T.</cite></blockquote>
+    <blockquote><div class="st">★★★★★</div><p>Casamos com o bolo de 2 andares e os convidados elogiaram até hoje. Obrigada por tudo, Marina!</p><cite>Juliana e Bruno</cite></blockquote>
+  </div>
+</div></section>
+
+<section class="sec" id="faq" style="padding-top:0"><div class="wrap faq">
+  <div class="head"><span class="pill">Dúvidas</span><h2>Perguntas <em>frequentes</em></h2></div>
+  <details><summary>Com quanto tempo de antecedência devo pedir?</summary><p>Bolos decorados: 7 dias. Docinhos e tortas: 3 dias. Em datas como Dia das Mães e Natal, a agenda enche rápido, então quanto antes, melhor.</p></details>
+  <details><summary>Vocês fazem opções sem glúten ou sem lactose?</summary><p>Sim! Temos bolos sem lactose e opções sem glúten sob encomenda, com o mesmo capricho.</p></details>
+  <details><summary>Fazem entrega?</summary><p>Entregamos na região central por R$ 15. Para outros bairros, calculamos pelo endereço. Também é possível retirar na loja.</p></details>
+  <details><summary>Como faço para pagar?</summary><p>Pix, dinheiro ou cartão. Para reservar a data, pedimos 50% de sinal; o restante é pago na entrega.</p></details>
+  <details><summary>Posso levar uma foto de referência?</summary><p>Pode e deve! Mandando a foto pelo WhatsApp a gente adapta ao seu gosto e ao seu orçamento.</p></details>
+</div></section>
+
+<section class="sec" id="contato" style="padding-top:0"><div class="wrap">
+  <div class="cta">
+    <h2>Vamos adoçar o seu <em>dia?</em></h2>
+    <p>Conte para a gente a data e a ideia da sua comemoração. A resposta chega rapidinho.</p>
+    <a class="btn" href="#topo">Chamar no WhatsApp</a>
+    <div class="info"><span>📍 Av. Central, 450 — Sua Cidade/UF</span><span>🕘 Ter a sáb: 9h–18h · Dom: 9h–13h</span><span>📸 @docemanha</span></div>
+  </div>
+</div></section>
+
+<footer class="fx"><div class="wrap">
+  <div class="cols">
+    <div><div class="lg">Doce Manhã</div><p>Confeitaria artesanal feita à mão, com ingredientes de verdade e muito carinho desde 2018.</p></div>
+    <div><h4>Cardápio</h4><ul><li>Bolos personalizados</li><li>Docinhos e cupcakes</li><li>Tortas e sobremesas</li><li>Kits de festa</li></ul></div>
+    <div><h4>Atendimento</h4><ul><li>Ter a sáb: 9h às 18h</li><li>Dom: 9h às 13h</li><li>Seg: fechado</li></ul></div>
+    <div><h4>Contato</h4><ul><li>Av. Central, 450</li><li>(00) 00000-0000</li><li>@docemanha</li></ul></div>
+  </div>
+  <div class="end"><span>© Doce Manhã Confeitaria · Todos os direitos reservados</span><span>Site de demonstração — não é uma empresa real.</span></div>
+</div></footer>
+</body>
+</html>

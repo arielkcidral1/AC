@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Barbearia Navalha — Demonstração Básico</title>
+<meta name="description" content="Barbearia clássica com hora marcada: corte, barba, navalha e toalha quente.">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14110f;--panel:#1c1814;--panel2:#241e19;--line:#3a3128;--gold:#c9a45c;--cream:#efe6d2;--red:#a3322b;--mut:#a89b86;--hf:'Oswald',sans-serif;--sf:'Libre Baskerville',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--cream);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.demo-bar{background:#000;color:#fff;font:500 13px/1 system-ui,sans-serif;padding:11px 16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.demo-bar a{text-decoration:underline}.demo-bar span{opacity:.75}
+.wrap{width:min(1120px,92%);margin:0 auto}
+.strip{background:var(--gold);color:#1a140c;font:600 .78rem/1 var(--hf);letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:10px}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 0;gap:20px}
+header nav{display:flex;gap:26px;font:500 .85rem var(--hf);letter-spacing:.14em;text-transform:uppercase}
+header nav:last-child{justify-content:flex-end}
+header nav a:hover{color:var(--gold)}
+.logo{text-align:center;font-family:var(--hf);font-weight:700;font-size:1.9rem;letter-spacing:.2em;line-height:1}
+.logo small{display:block;font:400 .62rem var(--sf);letter-spacing:.35em;color:var(--gold);margin-top:6px;font-style:italic}
+/* hero */
+.hero{padding:80px 0 90px;border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:60px;align-items:center}
+.tag{font:500 .8rem var(--hf);letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+h1{font-family:var(--hf);font-weight:700;font-size:clamp(3.4rem,9vw,7.6rem);line-height:.9;text-transform:uppercase;margin:14px 0 24px}
+h1 span{color:transparent;-webkit-text-stroke:2px var(--gold)}
+.hero p.lead{font-family:var(--sf);font-style:italic;color:var(--mut);max-width:44ch;font-size:1.08rem;margin-bottom:34px}
+.btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--gold);color:#1a140c;font:600 .9rem var(--hf);letter-spacing:.16em;text-transform:uppercase;padding:16px 30px}
+.btn--o{background:transparent;color:var(--cream);border:1px solid var(--gold)}
+.hero__facts{display:flex;gap:34px;margin-top:44px;flex-wrap:wrap}
+.hero__facts b{display:block;font:700 2rem var(--hf);color:var(--gold);line-height:1}
+.hero__facts span{font-size:.82rem;color:var(--mut)}
+.poster{position:relative;border:1px solid var(--gold);padding:14px;max-width:340px;margin-left:auto}
+.poster__in{border:1px solid var(--line);background:var(--panel);padding:36px 24px;text-align:center}
+.pole{width:58px;height:210px;margin:0 auto 22px;border-radius:29px;border:3px solid var(--gold);background:repeating-linear-gradient(-55deg,var(--red) 0 14px,var(--cream) 14px 28px,#284a7a 28px 42px)}
+.poster h3{font:700 1.5rem var(--hf);letter-spacing:.2em}
+.poster p{font:italic .85rem var(--sf);color:var(--mut)}
+.poster .est{margin-top:16px;font:500 .72rem var(--hf);letter-spacing:.4em;color:var(--gold)}
+/* band */
+.band{background:var(--panel2);border-block:1px solid var(--line);padding:18px 0;overflow:hidden}
+.band .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font:500 1.15rem var(--hf);letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+/* sections */
+.sec{padding:90px 0;border-bottom:1px solid var(--line)}
+.head{text-align:center;margin-bottom:56px}
+.head .tag{display:block;margin-bottom:10px}
+h2{font:600 clamp(2.2rem,5vw,3.6rem)/1 var(--hf);text-transform:uppercase;letter-spacing:.04em}
+.head p{font:italic 1rem var(--sf);color:var(--mut);max-width:52ch;margin:14px auto 0}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:0 70px}
+.menu h3{font:600 1.3rem var(--hf);letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid var(--gold)}
+.it{margin-bottom:24px}
+.it__l{display:flex;align-items:baseline;gap:10px;font:500 1.1rem var(--hf);letter-spacing:.08em;text-transform:uppercase}
+.it__l i{flex:1;border-bottom:2px dotted #5a4c3a;transform:translateY(-4px)}
+.it__l b{color:var(--gold);font-weight:600}
+.it p{font-size:.88rem;color:var(--mut)}
+.it em{font:italic .78rem var(--sf);color:#7f725f}
+.combos{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.combo{background:var(--panel);border:1px solid var(--line);padding:38px 28px;text-align:center;position:relative}
+.combo--top{border-color:var(--gold);background:var(--panel2)}
+.combo--top::before{content:"Mais pedido";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1a140c;font:600 .7rem var(--hf);letter-spacing:.2em;text-transform:uppercase;padding:5px 14px}
+.combo h3{font:600 1.5rem var(--hf);letter-spacing:.14em;text-transform:uppercase}
+.combo .pr{font:700 3.2rem var(--hf);color:var(--gold);margin:8px 0}
+.combo .pr small{font-size:1rem;vertical-align:top;margin-right:4px}
+.combo ul{list-style:none;margin:16px 0 26px;display:grid;gap:8px;font-size:.92rem;color:var(--mut)}
+.combo li::before{content:"✦ ";color:var(--gold)}
+/* clube */
+.club{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--gold)}
+.club__l{padding:56px 48px;background:var(--gold);color:#1a140c}
+.club__l .tag{color:#1a140c;opacity:.7}
+.club__l h2{margin:10px 0 16px}
+.club__l p{font:italic 1rem var(--sf)}
+.club__l .pr{font:700 4.2rem var(--hf);line-height:1;margin-top:26px}
+.club__l .pr small{font-size:1.1rem;font-weight:500}
+.club__r{padding:56px 48px;background:var(--panel)}
+.club__r ul{list-style:none;display:grid;gap:16px}
+.club__r li{display:flex;gap:14px;font-size:.98rem}
+.club__r li b{color:var(--gold);font:600 1.1rem var(--hf)}
+/* team */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.bar{background:var(--panel);border:1px solid var(--line);padding:34px;text-align:center}
+.mono{width:96px;height:96px;border-radius:50%;margin:0 auto 18px;border:2px solid var(--gold);display:grid;place-items:center;font:600 2.2rem var(--hf);color:var(--gold);background:var(--panel2)}
+.bar h3{font:600 1.35rem var(--hf);letter-spacing:.14em;text-transform:uppercase}
+.bar .role{color:var(--gold);font:500 .78rem var(--hf);letter-spacing:.24em;text-transform:uppercase}
+.bar p{font:italic .92rem var(--sf);color:var(--mut);margin-top:14px}
+/* space */
+.space{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:170px;gap:14px}
+.tile{position:relative;border:1px solid var(--line);display:flex;align-items:flex-end;padding:14px;font:500 .78rem var(--hf);letter-spacing:.2em;text-transform:uppercase}
+.tile span{background:rgba(0,0,0,.65);padding:5px 10px}
+.t1{grid-column:span 2;grid-row:span 2;background:conic-gradient(#0b0908 25%,#221b15 0 50%,#0b0908 0 75%,#221b15 0) 0 0/54px 54px}
+.t2{background:repeating-linear-gradient(0deg,#3b1f1a 0 22px,#2b1613 22px 24px)}
+.t3{background:repeating-linear-gradient(90deg,#5b3d22 0 30px,#4a3019 30px 33px),#4a3019}
+.t4{background:radial-gradient(circle at 30% 30%,#3a3128 0 2px,transparent 3px) 0 0/18px 18px,#17130f}
+.t5{grid-column:span 2;background:linear-gradient(115deg,#111 0 40%,#3a3a3a 45%,#111 50%,#111 100%);}
+.t6{background:#100c0a;color:#ff5a4d;font-size:1.6rem;justify-content:center;align-items:center;text-shadow:0 0 12px #ff3b30}
+/* reviews */
+.rev{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.rev blockquote{background:var(--panel);border-left:3px solid var(--gold);padding:30px}
+.rev .st{color:var(--gold);letter-spacing:4px;font-size:.9rem}
+.rev p{font:italic 1rem var(--sf);margin:12px 0 18px}
+.rev cite{font:500 .8rem var(--hf);letter-spacing:.2em;text-transform:uppercase;color:var(--mut);font-style:normal}
+/* hours/faq */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:70px}
+.hours{width:100%;border-collapse:collapse;font:500 1.05rem var(--hf);letter-spacing:.08em;text-transform:uppercase}
+.hours td{padding:14px 0;border-bottom:1px dotted #5a4c3a}
+.hours td:last-child{text-align:right;color:var(--gold)}
+.steps{margin-top:34px;display:grid;gap:14px}
+.steps div{display:flex;gap:16px;align-items:flex-start;font-size:.95rem;color:var(--mut)}
+.steps b{flex:none;width:34px;height:34px;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;font:600 1rem var(--hf)}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{cursor:pointer;list-style:none;font:500 1.1rem var(--hf);letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--gold);font-size:1.4rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--mut);margin-top:10px;font-size:.95rem}
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+.contact__i{padding:52px 44px;background:var(--panel)}
+.contact__i h2{margin-bottom:22px}
+.contact__i p{color:var(--mut);margin-bottom:8px}
+.contact__i b{color:var(--cream)}
+.map{position:relative;min-height:340px;background:linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px) 0 0/44px 44px,#191510}
+.map::before{content:"";position:absolute;left:0;right:0;top:46%;height:36px;background:#2a231b;transform:skewY(-6deg)}
+.map i{position:absolute;left:52%;top:38%;width:26px;height:26px;background:var(--red);border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid var(--cream)}
+footer{padding:34px 0;text-align:center;font:500 .8rem var(--hf);letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+
+/* estilos de corte */
+.styles{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.sty{background:var(--panel);border:1px solid var(--line);padding:26px 24px 28px;text-align:center;position:relative}
+.sty:hover{border-color:var(--gold)}
+.sty svg{width:120px;height:140px;display:block;margin:0 auto 12px}
+.sty h3{font:600 1.35rem var(--hf);letter-spacing:.14em;text-transform:uppercase}
+.sty p{font-size:.88rem;color:var(--mut);margin:6px 0 14px;min-height:3.4em}
+.sty .row{display:flex;justify-content:space-between;align-items:center;border-top:1px dotted #5a4c3a;padding-top:12px;font:500 .8rem var(--hf);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.sty .row b{color:var(--gold);font-size:1.1rem}
+/* ritual */
+.ritual{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line)}
+.rit{padding:34px 22px;border-right:1px solid var(--line);background:var(--panel);position:relative}
+.rit:last-child{border-right:0}
+.rit .k{font:700 3.4rem/1 var(--hf);color:transparent;-webkit-text-stroke:1px var(--gold)}
+.rit h3{font:600 1.15rem var(--hf);letter-spacing:.16em;text-transform:uppercase;margin:14px 0 8px}
+.rit p{font-size:.86rem;color:var(--mut)}
+.rit small{display:block;margin-top:14px;font:italic .78rem var(--sf);color:var(--gold)}
+/* produtos */
+.prods{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.prod{background:var(--panel);border:1px solid var(--line);padding:26px;text-align:center}
+.jar{height:130px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:18px}
+.jar i{display:block;position:relative;background:linear-gradient(90deg,#221b15,#3b3025 40%,#221b15);border:1px solid var(--gold)}
+.jar .j1{width:96px;height:74px;border-radius:8px}.jar .j1::before{content:"";position:absolute;left:-1px;right:-1px;top:-16px;height:18px;background:var(--gold);border-radius:6px 6px 0 0}
+.jar .j2{width:56px;height:118px;border-radius:10px 10px 6px 6px}.jar .j2::before{content:"";position:absolute;left:14px;right:14px;top:-16px;height:18px;background:var(--gold)}
+.jar .j3{width:64px;height:100px;border-radius:8px}.jar .j3::before{content:"";position:absolute;left:8px;right:8px;top:-22px;height:24px;background:var(--red);border-radius:6px 6px 0 0}
+.jar .j4{width:110px;height:28px;border-radius:14px;transform:rotate(-8deg)}
+.jar i::after{content:"N";position:absolute;inset:0;display:grid;place-items:center;font:700 1.4rem var(--hf);color:var(--gold);opacity:.8}
+.prod h3{font:600 1.1rem var(--hf);letter-spacing:.14em;text-transform:uppercase}
+.prod p{font-size:.84rem;color:var(--mut);margin:6px 0 12px;min-height:3em}
+.prod b{font:700 1.5rem var(--hf);color:var(--gold)}
+/* sobre */
+.about{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;align-items:center}
+.stamp{width:min(320px,100%);aspect-ratio:1;border-radius:50%;border:2px solid var(--gold);margin:0 auto;display:grid;place-items:center;text-align:center;position:relative;background:radial-gradient(circle,var(--panel2),var(--bg))}
+.stamp::before{content:"";position:absolute;inset:14px;border:1px dashed var(--gold);border-radius:50%}
+.stamp b{display:block;font:700 4.4rem/1 var(--hf);color:var(--gold)}
+.stamp span{font:500 .82rem var(--hf);letter-spacing:.3em;text-transform:uppercase}
+.stamp small{display:block;font:italic .8rem var(--sf);color:var(--mut);margin-top:6px}
+.about p{color:var(--mut);margin-bottom:16px}
+.about p:first-of-type{font:italic 1.15rem var(--sf);color:var(--cream)}
+.sign{font:700 1.6rem var(--hf);letter-spacing:.2em;color:var(--gold);margin-top:22px}
+/* vale */
+.gift{background:var(--red);color:var(--cream);padding:46px 0}
+.gift .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.gift h2{font-size:clamp(1.8rem,3.6vw,2.6rem)}
+.gift p{font:italic 1rem var(--sf);opacity:.9;margin-top:6px}
+.gift .btn{background:var(--cream)}
+/* footer */
+.foot{background:#0d0b09;border-top:1px solid var(--line);padding:60px 0 26px;text-align:left}
+.foot .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+.foot h4{font:600 .95rem var(--hf);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.foot p,.foot li{font:400 .9rem 'Inter',sans-serif;letter-spacing:0;text-transform:none;color:var(--mut)}
+.foot ul{list-style:none;display:grid;gap:8px}
+.foot .lg{font:700 1.7rem var(--hf);letter-spacing:.2em;color:var(--cream);margin-bottom:12px}
+.foot .end{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:400 .8rem 'Inter',sans-serif;letter-spacing:0;text-transform:none;color:#6e6455}
+@media(max-width:860px){.styles,.prods{grid-template-columns:1fr 1fr}.ritual{grid-template-columns:1fr}.rit{border-right:0;border-bottom:1px solid var(--line)}.about,.foot .cols{grid-template-columns:1fr}}
+@media(max-width:860px){
+ header .wrap{grid-template-columns:1fr}header nav{justify-content:center!important}
+ .hero .wrap,.menu,.club,.two,.contact{grid-template-columns:1fr}
+ .combos,.team,.rev{grid-template-columns:1fr}.space{grid-template-columns:repeat(2,1fr)}.t1,.t5{grid-column:span 2}.poster{margin:0 auto}
+ .menu{gap:20px}.club__l,.club__r,.contact__i{padding:36px 26px}
+}
+</style>
+</head>
+<body>
+<span id="topo"></span>
+<div class="demo-bar"><span>Demonstração · Plano Básico</span><a href="../index.html#precos">← Voltar aos preços</a></div>
+<div class="strip">Seg a Sáb · 9h às 20h · Atendimento com hora marcada</div>
+
+<header><div class="wrap">
+  <nav><a href="#servicos">Serviços</a><a href="#clube">Clube</a><a href="#equipe">Equipe</a></nav>
+  <a class="logo" href="#">NAVALHA<small>barbearia clássica</small></a>
+  <nav><a href="#espaco">Espaço</a><a href="#horarios">Horários</a><a href="#contato">Contato</a></nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="tag">Desde 2011 · Sua Cidade</span>
+    <h1>O corte<br>que <span>pede</span><br>respeito.</h1>
+    <p class="lead">Tesoura, navalha e toalha quente feitas com calma, por quem entende de estilo. Aqui você chega de cabeça cheia e sai de cabeça erguida.</p>
+    <div class="btns"><a class="btn" href="#contato">Agendar horário</a><a class="btn btn--o" href="#servicos">Ver serviços</a></div>
+    <div class="hero__facts"><div><b>13</b><span>anos de casa</span></div><div><b>+9.000</b><span>clientes atendidos</span></div><div><b>4,9★</b><span>avaliação no Google</span></div></div>
+  </div>
+  <div class="poster"><div class="poster__in"><div class="pole"></div><h3>NAVALHA</h3><p>corte · barba · cuidado</p><div class="est">EST. 2011</div></div></div>
+</div></section>
+
+<div class="band"><div class="wrap"><span>Corte</span><span>Barba</span><span>Navalha</span><span>Toalha quente</span><span>Cerveja gelada</span></div></div>
+
+<section class="sec" id="servicos"><div class="wrap">
+  <div class="head"><span class="tag">Tabela de serviços</span><h2>O que fazemos</h2><p>Tudo com material esterilizado e o tempo que cada serviço merece. Sem correria.</p></div>
+  <div class="menu">
+    <div>
+      <h3>Cabelo</h3>
+      <div class="it"><div class="it__l">Corte na tesoura<i></i><b>R$ 55</b></div><p>Corte completo com lavagem e finalização.</p><em>40 min</em></div>
+      <div class="it"><div class="it__l">Corte na máquina<i></i><b>R$ 40</b></div><p>Degradê, social ou raspado, do seu jeito.</p><em>30 min</em></div>
+      <div class="it"><div class="it__l">Degradê navalhado<i></i><b>R$ 50</b></div><p>Acabamento na navalha para o contorno perfeito.</p><em>40 min</em></div>
+      <div class="it"><div class="it__l">Corte infantil<i></i><b>R$ 35</b></div><p>Até 10 anos, com paciência e sem choro.</p><em>30 min</em></div>
+      <div class="it"><div class="it__l">Pigmentação / camuflagem<i></i><b>R$ 60</b></div><p>Disfarce de fios brancos ou falhas.</p><em>30 min</em></div>
+    </div>
+    <div>
+      <h3>Barba &amp; cuidados</h3>
+      <div class="it"><div class="it__l">Barba completa<i></i><b>R$ 40</b></div><p>Toalha quente, óleo e navalha.</p><em>30 min</em></div>
+      <div class="it"><div class="it__l">Barba terapia<i></i><b>R$ 55</b></div><p>Esfoliação, vapor, massagem facial e hidratação.</p><em>45 min</em></div>
+      <div class="it"><div class="it__l">Sobrancelha<i></i><b>R$ 15</b></div><p>Na navalha ou na pinça.</p><em>10 min</em></div>
+      <div class="it"><div class="it__l">Limpeza de pele<i></i><b>R$ 45</b></div><p>Remoção de cravos e hidratação.</p><em>30 min</em></div>
+      <div class="it"><div class="it__l">Pezinho / acabamento<i></i><b>R$ 15</b></div><p>Para manter o corte entre uma visita e outra.</p><em>10 min</em></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><span class="tag">Catálogo</span><h2>Estilos de corte</h2><p>Não sabe o que pedir? Leve uma foto ou escolha um estilo abaixo. O barbeiro adapta ao formato do seu rosto.</p></div>
+  <div class="styles"><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><path d="M30 56C20 24 50 4 76 12c22 6 24 32 16 46-2-14-10-22-24-24-14-2-28 4-38 22z" fill="#1b1510"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Pompadour</h3><p>Volume no topo e laterais baixas. O clássico que nunca sai de moda.</p><div class="row"><span>Rosto oval e quadrado</span><b>R$ 55</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><ellipse cx="36" cy="60" rx="5" ry="14" fill="#5a4636" opacity=".55"/><ellipse cx="84" cy="60" rx="5" ry="14" fill="#5a4636" opacity=".55"/><path d="M34 52c0-22 12-32 28-32s28 10 28 32c-4-10-10-16-28-16S38 42 34 52z" fill="#1b1510"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Low fade</h3><p>Degradê suave nas laterais com topo na tesoura. Versátil e elegante.</p><div class="row"><span>Trabalho e dia a dia</span><b>R$ 50</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><ellipse cx="35" cy="58" rx="5" ry="15" fill="#6a5644" opacity=".5"/><ellipse cx="85" cy="58" rx="5" ry="15" fill="#6a5644" opacity=".5"/><path d="M38 46C36 22 52 8 74 14c14 4 20 18 14 32-6-10-16-16-28-16S44 34 38 46z" fill="#1b1510"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Undercut</h3><p>Laterais raspadas e topo longo penteado para trás. Ousado e moderno.</p><div class="row"><span>Cabelos lisos e ondulados</span><b>R$ 55</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><path d="M32 56C28 30 44 16 64 18c18 2 30 16 26 40-4-10-8-16-16-20-10-2-30 0-42 18z" fill="#2a1d14"/><path d="M50 22c-2 8-2 14-4 20" stroke="#8a6b4a" stroke-width="2" fill="none"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Social clássico</h3><p>Risca lateral bem definida, acabamento na navalha. Formal sem perder a personalidade.</p><div class="row"><span>Ambiente corporativo</span><b>R$ 50</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><path d="M34 54c-2-24 10-34 26-34s28 10 26 34c-4-12-12-18-26-18s-22 6-26 18z" fill="#3a2f26"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Crew cut</h3><p>Curto e prático, com topo levemente mais alto. Sem manutenção.</p><div class="row"><span>Rotina corrida</span><b>R$ 40</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><path d="M36 50c0-18 11-26 24-26s24 8 24 26c-6-8-14-10-24-10s-18 2-24 10z" fill="#5a4a3c" opacity=".85"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Buzz cut</h3><p>Máquina em um único comprimento. Estilo limpo e direto.</p><div class="row"><span>Calor e praticidade</span><b>R$ 35</b></div></div></div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><span class="tag">Economize</span><h2>Combos da casa</h2></div>
+  <div class="combos">
+    <div class="combo"><h3>O Clássico</h3><div class="pr"><small>R$</small>85</div><ul><li>Corte na tesoura</li><li>Barba completa</li><li>Toalha quente</li></ul><a class="btn btn--o" href="#contato">Reservar</a></div>
+    <div class="combo combo--top"><h3>Rei da Casa</h3><div class="pr"><small>R$</small>130</div><ul><li>Corte + barba terapia</li><li>Sobrancelha</li><li>Limpeza de pele</li><li>Cerveja ou café</li></ul><a class="btn" href="#contato">Reservar</a></div>
+    <div class="combo"><h3>Pai &amp; Filho</h3><div class="pr"><small>R$</small>85</div><ul><li>Corte adulto na máquina</li><li>Corte infantil</li><li>Horário sequencial</li></ul><a class="btn btn--o" href="#contato">Reservar</a></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><span class="tag">Experiência completa</span><h2>O ritual Navalha</h2><p>Cada atendimento segue as mesmas cinco etapas, do jeito que a barbearia clássica sempre fez.</p></div>
+  <div class="ritual">
+    <div class="rit"><div class="k">01</div><h3>Recepção</h3><p>Café, água ou cerveja gelada enquanto você conversa sobre o que quer.</p><small>5 min</small></div>
+    <div class="rit"><div class="k">02</div><h3>Lavagem</h3><p>Shampoo e massagem no couro cabeludo para relaxar antes do corte.</p><small>5 min</small></div>
+    <div class="rit"><div class="k">03</div><h3>Corte</h3><p>Tesoura, máquina e pente, com atenção ao formato da sua cabeça.</p><small>20 a 30 min</small></div>
+    <div class="rit"><div class="k">04</div><h3>Toalha quente</h3><p>Vapor, toalha quente e óleo pré-barba para abrir os poros.</p><small>10 min</small></div>
+    <div class="rit"><div class="k">05</div><h3>Finalização</h3><p>Navalha, loção pós-barba, pomada e o penteado final no espelho.</p><small>5 min</small></div>
+  </div>
+</div></section>
+
+<section class="sec" id="clube"><div class="wrap">
+  <div class="club">
+    <div class="club__l"><span class="tag">Assinatura mensal</span><h2>Clube Navalha</h2><p>Para quem se cuida de verdade e não quer pensar em preço toda vez.</p><div class="pr"><small>R$</small>129<small>/mês</small></div></div>
+    <div class="club__r"><ul>
+      <li><b>01</b><span>4 cortes por mês (ou 2 combos clássicos)</span></li>
+      <li><b>02</b><span>Prioridade na agenda, inclusive aos sábados</span></li>
+      <li><b>03</b><span>10% de desconto em produtos e pomadas</span></li>
+      <li><b>04</b><span>Cerveja, café ou refrigerante à vontade</span></li>
+      <li><b>05</b><span>Sem fidelidade: cancele quando quiser</span></li>
+    </ul></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><span class="tag">Leve para casa</span><h2>Produtos da casa</h2><p>Os mesmos produtos usados na cadeira, para manter o corte impecável no dia a dia.</p></div>
+  <div class="prods">
+    <div class="prod"><div class="jar"><i class="j1"></i></div><h3>Pomada modeladora</h3><p>Fixação forte e acabamento fosco. 80 g.</p><b>R$ 49</b></div>
+    <div class="prod"><div class="jar"><i class="j2"></i></div><h3>Óleo de barba</h3><p>Hidrata, amacia e perfuma com madeira e couro. 30 ml.</p><b>R$ 58</b></div>
+    <div class="prod"><div class="jar"><i class="j3"></i></div><h3>Shampoo 3 em 1</h3><p>Cabelo, barba e corpo, com mentol. 250 ml.</p><b>R$ 39</b></div>
+    <div class="prod"><div class="jar"><i class="j4"></i></div><h3>Kit navalha</h3><p>Navalha, 10 lâminas e estojo de couro.</p><b>R$ 129</b></div>
+  </div>
+</div></section>
+
+<section class="sec" id="equipe"><div class="wrap">
+  <div class="head"><span class="tag">Quem cuida de você</span><h2>Os barbeiros</h2></div>
+  <div class="team">
+    <div class="bar"><div class="mono">R</div><h3>Rogério</h3><div class="role">Mestre barbeiro · 18 anos</div><p>"Barba bem-feita é questão de paciência e navalha afiada."</p></div>
+    <div class="bar"><div class="mono">D</div><h3>Diego</h3><div class="role">Degradê &amp; freestyle · 9 anos</div><p>"Cada cabeça tem um desenho. O meu trabalho é encontrá-lo."</p></div>
+    <div class="bar"><div class="mono">T</div><h3>Thiago</h3><div class="role">Corte clássico · 12 anos</div><p>"O corte social nunca sai de moda — só precisa ser bem feito."</p></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap about">
+  <div class="stamp"><div><b>13</b><span>anos de tradição</span><small>Rua das Palmeiras, 120</small></div></div>
+  <div>
+    <span class="tag">Nossa história</span>
+    <h2 style="margin:10px 0 22px">Uma barbearia de bairro</h2>
+    <p>Em 2011, o Rogério largou o emprego de escritório e abriu uma cadeira só, no fundo da casa do pai. A ideia era simples: cortar cabelo do jeito que o avô dele fazia, sem pressa e sem improviso.</p>
+    <p>Treze anos depois, são três barbeiros, uma casa cheia de histórias e clientes que trazem os filhos. O que não mudou: hora marcada, material esterilizado e o respeito por quem senta na cadeira.</p>
+    <div class="sign">— ROGÉRIO &amp; EQUIPE</div>
+  </div>
+</div></section>
+
+<section class="sec" id="espaco"><div class="wrap">
+  <div class="head"><span class="tag">Ambiente</span><h2>O espaço</h2><p>Piso xadrez, couro, madeira e boa música. Um lugar para ficar um pouco mais do que o corte pede.</p></div>
+  <div class="space">
+    <div class="tile t1"><span>Piso xadrez original</span></div>
+    <div class="tile t2"><span>Parede de tijolos</span></div>
+    <div class="tile t3"><span>Balcão de madeira</span></div>
+    <div class="tile t4"><span>Cadeiras de couro</span></div>
+    <div class="tile t5"><span>Espelhos e navalhas</span></div>
+    <div class="tile t6">OPEN</div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="head"><span class="tag">Quem já passou por aqui</span><h2>Clientes falam</h2></div>
+  <div class="rev">
+    <blockquote><div class="st">★★★★★</div><p>Melhor barba que já fiz na vida. A toalha quente é outro nível e o ambiente é perfeito.</p><cite>— Carlos M.</cite></blockquote>
+    <blockquote><div class="st">★★★★★</div><p>Levo meu filho todo mês. Ele adora e eu não espero: horário marcado é respeitado.</p><cite>— André L.</cite></blockquote>
+    <blockquote><div class="st">★★★★★</div><p>Assinei o Clube e valeu cada centavo. Agenda sempre aberta e atendimento impecável.</p><cite>— Fábio R.</cite></blockquote>
+  </div>
+</div></section>
+
+<section class="sec" id="horarios"><div class="wrap two">
+  <div>
+    <div class="head" style="text-align:left;margin-bottom:30px"><span class="tag">Funcionamento</span><h2>Horários</h2></div>
+    <table class="hours"><tr><td>Segunda a sexta</td><td>9h — 20h</td></tr><tr><td>Sábado</td><td>8h — 18h</td></tr><tr><td>Domingo</td><td>Fechado</td></tr><tr><td>Feriados</td><td>Sob consulta</td></tr></table>
+    <div class="steps">
+      <div><b>1</b><span>Escolha o serviço e o barbeiro na tabela acima.</span></div>
+      <div><b>2</b><span>Chame no WhatsApp e combine o horário.</span></div>
+      <div><b>3</b><span>Chegue 5 minutos antes e aproveite.</span></div>
+    </div>
+  </div>
+  <div>
+    <div class="head" style="text-align:left;margin-bottom:20px"><span class="tag">Dúvidas</span><h2>Perguntas</h2></div>
+    <details><summary>Preciso agendar?</summary><p>Recomendamos. Atendemos por ordem de chegada apenas quando há vaga entre os horários marcados.</p></details>
+    <details><summary>Quais formas de pagamento?</summary><p>Pix, dinheiro, débito e crédito em até 3x sem juros.</p></details>
+    <details><summary>Atendem crianças?</summary><p>Sim, a partir dos 2 anos. Temos cadeira infantil e muita paciência.</p></details>
+    <details><summary>Tem estacionamento?</summary><p>Convênio com o estacionamento ao lado: 2 horas grátis para clientes.</p></details>
+    <details><summary>Posso remarcar?</summary><p>Claro. Basta avisar com 2 horas de antecedência pelo WhatsApp.</p></details>
+  </div>
+</div></section>
+
+<section class="sec" id="contato" style="border:0"><div class="wrap">
+  <div class="contact">
+    <div class="contact__i">
+      <span class="tag">Venha nos visitar</span>
+      <h2>Contato</h2>
+      <p><b>Endereço:</b> Rua das Palmeiras, 120 — Centro<br>Sua Cidade/UF · CEP 00000-000</p>
+      <p><b>WhatsApp:</b> (00) 00000-0000</p>
+      <p><b>Instagram:</b> @barbearianavalha</p>
+      <br><a class="btn" href="#topo">Agendar no WhatsApp</a>
+    </div>
+    <div class="map"><i></i></div>
+  </div>
+</div></section>
+
+<section class="gift"><div class="wrap"><div><h2>Vale-presente Navalha</h2><p>Presenteie com um corte, uma barba ou o combo completo. Válido por 90 dias.</p></div><a class="btn" href="#topo">Pedir vale-presente</a></div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="cols">
+    <div><div class="lg">NAVALHA</div><p>Barbearia clássica com hora marcada. Corte, barba e cuidado feitos com calma desde 2011.</p></div>
+    <div><h4>Navegue</h4><ul><li>Serviços</li><li>Clube Navalha</li><li>Equipe</li><li>O espaço</li></ul></div>
+    <div><h4>Horários</h4><ul><li>Seg a sex: 9h às 20h</li><li>Sábado: 8h às 18h</li><li>Domingo: fechado</li></ul></div>
+    <div><h4>Contato</h4><ul><li>Rua das Palmeiras, 120</li><li>(00) 00000-0000</li><li>@barbearianavalha</li></ul></div>
+  </div>
+  <div class="end"><span>© Barbearia Navalha · Todos os direitos reservados</span><span>Site de demonstração — não é uma empresa real.</span></div>
+</div></footer>
+</body>
+</html>
