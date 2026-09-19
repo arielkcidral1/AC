@@ -125,7 +125,7 @@
     <div class="showcase__grid" id="showcase"></div>
   </div>
 
-  <div class="addons">
+  <div class="addons" id="extras">
     <p class="mono label">Extras — combine com qualquer plano (clique para adicionar ao carrinho)</p>
     <ul id="addons"></ul>
   </div>
@@ -165,6 +165,10 @@
     <p class="mono label">Monte seu orçamento</p>
     <h3 class="showcase__title" id="cartTitle">Seu carrinho</h3>
     <div id="cartMain">
+    <div class="cart__go">
+      <button type="button" class="btn btn--ghost" data-go="#precos"><span>Escolher site</span><i>↓</i></button>
+      <button type="button" class="btn btn--ghost" data-go="#extras"><span>Escolher extras para o site</span><i>↓</i></button>
+    </div>
     <ul class="cart__list" id="cartList"></ul>
     <div class="cart__side">
       <div class="cart__totals" id="cartTotals"></div>

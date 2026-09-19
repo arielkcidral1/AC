@@ -403,6 +403,9 @@ function renderCart() {
     <div><span>Valor mensal</span><b>${brl(monthly)}/mês</b></div>
     <div class="cart__total"><span>Valor total</span><b>${brl(once + monthly)}</b></div>
     ${tbd.length ? `<p>+ a combinar: ${tbd.join(', ')}</p>` : ''}`;
+  $('[data-go="#precos"]').hidden = !!plan; // já tem site no carrinho: o botão de extras ocupa a linha toda
+  $('[data-go="#extras"]').hidden = Object.keys(cart.extras).length >= CONFIG.addons.length; // todos os extras já escolhidos
+  $('.cart__go').hidden = !!plan && Object.keys(cart.extras).length >= CONFIG.addons.length;
   $('#cartConfirmBtn').disabled = !plan;
   $('#cartConfirmBtn').title = plan ? '' : 'Escolha um plano para confirmar';
   if (!plan) showConfirm(false);
@@ -440,6 +443,13 @@ function buildQuote() {
 function toggleExtra(i) { if (i in cart.extras) delete cart.extras[i]; else cart.extras[i] = 1; renderCart(); }
 const modal = $('#cartModal');
 function openCart() { modal.hidden = false; lenis.stop(); $('#cartClose').focus(); }
+// rola até o elemento e, ao chegar, confere de novo (o layout pode ter mudado no caminho por imagens e animações)
+function scrollToEl(sel, off = 240) {
+  const el = $(sel); if (!el) return;
+  const pos = () => el.getBoundingClientRect().top + scrollY - off;
+  ScrollTrigger.refresh();
+  lenis.scrollTo(pos(), { duration: 1.4, onComplete: () => { if (Math.abs(pos() - scrollY) > 8) lenis.scrollTo(pos(), { duration: 0.6 }); } });
+}
 let sent = false;
 function closeCart() {
   modal.hidden = true; lenis.start();
@@ -482,6 +492,8 @@ document.addEventListener('click', e => {
   if (e.target.closest('#cartClose, #cartDone') || e.target === modal) return closeCart();
   const pick = e.target.closest('[data-pick]');
   if (pick) { cart.plan = cart.plan === +pick.dataset.pick ? null : +pick.dataset.pick; return renderCart(); }
+  const go = e.target.closest('[data-go]');
+  if (go) { closeCart(); return scrollToEl(go.dataset.go, go.dataset.go === '#precos' ? -120 : 240); }
   const sg = e.target.closest('[data-sug]');
   if (sg) { cart.extras[sg.dataset.sug] = 1; return renderCart(); }
   const add = e.target.closest('[data-addon]');
