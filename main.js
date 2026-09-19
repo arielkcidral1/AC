@@ -34,11 +34,11 @@ const CONFIG = {
   ],
   // price: número = entra no total; null = "a combinar". monthly: cobrado por mês. qty: pode ter mais de uma unidade
   addons: [
-    { name: 'Manutenção mensal', label: 'R$ 79/mês', price: 79, monthly: true },
-    { name: 'Página extra', label: 'R$ 80', price: 80, qty: true },
-    { name: 'Hospedagem', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null },
-    { name: 'Domínio personalizado', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null },
-    { name: 'Banco de dados', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null },
+    { name: 'Manutenção mensal', label: 'R$ 79/mês', price: 79, monthly: true, why: 'Deixo seu site sempre atualizado e cuido dos ajustes' },
+    { name: 'Página extra', label: 'R$ 80', price: 80, qty: true, why: 'Mais espaço para serviços, sobre ou contato' },
+    { name: 'Hospedagem', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null, why: 'Coloca seu site no ar, sem você se preocupar com servidor' },
+    { name: 'Domínio personalizado', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null, why: 'Seu endereço próprio, tipo seunegocio.com.br' },
+    { name: 'Banco de dados', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null, why: 'Para guardar cadastros, pedidos ou agendamentos' },
   ],
 };
 /* ===================================================== */
@@ -51,7 +51,6 @@ const brl = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL',
 
 document.body.classList.add('loading');
 $('#year').textContent = new Date().getFullYear();
-$('#ctaBtn').href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent('Olá! Vi sua tabela de preços e quero um orçamento.')}`;
 
 /* ---------- smooth scroll ---------- */
 const lenis = new Lenis({ lerp: 0.09, smoothWheel: !reduce });
@@ -400,11 +399,14 @@ function renderCart() {
   });
   $('#cartList').innerHTML = rows.length ? rows.join('') : '<li class="cart__empty">Seu carrinho está vazio. Escolha um plano acima e, se quiser, marque os extras.</li>';
   $('#cartTotals').innerHTML = `
-    <div><span>Total do projeto</span><b>${brl(once)}</b></div>
-    ${monthly ? `<div><span>Mensal</span><b>${brl(monthly)}/mês</b></div>` : ''}
+    <div><span>Valor do site</span><b>${brl(once)}</b></div>
+    <div><span>Valor mensal</span><b>${brl(monthly)}/mês</b></div>
+    <div class="cart__total"><span>Valor total</span><b>${brl(once + monthly)}</b></div>
     ${tbd.length ? `<p>+ a combinar: ${tbd.join(', ')}</p>` : ''}`;
-  $('#cartSend').disabled = !plan;
-  $('#cartSend').title = plan ? '' : 'Escolha um plano para enviar';
+  $('#cartConfirmBtn').disabled = !plan;
+  $('#cartConfirmBtn').title = plan ? '' : 'Escolha um plano para confirmar';
+  if (!plan) showConfirm(false);
+  else if (!$('#cartConfirm').hidden) renderConfirm();
   $$('[data-pick]').forEach(b => {
     const on = +b.dataset.pick === cart.plan;
     b.classList.toggle('btn--on', on);
@@ -416,43 +418,92 @@ function renderCart() {
     li.classList.toggle('on', on);
     li.setAttribute('aria-pressed', on);
   });
-  const fab = $('#cartFab');
-  fab.hidden = !n;
   $('#cartCount').textContent = n;
 }
 function buildQuote() {
   const { plan, once, monthly, tbd } = cartTotals();
   const nome = $('#cartName').value.trim(), obs = $('#cartNotes').value.trim();
-  const L = ['Olá! Gostaria de solicitar um orçamento 👋', ''];
-  if (nome) L.push(`👤 *Nome:* ${nome}`);
-  L.push(`🌐 *Plano:* ${plan.name} (${plan.title}) — ${brl(plan.price)}`);
+  const L = ['Olá! Gostaria de solicitar um orçamento', ''];
+  L.push(`*Nome:* ${nome}`);
+  L.push(`*Plano:* ${plan.name} (${plan.title}) — ${brl(plan.price)}`);
   const ex = Object.entries(cart.extras);
   if (ex.length) {
-    L.push('', '➕ *Extras:*');
+    L.push('', '*Extras:*');
     ex.forEach(([i, q]) => { const a = CONFIG.addons[i]; L.push(`• ${a.name}${q > 1 ? ` (${q}x)` : ''} — ${extraPrice(a, q)}`); });
   }
-  L.push('', `💰 *Total do projeto:* ${brl(once)}`);
-  if (monthly) L.push(`🔁 *Mensal:* ${brl(monthly)}/mês`);
-  if (tbd.length) L.push(`📌 *A combinar:* ${tbd.join(', ')}`);
-  if (obs) L.push('', `📝 *Sobre o projeto:* ${obs}`);
-  L.push('', 'Aguardo seu retorno! 🙏');
+  L.push('', `*Valor do site:* ${brl(once)}`, `*Valor mensal:* ${brl(monthly)}/mês`, `*Valor total:* ${brl(once + monthly)}`);
+  if (tbd.length) L.push(`*A combinar:* ${tbd.join(', ')}`);
+  if (obs) L.push('', `*Sobre o projeto:* ${obs}`);
+  L.push('', 'Aguardo seu retorno!');
   return L.join('\n');
 }
 function toggleExtra(i) { if (i in cart.extras) delete cart.extras[i]; else cart.extras[i] = 1; renderCart(); }
+const modal = $('#cartModal');
+function openCart() { modal.hidden = false; lenis.stop(); $('#cartClose').focus(); }
+let sent = false;
+function closeCart() {
+  modal.hidden = true; lenis.start();
+  if (sent) { cart.plan = null; cart.extras = {}; $('#cartNotes').value = ''; sent = false; renderCart(); }
+  showConfirm(false);
+}
+function showThanks() {
+  sent = true;
+  $('#cartMain').hidden = true; $('#cartConfirm').hidden = true; $('#cartThanks').hidden = false;
+  $('#cartTitle').textContent = 'Pedido enviado';
+}
+// ordem de relevância das sugestões: primeiro o que coloca o site no ar, depois o que o mantém e amplia
+const SUG_ORDER = ['Hospedagem', 'Domínio personalizado', 'Manutenção mensal', 'Página extra', 'Banco de dados'];
+let confirmSug = [];
+function renderConfirm() {
+  const { plan, once, monthly, tbd } = cartTotals();
+  if (!plan) return;
+  const nome = $('#cartName').value.trim(), obs = $('#cartNotes').value.trim();
+  $('#cartWho').textContent = 'Pedido de ' + nome + (obs ? ' · ' + obs : '');
+  const rows = [`<li><span class="cart__name"><b>Site ${plan.name}</b><small>${plan.title}</small></span><span class="cart__pr">${brl(plan.price)}</span></li>`];
+  Object.entries(cart.extras).forEach(([i, q]) => { const a = CONFIG.addons[i]; rows.push(`<li><span class="cart__name"><b>${a.name}${q > 1 ? ' (' + q + 'x)' : ''}</b></span><span class="cart__pr">${extraPrice(a, q)}</span></li>`); });
+  $('#cartItems').innerHTML = rows.join('');
+  $('#cartTotals2').innerHTML = `
+    <div><span>Valor do site</span><b>${brl(once)}</b></div>
+    <div><span>Valor mensal</span><b>${brl(monthly)}/mês</b></div>
+    <div class="cart__total"><span>Valor total</span><b>${brl(once + monthly)}</b></div>
+    ${tbd.length ? `<p>+ a combinar: ${tbd.join(', ')}</p>` : ''}`;
+  const sug = confirmSug.filter(i => !(i in cart.extras)); // só as 2 ofertas iniciais; ao aceitar uma, não entra outra no lugar
+  $('#cartSug2').innerHTML = sug.length ? `<p class="mono">Combina com o seu pedido</p><div>${sug.map(i => { const a = CONFIG.addons[i]; return `<button type="button" class="sug" data-sug="${i}"><span><b>${a.name}</b><small>${a.why} · ${a.price == null ? 'a combinar' : a.label}</small></span><i>+</i></button>`; }).join('')}</div>` : '';
+}
+function showConfirm(on) {
+  $('#cartThanks').hidden = true;
+  if (on) { confirmSug = SUG_ORDER.map(n => CONFIG.addons.findIndex(a => a.name === n)).filter(i => i >= 0 && !(i in cart.extras)).slice(0, 2); renderConfirm(); }
+  $('#cartMain').hidden = on;
+  $('#cartConfirm').hidden = !on;
+  $('#cartTitle').textContent = on ? 'Confirme seu pedido' : 'Seu carrinho';
+}
 document.addEventListener('click', e => {
+  if (e.target.closest('#cartFab')) return openCart();
+  if (e.target.closest('#cartClose, #cartDone') || e.target === modal) return closeCart();
   const pick = e.target.closest('[data-pick]');
   if (pick) { cart.plan = cart.plan === +pick.dataset.pick ? null : +pick.dataset.pick; return renderCart(); }
+  const sg = e.target.closest('[data-sug]');
+  if (sg) { cart.extras[sg.dataset.sug] = 1; return renderCart(); }
   const add = e.target.closest('[data-addon]');
   if (add) return toggleExtra(add.dataset.addon);
   const rm = e.target.closest('[data-rm]');
   if (rm) { if (rm.dataset.rm === 'plan') cart.plan = null; else delete cart.extras[rm.dataset.rm]; return renderCart(); }
   const qty = e.target.closest('[data-qty]');
   if (qty) { const i = qty.dataset.qty, q = (cart.extras[i] || 1) + +qty.dataset.d; if (q < 1) delete cart.extras[i]; else cart.extras[i] = Math.min(q, 20); return renderCart(); }
+  if (e.target.closest('#cartConfirmBtn')) {
+    const nameEl = $('#cartName');
+    if (!nameEl.value.trim()) { nameEl.classList.add('invalid'); nameEl.focus(); return; }
+    if (cartTotals().plan) showConfirm(true);
+    return;
+  }
+  if (e.target.closest('#cartBack')) return showConfirm(false);
   if (e.target.closest('#cartSend')) {
-    if (cartTotals().plan) window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(buildQuote())}`, '_blank', 'noopener');
+    if (cartTotals().plan) { window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(buildQuote())}`, '_blank', 'noopener'); showThanks(); }
   }
 });
+$('#cartName').addEventListener('input', e => e.target.classList.remove('invalid'));
 document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !modal.hidden) return closeCart();
   const add = e.target.closest && e.target.closest('[data-addon]');
   if (add && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggleExtra(add.dataset.addon); }
 });

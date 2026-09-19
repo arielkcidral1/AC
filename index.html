@@ -27,7 +27,7 @@
         <g class="r-orbit"><circle cx="100" cy="8" r="4"/></g>
         <g class="r-orbit r-orbit--2"><circle cx="100" cy="24" r="2.5"/></g>
       </svg>
-      <div class="loader__logo">AC<sup>®</sup></div>
+      <img class="loader__logo" src="logo.png" alt="AC" width="312" height="156">
     </div>
     <div class="loader__count"><span id="loaderNum">0</span><i>%</i></div>
     <p class="loader__msg mono" id="loaderMsg">iniciando</p>
@@ -43,14 +43,13 @@
 <div class="grain" aria-hidden="true"></div>
 
 <header class="nav">
-  <a href="#hero" class="logo" data-magnet>AC<sup>®</sup></a>
+  <a href="#hero" class="logo" data-magnet aria-label="AC"><img src="logo.png" alt="AC" width="312" height="156"></a>
   <nav class="mono">
     <a href="#processo">Processo</a>
     <a href="#precos">Preços</a>
     <a href="#exemplos">Exemplos</a>
     <a href="#faq">Dúvidas</a>
   </nav>
-  <a href="#contato" class="pill" data-magnet>Orçamento ↗</a>
 </header>
 
 <main>
@@ -129,19 +128,6 @@
     <ul id="addons"></ul>
   </div>
 
-  <div class="cartbox" id="orcamento">
-    <p class="mono label">Monte seu orçamento</p>
-    <h3 class="showcase__title">Seu carrinho.<br><span class="grad">Envio direto no WhatsApp.</span></h3>
-    <div class="cart">
-      <ul class="cart__list" id="cartList"></ul>
-      <div class="cart__side">
-        <div class="cart__totals" id="cartTotals"></div>
-        <input id="cartName" type="text" placeholder="Seu nome (opcional)" autocomplete="name">
-        <textarea id="cartNotes" rows="3" placeholder="Conte um pouco sobre seu negócio (opcional)"></textarea>
-        <button type="button" class="btn" id="cartSend"><span>Enviar orçamento no WhatsApp</span><i>↗</i></button>
-      </div>
-    </div>
-  </div>
   <p class="note mono">* Os três planos incluem exatamente o mesmo conteúdo: o que muda é apenas o nível visual do site.</p>
 </section>
 
@@ -160,8 +146,7 @@
 <!-- CTA -->
 <section class="cta" id="contato">
   <p class="mono label">/05 — Bora?</p>
-  <h2 class="cta__title">Seu próximo cliente<br>está <span class="grad">procurando</span><br>agora.</h2>
-  <a href="#" class="btn btn--big" id="ctaBtn" data-magnet><span>Chamar no WhatsApp</span><i>↗</i></a>
+  <h2 class="cta__title">Seu próximo <br>cliente está</br> <span class="grad">procurando</span><br>agora.</h2>
   <footer class="foot mono">
     <span>© <span id="year"></span> AC — todos os direitos reservados</span>
     <span>Produções Web.</span>
@@ -170,7 +155,40 @@
 
 </main>
 
-<a href="#orcamento" class="cartfab" id="cartFab" hidden aria-label="Ver carrinho"><span>🛒</span><b id="cartCount">0</b></a>
+<button type="button" class="cartfab" id="cartFab" aria-label="Abrir carrinho"><span>🛒</span><b id="cartCount">0</b></button>
+
+<div class="modal" id="cartModal" hidden>
+  <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <button type="button" class="modal__x" id="cartClose" aria-label="Fechar">×</button>
+    <p class="mono label">Monte seu orçamento</p>
+    <h3 class="showcase__title" id="cartTitle">Seu carrinho</h3>
+    <div id="cartMain">
+    <ul class="cart__list" id="cartList"></ul>
+    <div class="cart__side">
+      <div class="cart__totals" id="cartTotals"></div>
+      <input id="cartName" type="text" placeholder="Seu nome *" autocomplete="name" required>
+      <textarea id="cartNotes" rows="3" placeholder="Observações (opcional)"></textarea>
+      <button type="button" class="btn" id="cartConfirmBtn"><span>Confirmar pedido</span><i>✓</i></button>
+    </div>
+    </div>
+    <div id="cartConfirm" hidden>
+      <p class="cart__hint" id="cartWho"></p>
+      <ul class="cart__list" id="cartItems"></ul>
+      <div class="cart__totals" id="cartTotals2"></div>
+      <div class="cart__sug" id="cartSug2"></div>
+      <div class="cart__actions">
+        <button type="button" class="btn btn--ghost" id="cartBack"><span>Voltar e editar</span></button>
+        <button type="button" class="btn" id="cartSend"><span>Enviar no WhatsApp</span><i>↗</i></button>
+      </div>
+    </div>
+    <div id="cartThanks" hidden>
+      <span class="thanks__ic" aria-hidden="true">✓</span>
+      <h4>Obrigado por fazer seu orçamento conosco!</h4>
+      <p>Após o envio de seu orçamento é só aguardar o contato de alguem da equipe. Responderemos o mais rápido possível.</p>
+      <button type="button" class="btn" id="cartDone"><span>Fechar</span><i>×</i></button>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
