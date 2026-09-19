@@ -41,6 +41,7 @@ main,.nav{position:relative;z-index:5}
 .nav .wrap{display:flex;justify-content:space-between;align-items:center;padding:26px 0;gap:16px}
 .logo{font:italic 600 1.7rem var(--sf)}.logo b{color:var(--amber);font-style:normal}
 .nav nav{display:flex;gap:30px;font-size:.88rem;color:var(--mut)}.nav nav a:hover{color:var(--ink)}
+@media(max-width:800px){.nav nav{display:none}}
 .btn{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(120deg,var(--amber),var(--rust));color:#1a0d05;font-weight:700;padding:15px 28px;border-radius:99px;will-change:transform}
 .btn i{font-style:normal;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#1a0d05;color:var(--amber);transition:transform .4s}.btn:hover i{transform:rotate(45deg)}
 .btn--g{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn--g i{background:var(--amber);color:#1a0d05}
