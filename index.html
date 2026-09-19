@@ -125,8 +125,22 @@
   </div>
 
   <div class="addons">
-    <p class="mono label">Extras — combine com qualquer plano</p>
+    <p class="mono label">Extras — combine com qualquer plano (clique para adicionar ao carrinho)</p>
     <ul id="addons"></ul>
+  </div>
+
+  <div class="cartbox" id="orcamento">
+    <p class="mono label">Monte seu orçamento</p>
+    <h3 class="showcase__title">Seu carrinho.<br><span class="grad">Envio direto no WhatsApp.</span></h3>
+    <div class="cart">
+      <ul class="cart__list" id="cartList"></ul>
+      <div class="cart__side">
+        <div class="cart__totals" id="cartTotals"></div>
+        <input id="cartName" type="text" placeholder="Seu nome (opcional)" autocomplete="name">
+        <textarea id="cartNotes" rows="3" placeholder="Conte um pouco sobre seu negócio (opcional)"></textarea>
+        <button type="button" class="btn" id="cartSend"><span>Enviar orçamento no WhatsApp</span><i>↗</i></button>
+      </div>
+    </div>
   </div>
   <p class="note mono">* Os três planos incluem exatamente o mesmo conteúdo: o que muda é apenas o nível visual do site.</p>
 </section>
@@ -155,6 +169,8 @@
 </section>
 
 </main>
+
+<a href="#orcamento" class="cartfab" id="cartFab" hidden aria-label="Ver carrinho"><span>🛒</span><b id="cartCount">0</b></a>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>

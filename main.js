@@ -32,12 +32,13 @@ const CONFIG = {
       demos: [['Aurora Café', 'demos/avancado-1.html'], ['Vértice Arquitetura', 'demos/avancado-2.html']],
     },
   ],
+  // price: número = entra no total; null = "a combinar". monthly: cobrado por mês. qty: pode ter mais de uma unidade
   addons: [
-    ['Manutenção mensal', 'R$ 79/mês'],
-    ['Página extra', 'R$ 80'],
-    ['Hospedagem', 'taxa adicional', 'valor varia dependendo do site'],
-    ['Domínio personalizado', 'taxa adicional', 'valor varia dependendo do site'],
-    ['Banco de dados', 'taxa adicional', 'valor varia dependendo do site'],
+    { name: 'Manutenção mensal', label: 'R$ 79/mês', price: 79, monthly: true },
+    { name: 'Página extra', label: 'R$ 80', price: 80, qty: true },
+    { name: 'Hospedagem', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null },
+    { name: 'Domínio personalizado', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null },
+    { name: 'Banco de dados', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null },
   ],
 };
 /* ===================================================== */
@@ -121,12 +122,17 @@ for (let i = 0; i < CUBES; i++) {
   col.setHSL(0.55 + Math.random() * 0.06, 0.2 + Math.random() * 0.4, 0.62 + Math.random() * 0.33);
   swarm.setColorAt(i, col);
 }
+// o rastro usa só os TRAIL_N cubos de menor u, com posição uniforme (un de 0 a 1): fila limpa em vez de nuvem
+const TRAIL_N = 45;
+cdat.map((c, i) => i).sort((a, b) => cdat[a].u - cdat[b].u).forEach((idx, rank) => { cdat[idx].un = rank < TRAIL_N ? (rank + 0.5) / TRAIL_N : -1; });
 const blob = new THREE.Object3D();
 scene.add(new THREE.AmbientLight(0x8fb0e0, 1.8));
 const keyLight = new THREE.DirectionalLight(0xeaf7ff, 3.8); keyLight.position.set(3, 4, 5); scene.add(keyLight);
 const coreLight = new THREE.PointLight(0x4cc9ff, 8, 12); scene.add(coreLight);
 const dummy = new THREE.Object3D();
-const SNAKE_LEN = 7;
+const SNAKE_LEN = 34;  // escala de u -> comprimento
+const TRAIL_U = 0.06;   // só os blocos com u < TRAIL_U formam o rastro; os demais somem
+const trailHist = []; for (let i = 0; i < 40; i++) trailHist.push(-1.6, -0.3 + i * 0.07);
 let turnS = 0, leanS = 0, headX = -1.6, headY = -0.3;
 const clamp01 = x => Math.min(1, Math.max(0, x));
 const smooth = x => x * x * (3 - 2 * x);
@@ -138,22 +144,29 @@ function updateSwarm(t) {
   const edge = 1 - clamp01((scrollY - 1.0 * vh) / (1.6 * vh)); // na transição da bola, começa mais encostada na lateral esquerda e vai soltando
   const halfW = 8 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.aspect, A = Math.max(0.7, halfW * 0.45); // alcance lateral: mais perto do meio, longe das bordas
   // ciclo em degraus: desce na diagonal até a borda, desce pouquíssimo na vertical parada na borda, e recomeça na diagonal para o outro lado
-  const n = Math.max(0, scroll.p * 10 / Math.PI), seg = Math.floor(n), f = n - seg, dir = seg % 2 === 0 ? 1 : -1;
-  // nunca anda só na vertical: mesmo perto da borda o movimento continua com um pouco de deslocamento lateral, freando devagar
-  const xp = 0.88 * smooth(clamp01(f / 0.9)) + 0.12 * f;
-  const D = m ? 0.6 : 0.85;                          // quanto desce em cada trecho
-  const drop = 0.9 * smooth(clamp01(f / 0.9)) + 0.1 * f; // quase toda a descida acontece na diagonal
-  const hx0 = dir * A * (2 * xp - 1) - edge * 0.1 * A + Math.sin(t * 0.25) * 0.25;
-  const hxT = hx0 < 0 ? hx0 * 0.65 : hx0; // o lado esquerdo tem alcance menor
-  const hyT = (m ? -0.2 : -0.3) - D * (seg + drop) + Math.sin(t * 0.8) * 0.2;
-  headX += (hxT - headX) * 0.045; headY += (hyT - headY) * 0.045;
-  // inclinação do corpo: a ponta de trás (cima) balança para o lado oposto ao do movimento e já vira um pouco antes da cabeça inverter (efeito de chicote, bem suave)
-  turnS += (-dir * Math.sin(Math.PI * clamp01(f / 0.85 + 0.08)) - turnS) * 0.07;
+  // caminho contínuo e suave: vai e volta de um lado ao outro (senoide) enquanto desce junto com a rolagem, sem degraus
+  const n = Math.max(0, scroll.p * 10 / Math.PI), phase = n * Math.PI * 0.9;
+  const D = m ? 0.6 : 0.85;                          // quanto desce por unidade de n
+  const hx0 = A * Math.sin(phase) - edge * 0.1 * A + Math.sin(t * 0.25) * 0.3;
+  // só como rastro (k > 0) a cabeça acompanha o mouse; como bola, nada segue o mouse
+  const halfH = 8 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)), km = smooth(k);
+  const hxT = mouse.x * halfW * km + (hx0 < 0 ? hx0 * 0.85 : hx0) * (1 - km);
+  const hyT = mouse.y * halfH * km + ((m ? -0.2 : -0.3) - D * n + Math.sin(t * 0.6) * 0.25) * (1 - km);
+  headX += (hxT - headX) * 0.06; headY += (hyT - headY) * 0.12; // a cabeça responde rápido; a maciez vem do atraso de cada cubo
+  // inclinação do corpo: o rastro balança para o lado oposto ao do movimento
+  turnS += ((-Math.cos(phase)) * (1 - km) + Math.max(-1, Math.min(1, (headX - hxT) * 1.5)) * km - turnS) * 0.05;
   leanS = turnS * (m ? 0.2 : 0.35); const lean = leanS;
   const deep = 1 + 0.8 * clamp01(scrollY / (4 * vh)); // quanto mais desce a página, mais inclinadas ficam as pontas
-  const ry = t * 0.2 + mouse.x * 0.4, cr = Math.cos(ry), sr = Math.sin(ry);
+  const ry = t * 0.2,cr = Math.cos(ry), sr = Math.sin(ry);
   const sc = hero.scale.x * (1 - 0.45 * clamp01((scroll.p - 0.75) / 0.15)), cx = hero.position.x + clamp01((scroll.p - 0.75) / 0.15) * (m ? 0.5 : 2.6), cy = hero.position.y, cz = hero.position.z;
   coreLight.position.set(cx, cy, cz + 1.2);
+  // histórico da cabeça: cada cubo segue a posição de alguns quadros atrás, então o rastro fica solto e vai para qualquer direção
+  // (por distância, não por tempo: mesmo com o mouse parado o rastro continua esticado no caminho que percorreu)
+  if (Math.hypot(headX - trailHist[0], headY - trailHist[1]) > 0.07) { trailHist.unshift(headX, headY); if (trailHist.length > 120) trailHist.length = 120; }
+  // caminho = cabeça atual + pontos já gravados (a cabeça nunca sobrescreve um ponto, senão o trecho inicial oscila quando o mouse anda devagar)
+  const pn = trailHist.length / 2 + 1, P = (k, a) => k === 0 ? (a ? headY : headX) : trailHist[(k - 1) * 2 + a];
+  let fdx = P(0, 0) - P(8, 0), fdy = P(0, 1) - P(8, 1); const fdl = Math.hypot(fdx, fdy);
+  if (fdl > 0.05) { fdx /= fdl; fdy /= fdl; } else { fdx = 0; fdy = 1; } // direção geral, usada quando o trecho local é curto demais para ter direção confiável
   for (let i = 0; i < CUBES; i++) {
     const c = cdat[i];
     // --- esfera oscilando levemente
@@ -163,19 +176,32 @@ function updateSwarm(t) {
     const sphX = cx + wx * sc, sphY = cy + (py + Math.sin(t * 1.6 + c.ph * 2) * 0.05) * sc, sphZ = cz + wz * sc;
     // --- cobrinha
     const tau = c.u * SNAKE_LEN, amp = 0.25 + 0.3 * Math.sqrt(c.u);
-    const r = (1 - c.u * 0.7) * 0.75;
+    const r = 0.5;
     const bx = headX - lean * 0.9 * deep * Math.pow(1 - c.u, 3) + tau * lean * (0.6 + 0.4 * deep) + Math.sin(tau * 0.95 - t * 2.2) * amp + c.o.x * r + Math.sin(t * 1.6 + c.ph) * 0.06;
     const by = headY + tau * (0.95 - Math.min(Math.abs(lean), 0.9) * 0.25) + c.o.y * r + Math.cos(t * 1.3 + c.ph) * 0.06;
     const bz = 0 + Math.sin(tau * 0.7 + t * 1.2) * 0.25 + c.o.z * r; // profundidade constante: a cobra aponta para baixo, sem virar para o usuário nem para o fundo
+    // --- modo mouse: corpo de cobrinha, cubos em fila ao longo do caminho da cabeça, afinando até a cauda
+    const un = Math.max(0, c.un), fi = Math.min(pn - 6, un * 18), k0 = Math.floor(fi), fr = fi - k0;
+    const px0 = P(k0, 0) + (P(k0 + 1, 0) - P(k0, 0)) * fr, py0 = P(k0, 1) + (P(k0 + 1, 1) - P(k0, 1)) * fr;
+    let tx = P(k0, 0) - P(k0 + 4, 0), ty = P(k0, 1) - P(k0 + 4, 1); const tl = Math.hypot(tx, ty);
+    if (tl > 0.05) { tx /= tl; ty /= tl; } else { tx = fdx; ty = fdy; }
+    const w = un < 0.3 ? 0.12 + 0.6 * (un / 0.3) : 0.72 - (un - 0.3) / 0.7 * 0.62; // largura: fina na ponta sob o mouse, mais grossa no meio, fina na cauda
+    const wig =Math.sin(un * 6 - t * 2.2) * 0.07 * Math.min(1, un * 3);   // ondulação lateral, como uma cobra deslizando
+    const ang = c.ph + t * 0.6, orb = 0.03 * w;           // espessura do corpo, afina para a cauda
+    const mx = px0 - ty * wig + Math.cos(ang) * orb;
+    const my = py0 + tx * wig + Math.sin(ang) * orb;
+    const mz = Math.sin(ang * 1.3 + c.ax) * orb;
+    const bxx = bx + (mx - bx) * km, byy = by + (my - by) * km, bzz = bz + (mz - bz) * km;
     // --- transição: cada bloco se solta em um momento (cabeça primeiro) e "explode" um pouco no caminho
     const kb = clamp01(k * 1.75 - c.u * 0.75), e = smooth(kb), burst = Math.sin(kb * Math.PI) * 1.7;
     // --- no final da página os blocos voltam a formar a esfera
     const ek = clamp01((scroll.p - 0.86) / 0.1 * 1.7 - (1 - c.u) * 0.7), ee = smooth(ek), eb = Math.sin(ek * Math.PI) * 1.2;
-    const fx = sphX + (bx - sphX) * e + c.dir.x * burst, fy = sphY + (by - sphY) * e + c.dir.y * burst, fz = sphZ + (bz - sphZ) * e + c.dir.z * burst;
+    const fx = sphX + (bxx - sphX) * e + c.dir.x * burst, fy = sphY + (byy - sphY) * e + c.dir.y * burst, fz = sphZ + (bzz - sphZ) * e + c.dir.z * burst;
     dummy.position.set(fx + (sphX - fx) * ee + c.dir.x * eb, fy + (sphY - fy) * ee + c.dir.y * eb, fz + (sphZ - fz) * ee + c.dir.z * eb);
-    dummy.rotation.set(c.ax + t * c.sp * 0.5, c.ay + t * c.sp * 0.4, 0);
-    const snakeS = c.s * (1.15 - c.u * 0.4), sphS = c.s * sc;
-    dummy.scale.setScalar((sphS + (snakeS - sphS) * e * (1 - ee)) * (1 + Math.sin(t * 2 + c.ph) * 0.15));
+    const spin = 1 + 0.6 * km * e; // no rastro o giro é mais calmo, para não parecer tremido
+    dummy.rotation.set(c.ax + t * c.sp * 0.5 * spin, c.ay + t * c.sp * 0.4 * spin, t * c.sp * 0.3 * km * e);
+    const snakeS = c.un >= 0 ? 0.14 * (0.2 + 0.8 * w) : 0, sphS = c.s * sc;
+    dummy.scale.setScalar((sphS + (snakeS - sphS) * e * (1 - ee)) * (1 + Math.sin(t * 2 + c.ph) * 0.15 * (1 - 0.9 * km * e)));
     dummy.updateMatrix();
     swarm.setMatrixAt(i, dummy.matrix);
   }
@@ -345,6 +371,92 @@ if (!isTouch) {
   });
 }
 
+/* ---------- carrinho / orçamento ---------- */
+const cart = { plan: null, extras: {} };   // extras: { índiceDoExtra: quantidade }
+function cartTotals() {
+  const plan = cart.plan == null ? null : CONFIG.plans[cart.plan];
+  let once = plan ? plan.price : 0, monthly = 0;
+  const tbd = [];
+  Object.entries(cart.extras).forEach(([i, q]) => {
+    const a = CONFIG.addons[i];
+    if (a.price == null) tbd.push(a.name);
+    else if (a.monthly) monthly += a.price * q;
+    else once += a.price * q;
+  });
+  return { plan, once, monthly, tbd };
+}
+function extraPrice(a, q) {
+  return a.price == null ? 'a combinar' : brl(a.price * q) + (a.monthly ? '/mês' : '');
+}
+function renderCart() {
+  const { plan, once, monthly, tbd } = cartTotals();
+  const n = (plan ? 1 : 0) + Object.keys(cart.extras).length;
+  const rows = [];
+  if (plan) rows.push(`<li><span class="cart__name"><b>Site ${plan.name}</b><small>${plan.title}</small></span><span class="cart__pr">${brl(plan.price)}</span><button type="button" class="cart__rm" data-rm="plan" aria-label="Remover plano">×</button></li>`);
+  Object.entries(cart.extras).forEach(([i, q]) => {
+    const a = CONFIG.addons[i];
+    const step = a.qty ? `<span class="cart__qty"><button type="button" data-qty="${i}" data-d="-1" aria-label="Diminuir">−</button><b>${q}</b><button type="button" data-qty="${i}" data-d="1" aria-label="Aumentar">+</button></span>` : '';
+    rows.push(`<li><span class="cart__name"><b>${a.name}</b>${a.note ? `<small>${a.note}</small>` : ''}</span>${step}<span class="cart__pr">${extraPrice(a, q)}</span><button type="button" class="cart__rm" data-rm="${i}" aria-label="Remover ${a.name}">×</button></li>`);
+  });
+  $('#cartList').innerHTML = rows.length ? rows.join('') : '<li class="cart__empty">Seu carrinho está vazio. Escolha um plano acima e, se quiser, marque os extras.</li>';
+  $('#cartTotals').innerHTML = `
+    <div><span>Total do projeto</span><b>${brl(once)}</b></div>
+    ${monthly ? `<div><span>Mensal</span><b>${brl(monthly)}/mês</b></div>` : ''}
+    ${tbd.length ? `<p>+ a combinar: ${tbd.join(', ')}</p>` : ''}`;
+  $('#cartSend').disabled = !plan;
+  $('#cartSend').title = plan ? '' : 'Escolha um plano para enviar';
+  $$('[data-pick]').forEach(b => {
+    const on = +b.dataset.pick === cart.plan;
+    b.classList.toggle('btn--on', on);
+    b.querySelector('span').textContent = on ? 'No carrinho ✓' : 'Adicionar ao carrinho';
+    b.querySelector('i').textContent = on ? '✓' : '+';
+  });
+  $$('[data-addon]').forEach(li => {
+    const on = li.dataset.addon in cart.extras;
+    li.classList.toggle('on', on);
+    li.setAttribute('aria-pressed', on);
+  });
+  const fab = $('#cartFab');
+  fab.hidden = !n;
+  $('#cartCount').textContent = n;
+}
+function buildQuote() {
+  const { plan, once, monthly, tbd } = cartTotals();
+  const nome = $('#cartName').value.trim(), obs = $('#cartNotes').value.trim();
+  const L = ['Olá! Gostaria de solicitar um orçamento 👋', ''];
+  if (nome) L.push(`👤 *Nome:* ${nome}`);
+  L.push(`🌐 *Plano:* ${plan.name} (${plan.title}) — ${brl(plan.price)}`);
+  const ex = Object.entries(cart.extras);
+  if (ex.length) {
+    L.push('', '➕ *Extras:*');
+    ex.forEach(([i, q]) => { const a = CONFIG.addons[i]; L.push(`• ${a.name}${q > 1 ? ` (${q}x)` : ''} — ${extraPrice(a, q)}`); });
+  }
+  L.push('', `💰 *Total do projeto:* ${brl(once)}`);
+  if (monthly) L.push(`🔁 *Mensal:* ${brl(monthly)}/mês`);
+  if (tbd.length) L.push(`📌 *A combinar:* ${tbd.join(', ')}`);
+  if (obs) L.push('', `📝 *Sobre o projeto:* ${obs}`);
+  L.push('', 'Aguardo seu retorno! 🙏');
+  return L.join('\n');
+}
+function toggleExtra(i) { if (i in cart.extras) delete cart.extras[i]; else cart.extras[i] = 1; renderCart(); }
+document.addEventListener('click', e => {
+  const pick = e.target.closest('[data-pick]');
+  if (pick) { cart.plan = cart.plan === +pick.dataset.pick ? null : +pick.dataset.pick; return renderCart(); }
+  const add = e.target.closest('[data-addon]');
+  if (add) return toggleExtra(add.dataset.addon);
+  const rm = e.target.closest('[data-rm]');
+  if (rm) { if (rm.dataset.rm === 'plan') cart.plan = null; else delete cart.extras[rm.dataset.rm]; return renderCart(); }
+  const qty = e.target.closest('[data-qty]');
+  if (qty) { const i = qty.dataset.qty, q = (cart.extras[i] || 1) + +qty.dataset.d; if (q < 1) delete cart.extras[i]; else cart.extras[i] = Math.min(q, 20); return renderCart(); }
+  if (e.target.closest('#cartSend')) {
+    if (cartTotals().plan) window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(buildQuote())}`, '_blank', 'noopener');
+  }
+});
+document.addEventListener('keydown', e => {
+  const add = e.target.closest && e.target.closest('[data-addon]');
+  if (add && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggleExtra(add.dataset.addon); }
+});
+
 /* ---------- pricing cards ---------- */
 const cardsEl = $('#cards');
 function renderCards() {
@@ -357,7 +469,7 @@ function renderCards() {
       <div class="card__price"><small>${''}</small><b data-price="${i}"></b></div>
       <p class="card__sub" data-sub="${i}"></p>
       <ul><li class="hl">${p.visual}</li>${CONFIG.common.map(f => `<li>${f}</li>`).join('')}</ul>
-      <a class="btn" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent('Olá! Tenho interesse no plano ' + p.title)}"><span>Quero este</span><i>↗</i></a>
+      <button type="button" class="btn" data-pick="${i}"><span>Adicionar ao carrinho</span><i>+</i></button>
       <div class="card__demos"><span class="mono">Exemplos deste nível</span>${p.demos.map(([n, u]) => `<a class="demo" href="${u}"><b>${n}</b><i>↗</i></a>`).join('')}</div>
     </article>`).join('');
   const slug = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -371,8 +483,9 @@ function renderCards() {
       </div>
       <div class="demo-card__info"><b>${d.n}</b><span class="demo-card__level mono">${d.title}</span></div>
     </a>`).join('');
-  $('#addons').innerHTML = CONFIG.addons.map(([a, b, n]) => `<li class="rv"><span>${a}</span><span>${b}${n ? `<small>(${n})</small>` : ""}</span></li>`).join('');
+  $('#addons').innerHTML = CONFIG.addons.map((a, i) => `<li class="rv addon" data-addon="${i}" role="button" tabindex="0" aria-pressed="false"><span>${a.name}</span><span>${a.label}${a.note ? `<small>(${a.note})</small>` : ""}</span></li>`).join('');
   updatePrices(true);
+  renderCart();
   initTilt();
 }
 const shown = {};
