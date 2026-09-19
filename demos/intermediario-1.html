@@ -160,6 +160,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .js [data-r].in{opacity:1;transform:none}
 @media(max-width:900px){.top nav{display:none}.hero .wrap,.calc,.plans{grid-template-columns:1fr}.sched{grid-template-columns:repeat(2,1fr)}.cta{padding:44px 26px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.js [data-r]{opacity:1;transform:none}}
+
+/* fotos reais */
+.hero{isolation:isolate}
+.herobg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.herobg__ov{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,10,12,.95) 15%,rgba(10,10,12,.6) 60%,rgba(10,10,12,.8))}
+.mimg{display:block;width:calc(100% + 52px);height:170px;object-fit:cover;margin:-26px -26px 16px;filter:grayscale(.25) contrast(1.05);transition:transform .6s,filter .4s}
+.mod:hover .mimg{transform:scale(1.05);filter:none}
+.mod{overflow:hidden}
+.slide .av{object-fit:cover;background:none}
+.gfoto{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:260px 260px;gap:16px;margin-top:8px}
+.gfoto figure{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line)}
+.gfoto .gf1{grid-row:span 2}
+.gfoto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s}
+.gfoto figure:hover img{transform:scale(1.05)}
+.gfoto figcaption{position:absolute;left:14px;bottom:14px;background:rgba(0,0,0,.7);padding:6px 14px;border-radius:99px;font:700 .75rem 'Inter';letter-spacing:.12em;text-transform:uppercase}
+@media(max-width:800px){.gfoto{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:220px}.gfoto .gf1{grid-row:auto}}
 </style>
 </head>
 <body>
@@ -174,7 +190,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </div></header>
 
 <section class="hero" id="aula">
-  <div class="stripes"></div><div class="glow"></div>
+  <img class="herobg" src="img/gym-3.jpg" alt="" fetchpriority="high"><div class="herobg__ov"></div><div class="stripes"></div><div class="glow"></div>
   <div class="wrap">
     <div>
       <span class="chip" data-r><i></i> 38 alunos treinando agora</span>
@@ -203,11 +219,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="sec" id="modalidades"><div class="wrap">
   <p class="label" data-r>Modalidades</p><h2 data-r>Um treino pra cada objetivo</h2><p class="sub" data-r>Todos os planos incluem avaliação física e ficha personalizada. Você escolhe como quer suar.</p>
   <div class="mods">
-    <div class="mod" data-r><span class="ic">🏋️</span><h3>Musculação</h3><p>Equipamentos importados, área de peso livre e instrutores no salão.</p><div class="lvl">Intensidade <i class="on"></i><i class="on"></i><i class="on" style="--dl:.1s"></i><i style="--dl:.2s"></i></div></div>
-    <div class="mod" data-r><span class="ic">⚡</span><h3>Funcional</h3><p>Circuitos em grupo para queimar gordura e ganhar condicionamento.</p><div class="lvl">Intensidade <i class="on"></i><i class="on"></i><i class="on" style="--dl:.1s"></i><i class="on" style="--dl:.2s"></i></div></div>
-    <div class="mod" data-r><span class="ic">🚴</span><h3>Spinning</h3><p>Aulas com música, luz e trilha de treino. Sai leve, sai forte.</p><div class="lvl">Intensidade <i class="on"></i><i class="on"></i><i class="on" style="--dl:.1s"></i><i class="on" style="--dl:.2s"></i></div></div>
-    <div class="mod" data-r><span class="ic">🥊</span><h3>Boxe</h3><p>Técnica, cardio e descarga de estresse, do iniciante ao avançado.</p><div class="lvl">Intensidade <i class="on"></i><i class="on"></i><i class="on" style="--dl:.1s"></i><i class="on" style="--dl:.2s"></i></div></div>
-    <div class="mod" data-r><span class="ic">🧘</span><h3>Yoga</h3><p>Mobilidade, respiração e foco para equilibrar a semana.</p><div class="lvl">Intensidade <i class="on"></i><i style="--dl:.1s"></i><i style="--dl:.2s"></i><i></i></div></div>
+    <div class="mod" data-r><img class="mimg" src="img/gym-1.jpg" alt="Musculação" loading="lazy"><h3>Musculação</h3><p>Equipamentos importados, área de peso livre e instrutores no salão.</p><div class="lvl">Intensidade <i class="on"></i><i class="on"></i><i class="on" style="--dl:.1s"></i><i style="--dl:.2s"></i></div></div>
+    <div class="mod" data-r><img class="mimg" src="img/gym-4.jpg" alt="Funcional" loading="lazy"><h3>Funcional</h3><p>Circuitos em grupo para queimar gordura e ganhar condicionamento.</p><div class="lvl">Intensidade <i class="on"></i><i class="on"></i><i class="on" style="--dl:.1s"></i><i class="on" style="--dl:.2s"></i></div></div>
+    <div class="mod" data-r><img class="mimg" src="img/gym-spin.jpg" alt="Spinning" loading="lazy"><h3>Spinning</h3><p>Aulas com música, luz e trilha de treino. Sai leve, sai forte.</p><div class="lvl">Intensidade <i class="on"></i><i class="on"></i><i class="on" style="--dl:.1s"></i><i class="on" style="--dl:.2s"></i></div></div>
+    <div class="mod" data-r><img class="mimg" src="img/gym-box.jpg" alt="Boxe" loading="lazy"><h3>Boxe</h3><p>Técnica, cardio e descarga de estresse, do iniciante ao avançado.</p><div class="lvl">Intensidade <i class="on"></i><i class="on"></i><i class="on" style="--dl:.1s"></i><i class="on" style="--dl:.2s"></i></div></div>
+    <div class="mod" data-r><img class="mimg" src="img/gym-yoga.jpg" alt="Yoga" loading="lazy"><h3>Yoga</h3><p>Mobilidade, respiração e foco para equilibrar a semana.</p><div class="lvl">Intensidade <i class="on"></i><i style="--dl:.1s"></i><i style="--dl:.2s"></i><i></i></div></div>
+  </div>
+</div></section>
+
+<section class="sec" style="padding-bottom:0"><div class="wrap">
+  <p class="label" data-r>A estrutura</p><h2 data-r>Espaço pra treinar de verdade</h2>
+  <div class="gfoto" data-r>
+    <figure class="gf1"><img src="img/gym-3.jpg" alt="Salão de musculação" loading="lazy"><figcaption>Salão de musculação</figcaption></figure>
+    <figure><img src="img/gym-2.jpg" alt="Treino com personal" loading="lazy"><figcaption>Personal trainers</figcaption></figure>
+    <figure><img src="img/gym-5.jpg" alt="Aulas em grupo" loading="lazy"><figcaption>Aulas em grupo</figcaption></figure>
   </div>
 </div></section>
 
@@ -265,10 +290,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
   <p class="label" data-r>Resultados reais</p><h2 data-r>Quem treina, fala</h2>
   <div class="car" id="car" data-r>
-    <div class="slide on"><p>“Perdi 14 kg em 6 meses seguindo a ficha e as aulas de funcional. A equipe me acompanhou em cada etapa.”</p><div class="who"><div class="av">M</div><div><b>Mariana Costa</b><small>Aluna há 8 meses · Plano Pulse</small></div></div></div>
-    <div class="slide"><p>“Voltei a treinar depois de 10 anos parado. Comecei no boxe e hoje não passo uma semana sem ir.”</p><div class="who"><div class="av">R</div><div><b>Rodrigo Alves</b><small>Aluno há 1 ano · Plano Pulse</small></div></div></div>
-    <div class="slide"><p>“O personal do plano Black destravou meu treino. Ganhei 6 kg de massa magra e muita disposição.”</p><div class="who"><div class="av">L</div><div><b>Lucas Ferreira</b><small>Aluno há 10 meses · Plano Black</small></div></div></div>
-    <div class="slide"><p>“As aulas de yoga são o ponto alto da minha semana. Ambiente acolhedor e professores incríveis.”</p><div class="who"><div class="av">C</div><div><b>Camila Nunes</b><small>Aluna há 2 anos · Plano Start</small></div></div></div>
+    <div class="slide on"><p>“Perdi 14 kg em 6 meses seguindo a ficha e as aulas de funcional. A equipe me acompanhou em cada etapa.”</p><div class="who"><img class="av" src="img/gym-av1.jpg" alt="" loading="lazy"><div><b>Mariana Costa</b><small>Aluna há 8 meses · Plano Pulse</small></div></div></div>
+    <div class="slide"><p>“Voltei a treinar depois de 10 anos parado. Comecei no boxe e hoje não passo uma semana sem ir.”</p><div class="who"><img class="av" src="img/gym-av2.jpg" alt="" loading="lazy"><div><b>Rodrigo Alves</b><small>Aluno há 1 ano · Plano Pulse</small></div></div></div>
+    <div class="slide"><p>“O personal do plano Black destravou meu treino. Ganhei 6 kg de massa magra e muita disposição.”</p><div class="who"><img class="av" src="img/gym-av3.jpg" alt="" loading="lazy"><div><b>Lucas Ferreira</b><small>Aluno há 10 meses · Plano Black</small></div></div></div>
+    <div class="slide"><p>“As aulas de yoga são o ponto alto da minha semana. Ambiente acolhedor e professores incríveis.”</p><div class="who"><img class="av" src="img/gym-av4.jpg" alt="" loading="lazy"><div><b>Camila Nunes</b><small>Aluna há 2 anos · Plano Start</small></div></div></div>
     <div class="dots" id="dots"></div>
   </div>
 </div></section>

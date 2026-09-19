@@ -170,6 +170,20 @@ footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.9rem}
 @media(max-width:860px){
  header nav{display:none}.hero .wrap,.sizes,.about{grid-template-columns:1fr}.grid,.bub{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.about__art{max-width:260px;margin:0 auto}
 }
+
+/* fotos reais */
+.herophoto{position:relative;max-width:460px;margin:0 auto;aspect-ratio:1;border-radius:46% 54% 50% 50%/52% 48% 52% 48%;overflow:hidden;box-shadow:0 30px 60px -30px rgba(120,40,60,.5);border:8px solid #fff}
+.herophoto img{width:100%;height:100%;object-fit:cover;display:block}
+.herophoto__tag{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:#fff;border-radius:99px;padding:8px 18px;font:600 .9rem var(--hf);white-space:nowrap;box-shadow:0 8px 20px -10px rgba(0,0,0,.4)}
+.pimg{display:block;width:calc(100% + 56px);height:190px;object-fit:cover;margin:-28px -28px 16px}
+.cimg{display:block;width:calc(100% + 48px);height:150px;object-fit:cover;margin:-28px -24px 16px}
+.col::after{display:none}
+.col h3{margin-top:0}
+.gimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gal span{position:relative;z-index:1}
+.about__art{overflow:hidden;font-size:0;border:8px solid #fff;box-shadow:0 20px 50px -25px rgba(0,0,0,.35)}
+.about__art img{width:100%;height:100%;object-fit:cover;display:block}
+.about__art::after{z-index:2}
 </style>
 </head>
 <body>
@@ -192,18 +206,7 @@ footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.9rem}
       <div class="hero__btns"><a class="btn" href="#contato">Fazer minha encomenda</a><a class="btn btn--o" href="#queridinhos">Ver os queridinhos</a></div>
       <div class="hero__row"><div><i>🥚</i>Ovos caipiras</div><div><i>🧈</i>Manteiga de verdade</div><div><i>🚫</i>Sem corantes artificiais</div></div>
     </div>
-    <svg class="cake" viewBox="0 0 400 420" role="img" aria-label="Ilustração de um bolo de três andares">
-      <ellipse cx="200" cy="392" rx="170" ry="16" fill="#f3c9c0"/>
-      <rect x="40" y="290" width="320" height="96" rx="20" fill="#ffb3c6"/>
-      <path d="M40 310c20 26 34 0 54 20s34-4 56 18 32-6 52 16 34-8 52 14 30-14 54 6V290H40z" fill="#fff"/>
-      <rect x="80" y="200" width="240" height="90" rx="20" fill="#ffe6a3"/>
-      <path d="M80 220c18 24 30 0 48 18s30-4 50 16 30-8 46 12 30-10 46 8 34-12 50 2V200H80z" fill="#fff"/>
-      <rect x="120" y="120" width="160" height="80" rx="18" fill="#c5efdc"/>
-      <path d="M120 138c14 20 24 0 38 14s24-2 40 12 24-6 38 10 30-10 44 4V120H120z" fill="#fff"/>
-      <circle cx="200" cy="100" r="18" fill="#e63955"/><path d="M200 82c2-14 12-22 26-24" stroke="#4a8a4a" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <g fill="#ff6f91"><circle cx="90" cy="356" r="9"/><circle cx="150" cy="364" r="9"/><circle cx="210" cy="356" r="9"/><circle cx="270" cy="364" r="9"/><circle cx="326" cy="356" r="9"/></g>
-      <g fill="#f6b73c"><circle cx="112" cy="266" r="7"/><circle cx="184" cy="270" r="7"/><circle cx="256" cy="266" r="7"/></g>
-    </svg>
+    <div class="herophoto"><img src="img/cake-1.jpg" alt="Bolo decorado com flores" width="900" height="900"><span class="herophoto__tag">🍓 Bolo do dia · encomende já</span></div>
   </div>
 </section>
 <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30c120 40 240 40 360 10S600 0 720 20s240 40 360 20 240-30 360-10V60H0z" fill="#ffe9ee"/></svg>
@@ -211,12 +214,12 @@ footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.9rem}
 <section class="sec" id="queridinhos" style="background:#ffe9ee;margin-top:-1px"><div class="wrap">
   <div class="head"><span class="pill">Os mais pedidos</span><h2>Nossos <em>queridinhos</em></h2><p>Receitas de família, feitas em pequenas fornadas para chegarem fresquinhas na sua mesa.</p></div>
   <div class="grid">
-    <div class="prod c1"><span class="tagx">mais vendido</span><span class="em">🎂</span><h3>Bolo de ninho com morango</h3><p>Massa fofinha, creme de leite ninho e morangos frescos.</p><div class="row"><div class="pr"><small>1 kg · </small>R$ 95</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
-    <div class="prod c2"><span class="em">🍫</span><h3>Brigadeiro gourmet</h3><p>Chocolate belga 50%, cobertura crocante. Cento a partir de:</p><div class="row"><div class="pr">R$ 120</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
-    <div class="prod c3"><span class="em">🍋</span><h3>Torta de limão siciliano</h3><p>Base amanteigada, creme cítrico e merengue maçaricado.</p><div class="row"><div class="pr">R$ 78</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
-    <div class="prod c4"><span class="em">🧁</span><h3>Cupcakes decorados</h3><p>Caixa com 6, sabores à escolha e toppers personalizados.</p><div class="row"><div class="pr">R$ 54</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
-    <div class="prod c5"><span class="em">🥧</span><h3>Cheesecake de goiabada</h3><p>Cremoso, com calda artesanal de goiabada cascão.</p><div class="row"><div class="pr">R$ 85</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
-    <div class="prod c6"><span class="em">🍪</span><h3>Caixa de cookies</h3><p>Seis cookies gigantes com gotas de chocolate e nozes.</p><div class="row"><div class="pr">R$ 42</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c1"><span class="tagx">mais vendido</span><img class="pimg" src="img/cake-strawb.jpg" alt="" loading="lazy"><h3>Bolo de ninho com morango</h3><p>Massa fofinha, creme de leite ninho e morangos frescos.</p><div class="row"><div class="pr"><small>1 kg · </small>R$ 95</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c2"><img class="pimg" src="img/cake-3.jpg" alt="" loading="lazy"><h3>Brigadeiro gourmet</h3><p>Chocolate belga 50%, cobertura crocante. Cento a partir de:</p><div class="row"><div class="pr">R$ 120</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c3"><img class="pimg" src="img/cake-lemon.jpg" alt="" loading="lazy"><h3>Torta de limão siciliano</h3><p>Base amanteigada, creme cítrico e merengue maçaricado.</p><div class="row"><div class="pr">R$ 78</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c4"><img class="pimg" src="img/cake-2.jpg" alt="" loading="lazy"><h3>Cupcakes decorados</h3><p>Caixa com 6, sabores à escolha e toppers personalizados.</p><div class="row"><div class="pr">R$ 54</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c5"><img class="pimg" src="img/cake-cheese.jpg" alt="" loading="lazy"><h3>Cheesecake de goiabada</h3><p>Cremoso, com calda artesanal de goiabada cascão.</p><div class="row"><div class="pr">R$ 85</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
+    <div class="prod c6"><img class="pimg" src="img/cake-cookie.jpg" alt="" loading="lazy"><h3>Caixa de cookies</h3><p>Seis cookies gigantes com gotas de chocolate e nozes.</p><div class="row"><div class="pr">R$ 42</div><a class="btn btn--s" href="#contato">Pedir</a></div></div>
   </div>
 </div></section>
 
@@ -256,10 +259,10 @@ footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.9rem}
 <section class="sec"><div class="wrap">
   <div class="head"><span class="pill">Para cada ocasião</span><h2>Nossas <em>coleções</em></h2><p>Temas prontos para você escolher e personalizar. Se preferir, criamos um do zero com a sua ideia.</p></div>
   <div class="colls">
-    <div class="col c1"><span class="em">🎈</span><h3>Aniversário infantil</h3><p>Personagens, cores vibrantes e topper personalizado com o nome do aniversariante.</p><small>a partir de R$ 130</small></div>
-    <div class="col c3"><span class="em">💐</span><h3>Casamentos</h3><p>Bolos de dois ou três andares com flores naturais e mesa de doces finos.</p><small>a partir de R$ 590</small></div>
-    <div class="col c4"><span class="em">🍼</span><h3>Chá de bebê</h3><p>Tons suaves, docinhos delicados e bolo com tema à sua escolha.</p><small>a partir de R$ 160</small></div>
-    <div class="col c2"><span class="em">🏢</span><h3>Corporativo</h3><p>Caixas de brindes, coffee break doce e bolos com a logo da empresa.</p><small>sob orçamento</small></div>
+    <div class="col c1"><img class="cimg" src="img/cake-kids.jpg" alt="" loading="lazy"><h3>Aniversário infantil</h3><p>Personagens, cores vibrantes e topper personalizado com o nome do aniversariante.</p><small>a partir de R$ 130</small></div>
+    <div class="col c3"><img class="cimg" src="img/cake-4.jpg" alt="" loading="lazy"><h3>Casamentos</h3><p>Bolos de dois ou três andares com flores naturais e mesa de doces finos.</p><small>a partir de R$ 590</small></div>
+    <div class="col c4"><img class="cimg" src="img/cake-baby.jpg" alt="" loading="lazy"><h3>Chá de bebê</h3><p>Tons suaves, docinhos delicados e bolo com tema à sua escolha.</p><small>a partir de R$ 160</small></div>
+    <div class="col c2"><img class="cimg" src="img/cake-corp.jpg" alt="" loading="lazy"><h3>Corporativo</h3><p>Caixas de brindes, coffee break doce e bolos com a logo da empresa.</p><small>sob orçamento</small></div>
   </div>
 </div></section>
 
@@ -275,12 +278,12 @@ footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.9rem}
 <section class="sec" style="background:#fff0d6"><div class="wrap">
   <div class="head"><span class="pill">Galeria</span><h2>Um pouquinho do nosso <em>trabalho</em></h2><p>Algumas das encomendas que passaram pela nossa cozinha neste ano.</p></div>
   <div class="gal">
-    <div class="g1"><span class="em">🎂</span><span>Bolo naked com frutas vermelhas</span></div>
-    <div class="g2"><span class="em">🧁</span><span>Cupcakes de baunilha</span></div>
-    <div class="g3"><span class="em">🍰</span><span>Torta de matcha</span></div>
-    <div class="g4"><span class="em">🍩</span><span>Mini donuts</span></div>
-    <div class="g5"><span class="em">🎉</span><span>Mesa de doces · festa de 15 anos</span></div>
-    <div class="g6"><span class="em">🍮</span><span>Pudim de leite</span></div>
+    <div class="g1"><img class="gimg" src="img/cake-1.jpg" alt="" loading="lazy"><span>Bolo naked com frutas vermelhas</span></div>
+    <div class="g2"><img class="gimg" src="img/cake-2.jpg" alt="" loading="lazy"><span>Cupcakes de baunilha</span></div>
+    <div class="g3"><img class="gimg" src="img/cake-5.jpg" alt="" loading="lazy"><span>Torta de matcha</span></div>
+    <div class="g4"><img class="gimg" src="img/cake-donut.jpg" alt="" loading="lazy"><span>Mini donuts</span></div>
+    <div class="g5"><img class="gimg" src="img/cake-table.jpg" alt="" loading="lazy"><span>Mesa de doces · festa de 15 anos</span></div>
+    <div class="g6"><img class="gimg" src="img/cake-pudding.jpg" alt="" loading="lazy"><span>Pudim de leite</span></div>
   </div>
 </div></section>
 
@@ -318,7 +321,7 @@ footer{padding:36px 0;text-align:center;color:var(--mut);font-size:.9rem}
 </div></section>
 
 <section class="sec" style="background:#ffe9ee"><div class="wrap about">
-  <div class="about__art">👩‍🍳</div>
+  <div class="about__art"><img src="img/cake-owner.jpg" alt="Marina, a confeiteira" loading="lazy"></div>
   <div>
     <span class="pill" style="background:var(--butter)">Nossa história</span>
     <h2 style="margin-bottom:6px">Feito com <em>amor</em>, do zero</h2>

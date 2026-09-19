@@ -128,6 +128,18 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:26px
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .js [data-r]{opacity:0}
 @media(prefers-reduced-motion:reduce){.grain{animation:none}.js [data-r]{opacity:1}}
+
+/* fotos reais */
+.chapters{position:relative;overflow:hidden}
+.secbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.secbg__ov{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(15,8,4,.94),rgba(15,8,4,.72))}
+.chap-pin{z-index:1}
+.dimg{width:calc(100% + 76px);height:190px;object-fit:cover;margin:-38px -38px 22px;border-radius:32px 32px 0 0;display:block}
+.oc .r{min-height:260px}
+.ocimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;opacity:.55;mix-blend-mode:luminosity}
+.oc .rings{z-index:1}.oc .alt{z-index:2;text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.bimg{display:block;width:calc(100% + 60px);height:170px;object-fit:cover;margin:-30px -30px 0;filter:saturate(.9)}
+.bag .pack{margin-top:-80px}
 </style>
 </head>
 <body class="loading">
@@ -167,7 +179,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <span>Espresso</span><em>✦</em><span>Coado</span><em>✦</em><span>Cold brew</span><em>✦</em><span>Cappuccino</span><em>✦</em><span>Grãos</span><em>✦</em>
 </div></div>
 
-<section class="chapters" id="historia"><div class="chap-pin" id="chapPin"><div class="wrap">
+<section class="chapters" id="historia"><img class="secbg" src="img/cafe-1.jpg" alt="" loading="lazy"><div class="secbg__ov"></div><div class="chap-pin" id="chapPin"><div class="wrap">
   <div class="chap-num"><span id="cn">01</span><small>/ 03 · NOSSA HISTÓRIA</small></div>
   <div>
     <div class="chap-stage">
@@ -191,10 +203,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="sec" id="origens" style="padding-bottom:0"><div class="wrap">
   <div class="stackhead"><p class="label mono" data-r>02 — Origens</p><h2 data-r>Do pé à <em>xícara.</em></h2></div>
   <div class="stack">
-    <article class="oc" style="--i:0;--c:#ffb454"><div class="l"><div class="reg mono"><b>Cerrado Mineiro · MG</b><span>Lote 07</span></div><h3>Fazenda Boa Vista</h3><p>Processo natural, secagem em terreiro suspenso. Doçura marcante e corpo aveludado, com final longo de chocolate.</p><div class="notes"><span>Chocolate</span><span>Caramelo</span><span>Amêndoa</span></div><div class="roast mono">Torra média <i style="--r:55%"><b></b></i></div></div><div class="r"><div class="rings"></div><div class="alt">1.150<small>METROS</small></div></div></article>
-    <article class="oc" style="--i:1;--c:#ff7a45"><div class="l"><div class="reg mono"><b>Sul de Minas · MG</b><span>Lote 12</span></div><h3>Sítio Serra Azul</h3><p>Cereja descascada. Acidez cítrica equilibrada com final longo e limpo. Nosso favorito para métodos filtrados.</p><div class="notes"><span>Laranja</span><span>Mel</span><span>Flores</span></div><div class="roast mono">Torra clara <i style="--r:35%"><b></b></i></div></div><div class="r"><div class="rings"></div><div class="alt">1.300<small>METROS</small></div></div></article>
-    <article class="oc" style="--i:2;--c:#e0a458"><div class="l"><div class="reg mono"><b>Mogiana · SP</b><span>Lote 03</span></div><h3>Fazenda Três Marias</h3><p>Lavado. Um clássico brasileiro: encorpado, doce e perfeito para espresso e bebidas com leite.</p><div class="notes"><span>Nozes</span><span>Cacau</span><span>Baunilha</span></div><div class="roast mono">Torra média-escura <i style="--r:72%"><b></b></i></div></div><div class="r"><div class="rings"></div><div class="alt">980<small>METROS</small></div></div></article>
-    <article class="oc" style="--i:3;--c:#d1783a"><div class="l"><div class="reg mono"><b>Chapada Diamantina · BA</b><span>Lote 09</span></div><h3>Sítio Águas Claras</h3><p>Microlote fermentado. Frutado, complexo e raro: vendemos apenas 40 sacas por ano.</p><div class="notes"><span>Frutas vermelhas</span><span>Vinho</span></div><div class="roast mono">Torra clara <i style="--r:30%"><b></b></i></div></div><div class="r"><div class="rings"></div><div class="alt">1.200<small>METROS</small></div></div></article>
+    <article class="oc" style="--i:0;--c:#ffb454"><div class="l"><div class="reg mono"><b>Cerrado Mineiro · MG</b><span>Lote 07</span></div><h3>Fazenda Boa Vista</h3><p>Processo natural, secagem em terreiro suspenso. Doçura marcante e corpo aveludado, com final longo de chocolate.</p><div class="notes"><span>Chocolate</span><span>Caramelo</span><span>Amêndoa</span></div><div class="roast mono">Torra média <i style="--r:55%"><b></b></i></div></div><div class="r"><img class="ocimg" src="img/cafe-farm1.jpg" alt="" loading="lazy"><div class="rings"></div><div class="alt">1.150<small>METROS</small></div></div></article>
+    <article class="oc" style="--i:1;--c:#ff7a45"><div class="l"><div class="reg mono"><b>Sul de Minas · MG</b><span>Lote 12</span></div><h3>Sítio Serra Azul</h3><p>Cereja descascada. Acidez cítrica equilibrada com final longo e limpo. Nosso favorito para métodos filtrados.</p><div class="notes"><span>Laranja</span><span>Mel</span><span>Flores</span></div><div class="roast mono">Torra clara <i style="--r:35%"><b></b></i></div></div><div class="r"><img class="ocimg" src="img/cafe-farm2.jpg" alt="" loading="lazy"><div class="rings"></div><div class="alt">1.300<small>METROS</small></div></div></article>
+    <article class="oc" style="--i:2;--c:#e0a458"><div class="l"><div class="reg mono"><b>Mogiana · SP</b><span>Lote 03</span></div><h3>Fazenda Três Marias</h3><p>Lavado. Um clássico brasileiro: encorpado, doce e perfeito para espresso e bebidas com leite.</p><div class="notes"><span>Nozes</span><span>Cacau</span><span>Baunilha</span></div><div class="roast mono">Torra média-escura <i style="--r:72%"><b></b></i></div></div><div class="r"><img class="ocimg" src="img/cafe-farm3.jpg" alt="" loading="lazy"><div class="rings"></div><div class="alt">980<small>METROS</small></div></div></article>
+    <article class="oc" style="--i:3;--c:#d1783a"><div class="l"><div class="reg mono"><b>Chapada Diamantina · BA</b><span>Lote 09</span></div><h3>Sítio Águas Claras</h3><p>Microlote fermentado. Frutado, complexo e raro: vendemos apenas 40 sacas por ano.</p><div class="notes"><span>Frutas vermelhas</span><span>Vinho</span></div><div class="roast mono">Torra clara <i style="--r:30%"><b></b></i></div></div><div class="r"><img class="ocimg" src="img/cafe-farm4.jpg" alt="" loading="lazy"><div class="rings"></div><div class="alt">1.200<small>METROS</small></div></div></article>
   </div>
 </div></section>
 
@@ -216,13 +228,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="sec" id="graos"><div class="wrap">
   <p class="label mono" data-r>04 — Leve para casa</p><h2 data-r>Grãos <em>da semana.</em></h2>
   <div class="bags">
-    <article class="bag" style="--c:#ffb454"><div class="pack"></div><h3>Cerrado Mineiro</h3><p>Chocolate, caramelo e amêndoa. Ideal para espresso e moka.</p><div class="row"><b>R$ 42</b><span class="mono">250 g</span></div></article>
-    <article class="bag" style="--c:#ff7a45"><div class="pack"></div><h3>Sul de Minas</h3><p>Cítrico, mel e flores. Perfeito para métodos filtrados.</p><div class="row"><b>R$ 46</b><span class="mono">250 g</span></div></article>
-    <article class="bag" style="--c:#c98a4b"><div class="pack"></div><h3>Blend Aurora</h3><p>Nossa assinatura: doce, encorpado e equilibrado em qualquer preparo.</p><div class="row"><b>R$ 38</b><span class="mono">250 g</span></div></article>
+    <article class="bag" style="--c:#ffb454"><img class="bimg" src="img/cafe-3.jpg" alt="" loading="lazy"><div class="pack"></div><h3>Cerrado Mineiro</h3><p>Chocolate, caramelo e amêndoa. Ideal para espresso e moka.</p><div class="row"><b>R$ 42</b><span class="mono">250 g</span></div></article>
+    <article class="bag" style="--c:#ff7a45"><img class="bimg" src="img/cafe-farm4.jpg" alt="" loading="lazy"><div class="pack"></div><h3>Sul de Minas</h3><p>Cítrico, mel e flores. Perfeito para métodos filtrados.</p><div class="row"><b>R$ 46</b><span class="mono">250 g</span></div></article>
+    <article class="bag" style="--c:#c98a4b"><img class="bimg" src="img/cafe-5.jpg" alt="" loading="lazy"><div class="pack"></div><h3>Blend Aurora</h3><p>Nossa assinatura: doce, encorpado e equilibrado em qualquer preparo.</p><div class="row"><b>R$ 38</b><span class="mono">250 g</span></div></article>
   </div>
 </div></section>
 
-<section class="visit" id="visita"><div class="iris" id="iris"></div><div class="wrap">
+<section class="visit" id="visita"><img class="secbg" src="img/cafe-4.jpg" alt="" loading="lazy"><div class="secbg__ov" style="background:linear-gradient(90deg,rgba(15,8,4,.92),rgba(15,8,4,.55))"></div><div class="iris" id="iris"></div><div class="wrap">
   <p class="label mono" data-r>05 — Visite a Aurora</p>
   <h2>Seu lugar na <em>mesa</em> está guardado.</h2>
   <div class="hours"><div><b>Seg a sex</b>7h30 – 19h</div><div><b>Sáb e dom</b>8h – 20h</div><div><b>Endereço</b>Rua Exemplo, 77 — Sua Cidade/UF</div></div>
@@ -363,7 +375,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     ['Affogato', 'Uma bola de sorvete de creme afogada em espresso quente. O contraste perfeito.', '120 ml', '—', '18 g', 'R$ 20', 'Sobremesa'],
   ];
   const prev = $('#prev'), items = $$('.mi');
-  const show = i => { const m = M[i]; prev.innerHTML = '<div class="swap" style="display:flex;flex-direction:column;flex:1"><div class="k mono">' + m[6] + '</div><h4>' + m[0] + '</h4><p>' + m[1] + '</p><div class="spec"><div><small>Volume</small><b>' + m[2] + '</b></div><div><small>Temp.</small><b>' + m[3] + '</b></div><div><small>Dose</small><b>' + m[4] + '</b></div></div><div class="pr">' + m[5] + '</div></div>'; };
+  const show = i => { const m = M[i]; prev.innerHTML = '<div class="swap" style="display:flex;flex-direction:column;flex:1"><img class="dimg" src="img/cafe-d' + (i + 1) + '.jpg" alt="' + m[0] + '"><div class="k mono">' + m[6] + '</div><h4>' + m[0] + '</h4><p>' + m[1] + '</p><div class="spec"><div><small>Volume</small><b>' + m[2] + '</b></div><div><small>Temp.</small><b>' + m[3] + '</b></div><div><small>Dose</small><b>' + m[4] + '</b></div></div><div class="pr">' + m[5] + '</div></div>'; };
   const pick = el => { items.forEach(x => x.classList.toggle('on', x === el)); show(+el.dataset.i); coffeeMat.map = texes[el.dataset.kind]; coffeeMat.needsUpdate = true; gsap.to({ v: steamI }, { v: +el.dataset.steam, duration: 0.8, onUpdate() { steamI = this.targets()[0].v; } }); };
   items.forEach(el => { el.addEventListener('pointerenter', () => pick(el)); el.addEventListener('click', () => pick(el)); }); show(0);
 

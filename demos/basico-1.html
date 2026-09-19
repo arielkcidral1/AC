@@ -80,7 +80,7 @@ h2{font:600 clamp(2.2rem,5vw,3.6rem)/1 var(--hf);text-transform:uppercase;letter
 .club__r li b{color:var(--gold);font:600 1.1rem var(--hf)}
 /* team */
 .team{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.bar{background:var(--panel);border:1px solid var(--line);padding:34px;text-align:center}
+.bar{background:var(--panel);border:1px solid var(--line);padding:34px;text-align:center;overflow:hidden}
 .mono{width:96px;height:96px;border-radius:50%;margin:0 auto 18px;border:2px solid var(--gold);display:grid;place-items:center;font:600 2.2rem var(--hf);color:var(--gold);background:var(--panel2)}
 .bar h3{font:600 1.35rem var(--hf);letter-spacing:.14em;text-transform:uppercase}
 .bar .role{color:var(--gold);font:500 .78rem var(--hf);letter-spacing:.24em;text-transform:uppercase}
@@ -187,6 +187,47 @@ footer{padding:34px 0;text-align:center;font:500 .8rem var(--hf);letter-spacing:
  .combos,.team,.rev{grid-template-columns:1fr}.space{grid-template-columns:repeat(2,1fr)}.t1,.t5{grid-column:span 2}.poster{margin:0 auto}
  .menu{gap:20px}.club__l,.club__r,.contact__i{padding:36px 26px}
 }
+
+/* fotos reais */
+.ph{display:block;width:100%;height:auto;aspect-ratio:4/5;object-position:50% 25%;object-fit:cover;filter:saturate(.9) contrast(1.05)}
+.poster{padding:14px}.poster__cap{display:flex;justify-content:space-between;align-items:center;padding:14px 4px 2px}
+.poster__cap h3{margin:0}.poster .est{margin:0}
+
+.jar{height:170px;margin:-26px -26px 18px}.jar img{width:100%;height:100%;object-fit:cover;display:block}
+.prod{overflow:hidden}
+.avatar{width:calc(100% + 68px);height:220px;object-fit:cover;margin:-34px -34px 20px;display:block;border-bottom:2px solid var(--gold)}
+.tile{background-size:cover!important;background-position:center!important}
+.tile::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.65),transparent 55%)}
+.tile span{position:relative;z-index:1}
+.t1{background:url(img/barber-e1.jpg)}.t2{background:url(img/barber-e3.jpg)}.t3{background:url(img/barber-1.jpg)}.t4{background:url(img/barber-e2.jpg)}.t5{background:url(img/barber-4.jpg)}
+
+.work{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.work figure{position:relative;aspect-ratio:3/4;border:1px solid var(--line);overflow:hidden}
+.work img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(.3);transition:transform .6s,filter .4s}
+.work figure:hover img{transform:scale(1.05);filter:none}
+.work figcaption{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.7);padding:5px 10px;font:500 .75rem var(--hf);letter-spacing:.2em;text-transform:uppercase}
+@media(max-width:800px){.work{grid-template-columns:1fr 1fr}}
+
+
+
+/* cortes em cartao: foto + texto + preco */
+.styles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,470px),1fr));gap:22px}
+.cut{position:relative;display:grid;grid-template-columns:44% 1fr;grid-template-rows:1fr auto;background:linear-gradient(160deg,#181410,#0d0a08);border:1px solid rgba(201,162,77,.3);border-radius:12px;overflow:hidden;box-shadow:0 20px 40px -28px rgba(0,0,0,.9);transition:transform .35s,border-color .35s}
+.cut:hover{transform:translateY(-5px);border-color:rgba(201,162,77,.7)}
+.cut__phw{position:relative;min-height:240px}
+.cut__ph{position:absolute;inset:0;clip-path:polygon(0 0,100% 0,84% 100%,0 100%);overflow:hidden}
+.cut__ph img{width:100%;height:100%;object-fit:cover;object-position:60% 35%;display:block;transition:transform .8s}
+.cut:hover .cut__ph img{transform:scale(1.06)}
+.cut__slash{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cut__body{padding:30px 28px 18px 20px;display:flex;flex-direction:column;justify-content:center}
+.cut__body h3{font:600 clamp(1.6rem,2.6vw,2.1rem)/1.05 var(--hf);letter-spacing:.05em;text-transform:uppercase;color:#e6bf72;margin-bottom:12px}
+.cut__body p{font:400 .98rem/1.55 'Inter',system-ui,sans-serif;color:#ece5d6}
+.cut__line{display:block;height:1px;margin-top:20px;background:linear-gradient(90deg,#c9a24d,rgba(201,162,77,0))}
+.cut__foot{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:12px 18px 16px;background:rgba(255,255,255,.02);border-top:1px solid rgba(201,162,77,.1)}
+.cut__ic{width:30px;height:30px;flex:none}
+.cut__tag{flex:1;font:500 .82rem var(--hf);letter-spacing:.16em;text-transform:uppercase;color:#d8d0bf}
+.cut__price{font:600 1.35rem var(--hf);color:#f0d9a8;border:1.5px solid #c9a24d;border-radius:9px;padding:7px 22px;background:rgba(201,162,77,.08);white-space:nowrap}
+@media(max-width:560px){.cut{grid-template-columns:1fr}.cut__phw{min-height:220px}.cut__ph{clip-path:none}.cut__slash{display:none}.cut__body{padding:20px}.cut__foot{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -197,7 +238,7 @@ footer{padding:34px 0;text-align:center;font:500 .8rem var(--hf);letter-spacing:
 <header><div class="wrap">
   <nav><a href="#servicos">Serviços</a><a href="#clube">Clube</a><a href="#equipe">Equipe</a></nav>
   <a class="logo" href="#">NAVALHA<small>barbearia clássica</small></a>
-  <nav><a href="#espaco">Espaço</a><a href="#horarios">Horários</a><a href="#contato">Contato</a></nav>
+  <nav><a href="#espaco">Trabalhos</a><a href="#horarios">Horários</a><a href="#contato">Contato</a></nav>
 </div></header>
 
 <section class="hero"><div class="wrap">
@@ -208,7 +249,7 @@ footer{padding:34px 0;text-align:center;font:500 .8rem var(--hf);letter-spacing:
     <div class="btns"><a class="btn" href="#contato">Agendar horário</a><a class="btn btn--o" href="#servicos">Ver serviços</a></div>
     <div class="hero__facts"><div><b>13</b><span>anos de casa</span></div><div><b>+9.000</b><span>clientes atendidos</span></div><div><b>4,9★</b><span>avaliação no Google</span></div></div>
   </div>
-  <div class="poster"><div class="poster__in"><div class="pole"></div><h3>NAVALHA</h3><p>corte · barba · cuidado</p><div class="est">EST. 2011</div></div></div>
+  <div class="poster"><img class="ph" src="img/barber-2.jpg" alt="Cliente na cadeira de barbeiro" width="800" height="1000"><div class="poster__cap"><h3>NAVALHA</h3><div class="est">EST. 2011</div></div></div>
 </div></section>
 
 <div class="band"><div class="wrap"><span>Corte</span><span>Barba</span><span>Navalha</span><span>Toalha quente</span><span>Cerveja gelada</span></div></div>
@@ -237,7 +278,7 @@ footer{padding:34px 0;text-align:center;font:500 .8rem var(--hf);letter-spacing:
 
 <section class="sec"><div class="wrap">
   <div class="head"><span class="tag">Catálogo</span><h2>Estilos de corte</h2><p>Não sabe o que pedir? Leve uma foto ou escolha um estilo abaixo. O barbeiro adapta ao formato do seu rosto.</p></div>
-  <div class="styles"><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><path d="M30 56C20 24 50 4 76 12c22 6 24 32 16 46-2-14-10-22-24-24-14-2-28 4-38 22z" fill="#1b1510"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Pompadour</h3><p>Volume no topo e laterais baixas. O clássico que nunca sai de moda.</p><div class="row"><span>Rosto oval e quadrado</span><b>R$ 55</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><ellipse cx="36" cy="60" rx="5" ry="14" fill="#5a4636" opacity=".55"/><ellipse cx="84" cy="60" rx="5" ry="14" fill="#5a4636" opacity=".55"/><path d="M34 52c0-22 12-32 28-32s28 10 28 32c-4-10-10-16-28-16S38 42 34 52z" fill="#1b1510"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Low fade</h3><p>Degradê suave nas laterais com topo na tesoura. Versátil e elegante.</p><div class="row"><span>Trabalho e dia a dia</span><b>R$ 50</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><ellipse cx="35" cy="58" rx="5" ry="15" fill="#6a5644" opacity=".5"/><ellipse cx="85" cy="58" rx="5" ry="15" fill="#6a5644" opacity=".5"/><path d="M38 46C36 22 52 8 74 14c14 4 20 18 14 32-6-10-16-16-28-16S44 34 38 46z" fill="#1b1510"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Undercut</h3><p>Laterais raspadas e topo longo penteado para trás. Ousado e moderno.</p><div class="row"><span>Cabelos lisos e ondulados</span><b>R$ 55</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><path d="M32 56C28 30 44 16 64 18c18 2 30 16 26 40-4-10-8-16-16-20-10-2-30 0-42 18z" fill="#2a1d14"/><path d="M50 22c-2 8-2 14-4 20" stroke="#8a6b4a" stroke-width="2" fill="none"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Social clássico</h3><p>Risca lateral bem definida, acabamento na navalha. Formal sem perder a personalidade.</p><div class="row"><span>Ambiente corporativo</span><b>R$ 50</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><path d="M34 54c-2-24 10-34 26-34s28 10 26 34c-4-12-12-18-26-18s-22 6-26 18z" fill="#3a2f26"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Crew cut</h3><p>Curto e prático, com topo levemente mais alto. Sem manutenção.</p><div class="row"><span>Rotina corrida</span><b>R$ 40</b></div></div><div class="sty"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M20 140c0-30 14-42 40-42s40 12 40 42z" fill="#2b231b"/><rect x="50" y="86" width="20" height="18" fill="#c49a75"/><ellipse cx="60" cy="62" rx="26" ry="32" fill="#d9b48f"/><path d="M36 50c0-18 11-26 24-26s24 8 24 26c-6-8-14-10-24-10s-18 2-24 10z" fill="#5a4a3c" opacity=".85"/><ellipse cx="50" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="70" cy="66" rx="2.4" ry="3" fill="#2a1d14"/><path d="M52 82c4 3 12 3 16 0" stroke="#a5754f" stroke-width="2" fill="none" stroke-linecap="round"/></svg><h3>Buzz cut</h3><p>Máquina em um único comprimento. Estilo limpo e direto.</p><div class="row"><span>Calor e praticidade</span><b>R$ 35</b></div></div></div>
+  <div class="styles"><article class="cut"><div class="cut__phw"><div class="cut__ph"><img src="img/cut-1.png" alt="Corte Pompadour" loading="lazy"></div><svg class="cut__slash" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="100" y1="0" x2="84" y2="100" stroke="#c9a24d" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div><div class="cut__body"><h3>Pompadour</h3><p>Volume no topo e laterais baixas. O clássico que nunca sai de moda.</p><i class="cut__line"></i></div><div class="cut__foot"><svg class="cut__ic" viewBox="0 0 32 32" fill="none" stroke="#c9a24d" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="25" r="4"/><circle cx="24" cy="25" r="4"/><path d="M10.6 21.4L24 4M21.4 21.4L8 4"/></svg><span class="cut__tag">Rosto oval e quadrado</span><b class="cut__price">R$ 55</b></div></article><article class="cut"><div class="cut__phw"><div class="cut__ph"><img src="img/cut-2.png" alt="Corte Low Fade" loading="lazy"></div><svg class="cut__slash" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="100" y1="0" x2="84" y2="100" stroke="#c9a24d" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div><div class="cut__body"><h3>Low Fade</h3><p>Degradê suave nas laterais com topo na tesoura. Versátil e elegante.</p><i class="cut__line"></i></div><div class="cut__foot"><svg class="cut__ic" viewBox="0 0 32 32" fill="none" stroke="#c9a24d" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="25" r="4"/><circle cx="24" cy="25" r="4"/><path d="M10.6 21.4L24 4M21.4 21.4L8 4"/></svg><span class="cut__tag">Trabalho e dia a dia</span><b class="cut__price">R$ 50</b></div></article><article class="cut"><div class="cut__phw"><div class="cut__ph"><img src="img/cut-3.png" alt="Corte Undercut" loading="lazy"></div><svg class="cut__slash" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="100" y1="0" x2="84" y2="100" stroke="#c9a24d" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div><div class="cut__body"><h3>Undercut</h3><p>Laterais raspadas e topo longo penteado para trás. Ousado e moderno.</p><i class="cut__line"></i></div><div class="cut__foot"><svg class="cut__ic" viewBox="0 0 32 32" fill="none" stroke="#c9a24d" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="25" r="4"/><circle cx="24" cy="25" r="4"/><path d="M10.6 21.4L24 4M21.4 21.4L8 4"/></svg><span class="cut__tag">Cabelos lisos e ondulados</span><b class="cut__price">R$ 55</b></div></article><article class="cut"><div class="cut__phw"><div class="cut__ph"><img src="img/cut-4.png" alt="Corte Social Clássico" loading="lazy"></div><svg class="cut__slash" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="100" y1="0" x2="84" y2="100" stroke="#c9a24d" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div><div class="cut__body"><h3>Social Clássico</h3><p>Risca lateral bem definida, acabamento na navalha. Formal sem perder a personalidade.</p><i class="cut__line"></i></div><div class="cut__foot"><svg class="cut__ic" viewBox="0 0 32 32" fill="none" stroke="#c9a24d" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="25" r="4"/><circle cx="24" cy="25" r="4"/><path d="M10.6 21.4L24 4M21.4 21.4L8 4"/></svg><span class="cut__tag">Ambiente corporativo</span><b class="cut__price">R$ 50</b></div></article><article class="cut"><div class="cut__phw"><div class="cut__ph"><img src="img/cut-5.png" alt="Corte Crew Cut" loading="lazy"></div><svg class="cut__slash" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="100" y1="0" x2="84" y2="100" stroke="#c9a24d" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div><div class="cut__body"><h3>Crew Cut</h3><p>Curto e prático, com topo levemente mais alto. Sem manutenção.</p><i class="cut__line"></i></div><div class="cut__foot"><svg class="cut__ic" viewBox="0 0 32 32" fill="none" stroke="#c9a24d" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="25" r="4"/><circle cx="24" cy="25" r="4"/><path d="M10.6 21.4L24 4M21.4 21.4L8 4"/></svg><span class="cut__tag">Rotina corrida</span><b class="cut__price">R$ 40</b></div></article><article class="cut"><div class="cut__phw"><div class="cut__ph"><img src="img/cut-6.png" alt="Corte Buzz Cut" loading="lazy"></div><svg class="cut__slash" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="100" y1="0" x2="84" y2="100" stroke="#c9a24d" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div><div class="cut__body"><h3>Buzz Cut</h3><p>Máquina em um único comprimento. Estilo limpo e direto.</p><i class="cut__line"></i></div><div class="cut__foot"><svg class="cut__ic" viewBox="0 0 32 32" fill="none" stroke="#c9a24d" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="25" r="4"/><circle cx="24" cy="25" r="4"/><path d="M10.6 21.4L24 4M21.4 21.4L8 4"/></svg><span class="cut__tag">Calor e praticidade</span><b class="cut__price">R$ 35</b></div></article></div>
 </div></section>
 
 <section class="sec"><div class="wrap">
@@ -276,19 +317,19 @@ footer{padding:34px 0;text-align:center;font:500 .8rem var(--hf);letter-spacing:
 <section class="sec"><div class="wrap">
   <div class="head"><span class="tag">Leve para casa</span><h2>Produtos da casa</h2><p>Os mesmos produtos usados na cadeira, para manter o corte impecável no dia a dia.</p></div>
   <div class="prods">
-    <div class="prod"><div class="jar"><i class="j1"></i></div><h3>Pomada modeladora</h3><p>Fixação forte e acabamento fosco. 80 g.</p><b>R$ 49</b></div>
-    <div class="prod"><div class="jar"><i class="j2"></i></div><h3>Óleo de barba</h3><p>Hidrata, amacia e perfuma com madeira e couro. 30 ml.</p><b>R$ 58</b></div>
-    <div class="prod"><div class="jar"><i class="j3"></i></div><h3>Shampoo 3 em 1</h3><p>Cabelo, barba e corpo, com mentol. 250 ml.</p><b>R$ 39</b></div>
-    <div class="prod"><div class="jar"><i class="j4"></i></div><h3>Kit navalha</h3><p>Navalha, 10 lâminas e estojo de couro.</p><b>R$ 129</b></div>
+    <div class="prod"><div class="jar"><img src="img/barber-5.jpg" alt="Pomada modeladora"></div><h3>Pomada modeladora</h3><p>Fixação forte e acabamento fosco. 80 g.</p><b>R$ 49</b></div>
+    <div class="prod"><div class="jar"><img src="img/barber-oil.jpg" alt="Óleo de barba"></div><h3>Óleo de barba</h3><p>Hidrata, amacia e perfuma com madeira e couro. 30 ml.</p><b>R$ 58</b></div>
+    <div class="prod"><div class="jar"><img src="img/barber-shampoo.jpg" alt="Shampoo"></div><h3>Shampoo 3 em 1</h3><p>Cabelo, barba e corpo, com mentol. 250 ml.</p><b>R$ 39</b></div>
+    <div class="prod"><div class="jar"><img src="img/barber-4.jpg" alt="Kit navalha e tesoura"></div><h3>Kit navalha</h3><p>Navalha, 10 lâminas e estojo de couro.</p><b>R$ 129</b></div>
   </div>
 </div></section>
 
 <section class="sec" id="equipe"><div class="wrap">
   <div class="head"><span class="tag">Quem cuida de você</span><h2>Os barbeiros</h2></div>
   <div class="team">
-    <div class="bar"><div class="mono">R</div><h3>Rogério</h3><div class="role">Mestre barbeiro · 18 anos</div><p>"Barba bem-feita é questão de paciência e navalha afiada."</p></div>
-    <div class="bar"><div class="mono">D</div><h3>Diego</h3><div class="role">Degradê &amp; freestyle · 9 anos</div><p>"Cada cabeça tem um desenho. O meu trabalho é encontrá-lo."</p></div>
-    <div class="bar"><div class="mono">T</div><h3>Thiago</h3><div class="role">Corte clássico · 12 anos</div><p>"O corte social nunca sai de moda — só precisa ser bem feito."</p></div>
+    <div class="bar"><img class="avatar" src="img/barber-t1.jpg" alt="Barbeiro" loading="lazy"><h3>Rogério</h3><div class="role">Mestre barbeiro · 18 anos</div><p>"Barba bem-feita é questão de paciência e navalha afiada."</p></div>
+    <div class="bar"><img class="avatar" src="img/barber-t2.jpg" alt="Barbeiro" loading="lazy"><h3>Diego</h3><div class="role">Degradê &amp; freestyle · 9 anos</div><p>"Cada cabeça tem um desenho. O meu trabalho é encontrá-lo."</p></div>
+    <div class="bar"><img class="avatar" src="img/barber-t3.jpg" alt="Barbeiro" loading="lazy"><h3>Thiago</h3><div class="role">Corte clássico · 12 anos</div><p>"O corte social nunca sai de moda — só precisa ser bem feito."</p></div>
   </div>
 </div></section>
 
@@ -304,14 +345,12 @@ footer{padding:34px 0;text-align:center;font:500 .8rem var(--hf);letter-spacing:
 </div></section>
 
 <section class="sec" id="espaco"><div class="wrap">
-  <div class="head"><span class="tag">Ambiente</span><h2>O espaço</h2><p>Piso xadrez, couro, madeira e boa música. Um lugar para ficar um pouco mais do que o corte pede.</p></div>
-  <div class="space">
-    <div class="tile t1"><span>Piso xadrez original</span></div>
-    <div class="tile t2"><span>Parede de tijolos</span></div>
-    <div class="tile t3"><span>Balcão de madeira</span></div>
-    <div class="tile t4"><span>Cadeiras de couro</span></div>
-    <div class="tile t5"><span>Espelhos e navalhas</span></div>
-    <div class="tile t6">OPEN</div>
+  <div class="head"><span class="tag">Portfólio</span><h2>Nosso trabalho</h2><p>Cortes, barbas e acabamentos que saíram da nossa cadeira. Cada cabeça, um desenho.</p></div>
+  <div class="work">
+    <figure><img src="img/barber-2.jpg" alt="Corte na tesoura" loading="lazy"><figcaption>Corte na tesoura</figcaption></figure>
+    <figure><img src="img/barber-3.jpg" alt="Barba na navalha" loading="lazy"><figcaption>Barba na navalha</figcaption></figure>
+    <figure><img src="img/barber-c4.jpg" alt="Barba longa modelada" loading="lazy"><figcaption>Barba modelada</figcaption></figure>
+    <figure><img src="img/barber-c5.jpg" alt="Corte social" loading="lazy"><figcaption>Corte social</figcaption></figure>
   </div>
 </div></section>
 

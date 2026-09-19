@@ -6,11 +6,9 @@ gsap.registerPlugin(ScrollTrigger);
    ✏️  EDITE AQUI: seus preços, contato e textos
    ===================================================== */
 const CONFIG = {
-  whatsapp: '5500000000000',            // DDI + DDD + número, só dígitos
-  pixDiscount: 0,                       // 0 = sem desconto (esconde o seletor). Ex.: 0.10 = 10% à vista
-  installments: 6,
+  whatsapp: '5547999845075',            // DDI + DDD + número, só dígitos
   // Os 3 planos têm o MESMO conteúdo: muda apenas o nível visual.
-  common: ['Site de até 5 seções', 'Responsivo (celular e computador)', 'Botão de WhatsApp e formulário', 'SEO básico + HTTPS', 'Domínio e publicação inclusos', 'Entrega em até 7 dias'],
+  common: ['Site de até 5 seções', 'Responsivo (celular e computador)', 'Botão de WhatsApp e formulário', 'Entrega em até 10 dias úteis'],
   plans: [
     {
       name: 'Básico', title: 'Visual Essencial',
@@ -36,11 +34,10 @@ const CONFIG = {
   ],
   addons: [
     ['Manutenção mensal', 'R$ 79/mês'],
-    ['Identidade visual / logo', 'R$ 150'],
-    ['Redação dos textos (copy)', 'R$ 120'],
     ['Página extra', 'R$ 80'],
-    ['SEO avançado', 'R$ 200'],
-    ['Hospedagem (a preço de custo)', 'consulte'],
+    ['Hospedagem', 'taxa adicional', 'valor varia dependendo do site'],
+    ['Domínio personalizado', 'taxa adicional', 'valor varia dependendo do site'],
+    ['Banco de dados', 'taxa adicional', 'valor varia dependendo do site'],
   ],
 };
 /* ===================================================== */
@@ -101,40 +98,89 @@ float snoise(vec3 v){
 }`;
 
 const uniforms = {
-  uTime: { value: 0 }, uDisp: { value: 0.35 }, uMix: { value: 0 },
+  uTime: { value: 0 }, uDisp: { value: 0 }, uMix: { value: 0 },
   uMouse: { value: new THREE.Vector2() },
   uA: { value: new THREE.Color(0x4cc9ff) }, uB: { value: new THREE.Color(0x2f5bff) },
 };
-const blobMat = new THREE.ShaderMaterial({
-  uniforms,
-  vertexShader: `
-    uniform float uTime,uDisp; uniform vec2 uMouse;
-    varying vec3 vN; varying vec3 vP; varying float vD;
-    ${noise}
-    void main(){
-      float n=snoise(normal*1.4+vec3(uTime*.35,uTime*.2,uMouse.x*.6));
-      float d=n*uDisp;
-      vec3 p=position+normal*d;
-      vD=d; vN=normalize(normalMatrix*normal); vP=(modelViewMatrix*vec4(p,1.)).xyz;
-      gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);
-    }`,
-  fragmentShader: `
-    uniform float uMix,uTime; uniform vec3 uA,uB;
-    varying vec3 vN; varying vec3 vP; varying float vD;
-    void main(){
-      vec3 V=normalize(-vP);
-      float f=pow(1.-max(dot(normalize(vN),V),0.),2.2);
-      vec3 lime=uA; vec3 vio=uB;
-      vec3 a=mix(vio,lime,uMix);
-      vec3 b=mix(lime,vio,uMix);
-      vec3 col=mix(vec3(.03,.03,.06),a,smoothstep(-.3,.35,vD)*.55);
-      col+=b*f*1.4;
-      col+=.08*sin(vD*30.+uTime);
-      gl_FragColor=vec4(col,1.);
-    }`,
-});
-const blobGeo = new THREE.IcosahedronGeometry(1.7, 48);
-const blob = new THREE.Mesh(blobGeo, blobMat);
+// enxame de blocos: começa como uma esfera que oscila, se desconstrói ao rolar e vira uma cobrinha que desce pela página
+const CUBES = 2800;
+const cubeMat = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.8, roughness: 0.28, emissive: 0x0b2c40, emissiveIntensity: 0.9 });
+const swarm = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), cubeMat, CUBES);
+swarm.frustumCulled = false;
+scene.add(swarm);
+const cdat = [], col = new THREE.Color();
+for (let i = 0; i < CUBES; i++) {
+  // ponto na casca da esfera (espiral de Fibonacci)
+  const y = 1 - 2 * (i + 0.5) / CUBES, rr = Math.sqrt(1 - y * y), th = Math.PI * (1 + Math.sqrt(5)) * i, shell = 0.82 + Math.random() * 0.22;
+  const dir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+  cdat.push({
+    sx: Math.cos(th) * rr * shell, sy: y * shell, sz: Math.sin(th) * rr * shell,
+    u: Math.pow(Math.random(), 1.15), o: dir.clone().multiplyScalar(Math.pow(Math.random(), 0.6)), dir,
+    s: 0.09 + Math.random() * 0.13, ph: Math.random() * 6.28, sp: (Math.random() - 0.5) * 3, ax: Math.random() * 3, ay: Math.random() * 3,
+  });
+  col.setHSL(0.55 + Math.random() * 0.06, 0.2 + Math.random() * 0.4, 0.62 + Math.random() * 0.33);
+  swarm.setColorAt(i, col);
+}
+const blob = new THREE.Object3D();
+scene.add(new THREE.AmbientLight(0x8fb0e0, 1.8));
+const keyLight = new THREE.DirectionalLight(0xeaf7ff, 3.8); keyLight.position.set(3, 4, 5); scene.add(keyLight);
+const coreLight = new THREE.PointLight(0x4cc9ff, 8, 12); scene.add(coreLight);
+const dummy = new THREE.Object3D();
+const SNAKE_LEN = 7;
+let turnS = 0, leanS = 0, headX = -1.6, headY = -0.3;
+const clamp01 = x => Math.min(1, Math.max(0, x));
+const smooth = x => x * x * (3 - 2 * x);
+function updateSwarm(t) {
+  const m = innerWidth < 800, vh = innerHeight;
+  // 0 = esfera inteira; 1 = tudo virou cobra
+  const k = clamp01((scrollY - 0.06 * vh) / (0.8 * vh));
+  // cabeça da cobra desce conforme a página desce e serpenteia para os lados
+  const edge = 1 - clamp01((scrollY - 1.0 * vh) / (1.6 * vh)); // na transição da bola, começa mais encostada na lateral esquerda e vai soltando
+  const halfW = 8 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.aspect, A = Math.max(0.7, halfW * 0.45); // alcance lateral: mais perto do meio, longe das bordas
+  // ciclo em degraus: desce na diagonal até a borda, desce pouquíssimo na vertical parada na borda, e recomeça na diagonal para o outro lado
+  const n = Math.max(0, scroll.p * 10 / Math.PI), seg = Math.floor(n), f = n - seg, dir = seg % 2 === 0 ? 1 : -1;
+  // nunca anda só na vertical: mesmo perto da borda o movimento continua com um pouco de deslocamento lateral, freando devagar
+  const xp = 0.88 * smooth(clamp01(f / 0.9)) + 0.12 * f;
+  const D = m ? 0.6 : 0.85;                          // quanto desce em cada trecho
+  const drop = 0.9 * smooth(clamp01(f / 0.9)) + 0.1 * f; // quase toda a descida acontece na diagonal
+  const hx0 = dir * A * (2 * xp - 1) - edge * 0.1 * A + Math.sin(t * 0.25) * 0.25;
+  const hxT = hx0 < 0 ? hx0 * 0.65 : hx0; // o lado esquerdo tem alcance menor
+  const hyT = (m ? -0.2 : -0.3) - D * (seg + drop) + Math.sin(t * 0.8) * 0.2;
+  headX += (hxT - headX) * 0.045; headY += (hyT - headY) * 0.045;
+  // inclinação do corpo: a ponta de trás (cima) balança para o lado oposto ao do movimento e já vira um pouco antes da cabeça inverter (efeito de chicote, bem suave)
+  turnS += (-dir * Math.sin(Math.PI * clamp01(f / 0.85 + 0.08)) - turnS) * 0.07;
+  leanS = turnS * (m ? 0.2 : 0.35); const lean = leanS;
+  const deep = 1 + 0.8 * clamp01(scrollY / (4 * vh)); // quanto mais desce a página, mais inclinadas ficam as pontas
+  const ry = t * 0.2 + mouse.x * 0.4, cr = Math.cos(ry), sr = Math.sin(ry);
+  const sc = hero.scale.x * (1 - 0.45 * clamp01((scroll.p - 0.75) / 0.15)), cx = hero.position.x + clamp01((scroll.p - 0.75) / 0.15) * (m ? 0.5 : 2.6), cy = hero.position.y, cz = hero.position.z;
+  coreLight.position.set(cx, cy, cz + 1.2);
+  for (let i = 0; i < CUBES; i++) {
+    const c = cdat[i];
+    // --- esfera oscilando levemente
+    const pulse = 1.65 * (1 + 0.06 * Math.sin(t * 1.3 + c.ph) + 0.035 * Math.sin(t * 0.7 + c.ph * 3) + 0.03 * Math.sin(t * 0.9 + c.sy * 3));
+    const px = c.sx * pulse, py = c.sy * pulse, pz = c.sz * pulse;
+    const wx = px * cr + pz * sr + Math.sin(t * 1.8 + c.ph) * 0.05, wz = -px * sr + pz * cr + Math.cos(t * 1.5 + c.ph) * 0.05;
+    const sphX = cx + wx * sc, sphY = cy + (py + Math.sin(t * 1.6 + c.ph * 2) * 0.05) * sc, sphZ = cz + wz * sc;
+    // --- cobrinha
+    const tau = c.u * SNAKE_LEN, amp = 0.25 + 0.3 * Math.sqrt(c.u);
+    const r = (1 - c.u * 0.7) * 0.75;
+    const bx = headX - lean * 0.9 * deep * Math.pow(1 - c.u, 3) + tau * lean * (0.6 + 0.4 * deep) + Math.sin(tau * 0.95 - t * 2.2) * amp + c.o.x * r + Math.sin(t * 1.6 + c.ph) * 0.06;
+    const by = headY + tau * (0.95 - Math.min(Math.abs(lean), 0.9) * 0.25) + c.o.y * r + Math.cos(t * 1.3 + c.ph) * 0.06;
+    const bz = 0 + Math.sin(tau * 0.7 + t * 1.2) * 0.25 + c.o.z * r; // profundidade constante: a cobra aponta para baixo, sem virar para o usuário nem para o fundo
+    // --- transição: cada bloco se solta em um momento (cabeça primeiro) e "explode" um pouco no caminho
+    const kb = clamp01(k * 1.75 - c.u * 0.75), e = smooth(kb), burst = Math.sin(kb * Math.PI) * 1.7;
+    // --- no final da página os blocos voltam a formar a esfera
+    const ek = clamp01((scroll.p - 0.86) / 0.1 * 1.7 - (1 - c.u) * 0.7), ee = smooth(ek), eb = Math.sin(ek * Math.PI) * 1.2;
+    const fx = sphX + (bx - sphX) * e + c.dir.x * burst, fy = sphY + (by - sphY) * e + c.dir.y * burst, fz = sphZ + (bz - sphZ) * e + c.dir.z * burst;
+    dummy.position.set(fx + (sphX - fx) * ee + c.dir.x * eb, fy + (sphY - fy) * ee + c.dir.y * eb, fz + (sphZ - fz) * ee + c.dir.z * eb);
+    dummy.rotation.set(c.ax + t * c.sp * 0.5, c.ay + t * c.sp * 0.4, 0);
+    const snakeS = c.s * (1.15 - c.u * 0.4), sphS = c.s * sc;
+    dummy.scale.setScalar((sphS + (snakeS - sphS) * e * (1 - ee)) * (1 + Math.sin(t * 2 + c.ph) * 0.15));
+    dummy.updateMatrix();
+    swarm.setMatrixAt(i, dummy.matrix);
+  }
+  swarm.instanceMatrix.needsUpdate = true;
+}
 const wire = new THREE.Mesh(
   new THREE.IcosahedronGeometry(2.25, 2),
   new THREE.MeshBasicMaterial({ color: 0x4cc9ff, wireframe: true, transparent: true, opacity: 0.16 })
@@ -228,9 +274,10 @@ renderer.setAnimationLoop(() => {
   mouse.x += (mouse.tx - mouse.x) * 0.05;
   mouse.y += (mouse.ty - mouse.y) * 0.05;
   uniforms.uMouse.value.set(mouse.x, mouse.y);
-  uniforms.uDisp.value = 0.3 + Math.min(Math.abs(scroll.v) * 0.04, 0.5);
+  updateSwarm(t);
+  uniforms.uDisp.value = 0;
 
-  blob.rotation.y = t * 0.12 + scroll.p * 8;
+  blob.rotation.y = t * 0.1 + scroll.p * 3;
   blob.rotation.x = t * 0.07 + mouse.y * 0.3;
   wire.rotation.y = -t * 0.08 - scroll.p * 4;
   wire.rotation.z = t * 0.05;
@@ -299,7 +346,6 @@ if (!isTouch) {
 }
 
 /* ---------- pricing cards ---------- */
-let mode = 'pix';
 const cardsEl = $('#cards');
 function renderCards() {
   cardsEl.innerHTML = CONFIG.plans.map((p, i) => `
@@ -312,22 +358,31 @@ function renderCards() {
       <p class="card__sub" data-sub="${i}"></p>
       <ul><li class="hl">${p.visual}</li>${CONFIG.common.map(f => `<li>${f}</li>`).join('')}</ul>
       <a class="btn" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent('Olá! Tenho interesse no plano ' + p.title)}"><span>Quero este</span><i>↗</i></a>
-      <div class="card__demos"><span class="mono">Exemplos deste nível</span>${p.demos.map(([n, u]) => `<a class="demo" href="${u}" target="_blank" rel="noopener"><b>${n}</b><i>↗</i></a>`).join('')}</div>
+      <div class="card__demos"><span class="mono">Exemplos deste nível</span>${p.demos.map(([n, u]) => `<a class="demo" href="${u}"><b>${n}</b><i>↗</i></a>`).join('')}</div>
     </article>`).join('');
-  $('#addons').innerHTML = CONFIG.addons.map(([a, b]) => `<li class="rv"><span>${a}</span><span>${b}</span></li>`).join('');
+  const slug = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  $('#showcase').innerHTML = CONFIG.plans.flatMap(p => p.demos.map(([n, u]) => ({ n, u, plan: p.name, title: p.title }))).map(d => `
+    <a class="demo-card demo-card--${slug(d.plan)} rv" href="${d.u}">
+      <div class="demo-card__bar"><i></i><i></i><i></i></div>
+      <div class="demo-card__shot">
+        <img src="${d.u.replace('demos/', 'demos/thumb/').replace('.html', '.jpg')}" alt="Prévia do site ${d.n}" loading="lazy">
+        <span class="demo-card__plan"><small>Plano</small>${d.plan}</span>
+        <span class="demo-card__open mono">Abrir exemplo (${d.plan}) ↗</span>
+      </div>
+      <div class="demo-card__info"><b>${d.n}</b><span class="demo-card__level mono">${d.title}</span></div>
+    </a>`).join('');
+  $('#addons').innerHTML = CONFIG.addons.map(([a, b, n]) => `<li class="rv"><span>${a}</span><span>${b}${n ? `<small>(${n})</small>` : ""}</span></li>`).join('');
   updatePrices(true);
   initTilt();
 }
 const shown = {};
 function updatePrices(first) {
   CONFIG.plans.forEach((p, i) => {
-    const target = mode === 'pix' ? Math.round(p.price * (1 - CONFIG.pixDiscount)) : p.price;
+    const target = p.price;
     const el = $(`[data-price="${i}"]`);
     const o = { v: shown[i] ?? 0 };
     gsap.to(o, { v: target, duration: first ? 0.01 : 0.9, ease: 'power3.out', onUpdate: () => { el.textContent = brl(Math.round(o.v)); shown[i] = o.v; } });
-    $(`[data-sub="${i}"]`).textContent = (mode === 'pix' && CONFIG.pixDiscount > 0)
-      ? `Pix/à vista · de ${brl(p.price)}`
-      : `ou ${CONFIG.installments}x de ${brl(Math.ceil(p.price / CONFIG.installments))}`;
+    $(`[data-sub="${i}"]`).textContent = '';
   });
 }
 function initTilt() {
@@ -344,19 +399,7 @@ function initTilt() {
     c.addEventListener('pointerleave', () => { rx(0); ry(0); });
   });
 }
-if (!CONFIG.pixDiscount) $('#toggle').hidden = true;
-const toggle = $('#toggle'), tBtns = $$('button', toggle), tKnob = $('i', toggle);
-function moveKnob() {
-  const b = $('button.on', toggle);
-  tKnob.style.left = b.offsetLeft + 'px'; tKnob.style.width = b.offsetWidth + 'px';
-}
-tBtns.forEach(b => b.addEventListener('click', () => {
-  tBtns.forEach(x => x.classList.toggle('on', x === b));
-  mode = b.dataset.mode; moveKnob(); updatePrices();
-}));
 renderCards();
-document.fonts.ready.then(moveKnob);
-addEventListener('resize', moveKnob);
 
 /* ---------- text splitting ---------- */
 $$('.hero__title .split').forEach(s => {
@@ -403,9 +446,12 @@ function setupScroll() {
   ScrollTrigger.matchMedia({
     '(min-width: 801px)': () => {
       const track = $('#processTrack');
-      const dist = () => track.scrollWidth - innerWidth + 120;
-      gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: '.process', start: 'top top', end: () => '+=' + dist(), pin: '.process__pin', scrub: 1, invalidateOnRefresh: true } });
-      gsap.utils.toArray('.step').forEach((s, i) => gsap.from(s, { rotateY: 25, y: 60, opacity: 0.3, scrollTrigger: { trigger: '.process', start: 'top top', end: () => '+=' + dist(), scrub: true }, ease: 'none' }));
+      /* sem pin (a página não para): começa com 3 cards + metade do 4º, opacos, e o scroll normal puxa tudo para o lugar */
+      const endX = () => Math.max(0, (innerWidth - track.scrollWidth) / 2);
+      const startX = () => { const cs = getComputedStyle(track), w = $('.step').offsetWidth, g = parseFloat(cs.columnGap || 32); return innerWidth - w / 2 - 3 * (w + g) - parseFloat(cs.paddingLeft); };
+      const st = { trigger: '.process', start: 'top 85%', end: 'top 10%', scrub: 0.8, invalidateOnRefresh: true };
+      gsap.fromTo(track, { x: startX }, { x: endX, ease: 'none', scrollTrigger: st });
+      gsap.fromTo('.step', { opacity: 0.35 }, { opacity: 1, ease: 'none', scrollTrigger: st });
     },
     '(max-width: 800px)': () => {
       gsap.from('.step', { y: 60, opacity: 0, stagger: 0.15, scrollTrigger: { trigger: '.process__track', start: 'top 85%' } });
@@ -473,12 +519,31 @@ if (!isTouch && !reduce) {
 
 /* ---------- loader ---------- */
 const state = { n: 0 };
+const LOAD_MSGS = ['iniciando', 'desenhando o layout', 'compilando pixels', 'afinando as animações', 'polindo os detalhes', 'pronto'];
+const loadStart = performance.now();
+const loadNum = $('#loaderNum'), loadBar = $('#loaderBar'), loadMsg = $('#loaderMsg'), loadClock = $('#loaderClock');
+const loadTick = gsap.ticker.add(() => {
+  if (!loadClock) return;
+  const s = (performance.now() - loadStart) / 1000;
+  loadClock.textContent = [Math.floor(s / 60), Math.floor(s % 60), Math.floor((s % 1) * 100)].map(v => String(v).padStart(2, '0')).join(':');
+});
+const finishLoader = () => { gsap.ticker.remove(loadTick); $('#loader')?.remove(); };
 gsap.to(state, {
-  n: 100, duration: reduce ? 0.2 : 2.1, ease: 'power2.inOut',
-  onUpdate: () => { $('#loaderNum').textContent = Math.round(state.n); $('#loaderBar').style.width = state.n + '%'; },
-  onComplete: () => gsap.to('#loader', { yPercent: -100, duration: 1, ease: 'expo.inOut', onStart: () => { try { intro(); } catch (e) { console.error(e); document.body.classList.remove('loading'); } }, onComplete: () => $('#loader').remove() }),
+  n: 100, duration: reduce ? 0.2 : 2.6, ease: 'power2.inOut',
+  onUpdate: () => {
+    loadNum.textContent = Math.round(state.n);
+    loadBar.style.strokeDashoffset = 100 - state.n;
+    loadMsg.textContent = LOAD_MSGS[Math.min(LOAD_MSGS.length - 1, Math.floor(state.n / (100 / LOAD_MSGS.length)))];
+  },
+  onComplete: () => {
+    const start = () => { try { intro(); } catch (e) { console.error(e); document.body.classList.remove('loading'); } };
+    gsap.timeline({ onComplete: finishLoader })
+      .to('#loaderCore, .loader__corner, .loader__ticks, .loader__grid', { opacity: 0, scale: 1.06, duration: 0.45, ease: 'power2.in' })
+      .to('.loader__half--t', { yPercent: -101, duration: 1.1, ease: 'expo.inOut', onStart: start }, '>-0.05')
+      .to('.loader__half--b', { yPercent: 101, duration: 1.1, ease: 'expo.inOut' }, '<');
+  },
 });
 // rede de segurança: nunca deixa o preloader preso
-setTimeout(() => { const l = $('#loader'); if (l) { document.body.classList.remove('loading'); l.remove(); } }, 7000);
+setTimeout(() => { if ($('#loader')) { document.body.classList.remove('loading'); finishLoader(); } }, 7000);
 
 })();

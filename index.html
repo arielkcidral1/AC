@@ -13,10 +13,26 @@
 <body>
 
 <!-- preloader -->
-<div class="loader" id="loader">
-  <div class="loader__count"><span id="loaderNum">0</span><i>%</i></div>
-  <div class="loader__bar"><b id="loaderBar"></b></div>
-  <p class="mono">compilando pixels…</p>
+<div class="loader" id="loader" role="status" aria-label="Carregando">
+  <div class="loader__half loader__half--t"></div>
+  <div class="loader__half loader__half--b"></div>
+  <div class="loader__grid" aria-hidden="true"></div>
+  <span class="loader__corner loader__corner--tl mono">AC® — portfólio</span>
+  <span class="loader__corner loader__corner--tr mono" id="loaderClock">00:00:00</span>
+  <div class="loader__core" id="loaderCore">
+    <div class="loader__ring">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="r-track" cx="100" cy="100" r="92"/>
+        <circle class="r-fill" id="loaderBar" cx="100" cy="100" r="92" pathLength="100"/>
+        <g class="r-orbit"><circle cx="100" cy="8" r="4"/></g>
+        <g class="r-orbit r-orbit--2"><circle cx="100" cy="24" r="2.5"/></g>
+      </svg>
+      <div class="loader__logo">AC<sup>®</sup></div>
+    </div>
+    <div class="loader__count"><span id="loaderNum">0</span><i>%</i></div>
+    <p class="loader__msg mono" id="loaderMsg">iniciando</p>
+  </div>
+  <div class="loader__ticks mono" aria-hidden="true"><span>design</span><span>código</span><span>resultado</span></div>
 </div>
 
 <div class="cursor" id="cursor"><span></span></div>
@@ -31,6 +47,7 @@
   <nav class="mono">
     <a href="#processo">Processo</a>
     <a href="#precos">Preços</a>
+    <a href="#exemplos">Exemplos</a>
     <a href="#faq">Dúvidas</a>
   </nav>
   <a href="#contato" class="pill" data-magnet>Orçamento ↗</a>
@@ -84,7 +101,7 @@
       <article class="step"><span class="step__n">01</span><h3>Conversa</h3><p>Entendo seu negócio, seu público e o que o site precisa fazer por você. Sem juridiquês, sem enrolação.</p></article>
       <article class="step"><span class="step__n">02</span><h3>Design</h3><p>Desenho a identidade visual e o layout. Você aprova antes de eu escrever uma linha de código.</p></article>
       <article class="step"><span class="step__n">03</span><h3>Código</h3><p>Desenvolvimento rápido, responsivo e otimizado para Google. Acompanhe tudo em um link de testes.</p></article>
-      <article class="step"><span class="step__n">04</span><h3>No ar</h3><p>Publico, configuro domínio e e-mail, e te ensino a mexer no que precisar. Suporte incluso.</p></article>
+      <article class="step"><span class="step__n">04</span><h3>Entrega</h3><p>Você revisa tudo, pede os últimos ajustes e recebe o site pronto. Prazo de 10 dias úteis, com suporte depois da entrega.</p></article>
     </div>
   </div>
 </section>
@@ -96,14 +113,16 @@
   <div class="pricing__head">
     <p class="mono label">/03 — Tabela de preços</p>
     <h2>Preço claro.<br><span class="grad">Sem letra miúda.</span></h2>
-    <div class="toggle" id="toggle" role="group" aria-label="Forma de pagamento">
-      <button class="on" data-mode="pix">À vista <small>−10%</small></button>
-      <button data-mode="card">Parcelado 6x</button>
-      <i></i>
-    </div>
   </div>
 
   <div class="cards" id="cards"></div>
+
+  <div class="showcase" id="exemplos">
+    <p class="mono label">Veja na prática</p>
+    <h3 class="showcase__title">Sites de exemplo.<br><span class="grad">Clique e navegue.</span></h3>
+    <p class="showcase__sub">Seis sites completos, um para cada segmento, mostrando o que cada plano entrega. Abrem na mesma guia e são totalmente navegáveis.</p>
+    <div class="showcase__grid" id="showcase"></div>
+  </div>
 
   <div class="addons">
     <p class="mono label">Extras — combine com qualquer plano</p>
@@ -116,10 +135,10 @@
 <section class="faq" id="faq">
   <p class="mono label">/04 — Dúvidas comuns</p>
   <div class="faq__list">
-    <details><summary>Quanto tempo leva para ficar pronto?<i></i></summary><p>Todos os planos são entregues em até 7 dias úteis após a aprovação do conteúdo e do design.</p></details>
-    <details><summary>O que está incluso no valor?<i></i></summary><p>Design, desenvolvimento, versão para celular, configuração de domínio, SEO básico e certificado de segurança (HTTPS). Hospedagem é cobrada à parte, a preço de custo.</p></details>
+    <details><summary>Quanto tempo leva para ficar pronto?<i></i></summary><p>Todos os planos são entregues em até 10 dias úteis após a aprovação do conteúdo e do design.</p></details>
+    <details><summary>O que está incluso no valor?<i></i></summary><p>Design, desenvolvimento e versão para celular. A hospedagem é oferecida por mim, mediante uma taxa adicional.</p></details>
     <details><summary>Consigo editar o site depois?<i></i></summary><p>Sim. Faço as alterações pra você no plano de manutenção mensal, ou você pode contratar ajustes avulsos quando precisar.</p></details>
-    <details><summary>Como funciona o pagamento?<i></i></summary><p>50% para iniciar e 50% na entrega. Também parcelo no cartão em até 6x.</p></details>
+    <details><summary>Como funciona o pagamento?<i></i></summary><p>50% para iniciar e 50% na entrega.</p></details>
     <details><summary>E se eu não gostar do resultado?<i></i></summary><p>Você aprova o design antes do desenvolvimento e tem rodadas de ajuste inclusas. Ninguém sai no prejuízo.</p></details>
   </div>
 </section>
@@ -131,7 +150,7 @@
   <a href="#" class="btn btn--big" id="ctaBtn" data-magnet><span>Chamar no WhatsApp</span><i>↗</i></a>
   <footer class="foot mono">
     <span>© <span id="year"></span> AC — todos os direitos reservados</span>
-    <span>Feito à mão, com café e WebGL.</span>
+    <span>Feito à mão.</span>
   </footer>
 </section>
 

@@ -130,6 +130,11 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:26px 0;color:var(--mut);font-size:.88rem;background:rgba(6,10,18,.85)}footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .js [data-r]{opacity:0}
 @media(prefers-reduced-motion:reduce){.js [data-r]{opacity:1}.js .wm>span{transform:none}}
+
+/* fotos reais */
+.pcard .art{background:#0b1224!important}
+.pcard .art img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.95) contrast(1.05)}
+.pcard .art::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--a),transparent 55%);opacity:.35;mix-blend-mode:multiply}
 </style>
 </head>
 <body class="loading">
@@ -222,11 +227,11 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:26px
 <section class="pgal" id="projetos"><div class="ppin" id="ppin">
   <div class="head"><div><p class="label mono">04 — Projetos selecionados</p><h2>Obras que <em>falam</em> por nós.</h2></div><div class="pcount"><span id="pc">01</span><small> / 05</small></div></div>
   <div class="ptrack" id="ptrack">
-    <article class="pcard" style="--a:#1b3a5f;--b:#67e8f9"><div class="art"><svg viewBox="0 0 120 80"><rect x="6" y="6" width="108" height="68"/><path d="M6 40h50V6M56 40v34M84 6v34h30M84 40v18"/></svg></div><div class="info"><div class="n">01 · 2024</div><h3>Casa Lume</h3><span>Residencial · 420 m²</span></div></article>
-    <article class="pcard" style="--a:#3b2a6a;--b:#a78bfa"><div class="art"><svg viewBox="0 0 120 80"><rect x="6" y="6" width="108" height="68"/><path d="M6 30h70M76 6v68M76 46h38"/></svg></div><div class="info"><div class="n">02 · 2024</div><h3>Loft Aurora</h3><span>Interiores · 96 m²</span></div></article>
-    <article class="pcard" style="--a:#124a4a;--b:#5eead4"><div class="art"><svg viewBox="0 0 120 80"><rect x="6" y="6" width="108" height="68"/><path d="M6 24h108M40 24v50M74 24v50M6 52h34"/></svg></div><div class="info"><div class="n">03 · 2023</div><h3>Clínica Origem</h3><span>Comercial · 210 m²</span></div></article>
-    <article class="pcard" style="--a:#5a2f1a;--b:#fdba74"><div class="art"><svg viewBox="0 0 120 80"><rect x="6" y="6" width="108" height="68"/><path d="M6 44h60V6M66 44v30M92 6v28h22"/></svg></div><div class="info"><div class="n">04 · 2023</div><h3>Café Vale</h3><span>Comercial · 140 m²</span></div></article>
-    <article class="pcard" style="--a:#1e3a2a;--b:#86efac"><div class="art"><svg viewBox="0 0 120 80"><rect x="6" y="6" width="108" height="68"/><path d="M6 36h44V6M50 36v38M50 56h64M80 6v50"/></svg></div><div class="info"><div class="n">05 · 2022</div><h3>Casa da Serra</h3><span>Residencial · 680 m²</span></div></article>
+    <article class="pcard" style="--a:#1b3a5f;--b:#67e8f9"><div class="art"><img src="img/arch-1.jpg" alt="" loading="lazy"></div><div class="info"><div class="n">01 · 2024</div><h3>Casa Lume</h3><span>Residencial · 420 m²</span></div></article>
+    <article class="pcard" style="--a:#3b2a6a;--b:#a78bfa"><div class="art"><img src="img/arch-3.jpg" alt="" loading="lazy"></div><div class="info"><div class="n">02 · 2024</div><h3>Loft Aurora</h3><span>Interiores · 96 m²</span></div></article>
+    <article class="pcard" style="--a:#124a4a;--b:#5eead4"><div class="art"><img src="img/dent-4.jpg" alt="" loading="lazy"></div><div class="info"><div class="n">03 · 2023</div><h3>Clínica Origem</h3><span>Comercial · 210 m²</span></div></article>
+    <article class="pcard" style="--a:#5a2f1a;--b:#fdba74"><div class="art"><img src="img/cafe-1.jpg" alt="" loading="lazy"></div><div class="info"><div class="n">04 · 2023</div><h3>Café Vale</h3><span>Comercial · 140 m²</span></div></article>
+    <article class="pcard" style="--a:#1e3a2a;--b:#86efac"><div class="art"><img src="img/arch-4.jpg" alt="" loading="lazy"></div><div class="info"><div class="n">05 · 2022</div><h3>Casa da Serra</h3><span>Residencial · 680 m²</span></div></article>
   </div>
   <div class="pprog"><b id="pprog"></b></div>
 </div></section>
@@ -308,7 +313,7 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:26px
     deck: new THREE.MeshStandardMaterial({ map: deckT, roughness: 0.7 }),
     metal: new THREE.MeshStandardMaterial({ color: 0x2a2f38, roughness: 0.4, metalness: 0.6, envMapIntensity: 1 }),
     frame: new THREE.MeshStandardMaterial({ color: 0x14171c, roughness: 0.4, metalness: 0.7 }),
-    glass: new THREE.MeshPhysicalMaterial({ color: 0xbfe6ff, roughness: 0.02, metalness: 0, transparent: true, opacity: 0.2, envMapIntensity: 2.4, side: THREE.DoubleSide, depthWrite: false }),
+    glass: new THREE.MeshPhysicalMaterial({ color: 0xbfe6ff, roughness: 0.02, metalness: 0, transparent: true, opacity: 0.2, envMapIntensity: 2.4, side: THREE.FrontSide, depthWrite: false }),
     win: new THREE.MeshStandardMaterial({ color: 0x0d1118, emissive: 0xffc978, emissiveIntensity: 0, roughness: 0.3 }),
     lamp: new THREE.MeshStandardMaterial({ color: 0xfff3d6, emissive: 0xffc978, emissiveIntensity: 0 }),
     water: new THREE.MeshPhysicalMaterial({ color: 0x2aa6d8, roughness: 0.03, clearcoat: 1, transparent: true, opacity: 0.9, envMapIntensity: 2.6, bumpMap: waterB, bumpScale: 0.5, emissive: 0x0a3d66, emissiveIntensity: 0.3 }),
@@ -319,13 +324,13 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:26px
     solar: new THREE.MeshPhysicalMaterial({ color: 0x14204a, roughness: 0.15, metalness: 0.7, clearcoat: 1, envMapIntensity: 1.6 }),
     sofa: new THREE.MeshStandardMaterial({ color: 0x8a8f96, roughness: 1 }), rug: new THREE.MeshStandardMaterial({ color: 0x3b4a5c, roughness: 1 }), cushion: new THREE.MeshStandardMaterial({ color: 0xd9a05b, roughness: 1 }),
   };
-  const bx = (w, h, d, m, x, y, z) => { const me = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); me.position.set(x, y, z); me.castShadow = m !== M.glass && m !== M.water; me.receiveShadow = true; return me; };
+  const bx = (w, h, d, m, x, y, z) => { const me = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); me.position.set(x, y, z); me.castShadow = m !== M.glass && m !== M.water; me.receiveShadow = true; if (m === M.water) me.renderOrder = 1; if (m === M.glass) me.renderOrder = 2; return me; };
   const cy = (r1, r2, h, m, x, y, z, seg) => { const me = new THREE.Mesh(new THREE.CylinderGeometry(r1, r2, h, seg || 16), m); me.position.set(x, y, z); me.castShadow = true; me.receiveShadow = true; return me; };
 
   const house = new THREE.Group(); scene.add(house);
   /* terreno */
   const soil = cy(6.5, 6.5, 0.36, M.soil, 0, -0.26, 0, 64); const lawn = cy(6.3, 6.3, 0.06, M.grass, 0, -0.05, 0, 64); house.add(soil, lawn);
-  const deck = bx(6, 0.08, 3.4, M.deck, 0, 0.04, 3.4), poolB = bx(3.8, 0.24, 1.7, M.tile, 0, 0.12, 3.55), pool = bx(3.5, 0.02, 1.4, M.water, 0, 0.25, 3.55); house.add(deck, poolB, pool);
+  const deck = bx(6, 0.08, 3.4, M.deck, 0, 0.03, 3.4), poolB = bx(3.8, 0.24, 1.7, M.tile, 0, 0.12, 3.55), pool = bx(3.5, 0.02, 1.4, M.water, 0, 0.25, 3.55); house.add(deck, poolB, pool);
   for (let i = 0; i < 6; i++) house.add(bx(0.9, 0.05, 0.5, M.concrete, -3.2 + Math.sin(i * 1.2) * 0.2, 0.03, 5.5 - i * 0.62 - 0.3));
   /* térreo */
   const L0 = new THREE.Group(); house.add(L0);
@@ -387,19 +392,24 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:26px
   const mouse = { x: 0, y: 0, tx: 0, ty: 0 }; addEventListener('pointermove', e => { mouse.tx = e.clientX / innerWidth * 2 - 1; mouse.ty = -(e.clientY / innerHeight * 2 - 1); });
   const resize = () => { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }; addEventListener('resize', resize); resize();
   const clock = new THREE.Clock();
+  let calm = 0, calmT = 0, exv = 0; /* calm: congela a rotação da casa enquanto se vê o interior; exv: abertura suavizada */
+  Object.assign(sun.shadow.camera, { left: -7, right: 7, top: 7, bottom: -7, near: 1, far: 40 }); sun.shadow.camera.updateProjectionMatrix(); /* sombra fixa: sem "tremida" */
   renderer.setAnimationLoop(() => {
     const t = clock.getElapsedTime(); mouse.x += (mouse.tx - mouse.x) * 0.05; mouse.y += (mouse.ty - mouse.y) * 0.05;
-    house.position.set(st.hx, st.hy, st.hz); house.scale.setScalar(st.hs); house.rotation.y = st.hry + st.spin + t * 0.05 + mouse.x * 0.2;
-    L1.position.y = 1.6 + st.ex * 1.8; L2.position.y = 3.15 + st.ex * 3.6; L0.position.y = 0; trees.forEach(g => g.scale.setScalar(1 - st.ex * 0.2));
+    house.position.set(st.hx, st.hy, st.hz); house.scale.setScalar(st.hs); calm += (calmT - calm) * 0.06; exv += (st.ex - exv) * 0.12;
+    house.rotation.y = st.hry + (st.spin + t * 0.05 + mouse.x * 0.2) * (1 - calm);
+    L1.position.y = 1.6 + exv * 1.8; L2.position.y = 3.15 + exv * 3.6; L0.position.y = 0; trees.forEach(g => g.scale.setScalar(1 - exv * 0.2));
     inner.position.set(house.position.x, house.position.y + 1 * st.hs, house.position.z);
     sun.position.copy(house.position).addScaledVector(sunDir, 16); sun.target.position.copy(house.position); sun.target.updateMatrixWorld();
-    const sb = 7.5 * st.hs + 0.6; Object.assign(sun.shadow.camera, { left: -sb, right: sb, top: sb, bottom: -sb, near: 1, far: 40 }); sun.shadow.camera.updateProjectionMatrix();
     camera.position.set(st.px + mouse.x * 0.3, st.py + mouse.y * 0.2, st.pz); look.set(st.lx, st.ly, st.lz); camera.lookAt(look);
     waterB.offset.x += 0.0006; waterB.offset.y += 0.0004; dust.rotation.y = t * 0.008;
     renderer.render(scene, camera);
   });
   const trig = ['hero', '#estudio', '#luz', '#ex', '#projetos', '#processo', '#servicos'];
-  trig.forEach((s, i) => { if (!i) return; const from = Object.assign({}, ks[i - 1]); if (s === '#projetos') from.ex = 1; gsap.fromTo(st, from, Object.assign({}, ks[i], { ease: 'none', immediateRender: false, scrollTrigger: { trigger: s, start: 'top 85%', end: 'top 15%', scrub: 1.2 } })); });
+  /* 'ex' (abertura da casa) não entra nos tweens de câmera: quem manda é o pin da seção 03, evitando briga entre animações */
+  trig.forEach((s, i) => { if (!i) return; const from = Object.assign({}, ks[i - 1]), to = Object.assign({}, ks[i]); delete from.ex; delete to.ex; gsap.fromTo(st, from, Object.assign(to, { ease: 'none', immediateRender: false, scrollTrigger: { trigger: s, start: 'top 85%', end: 'top 15%', scrub: 1.2 } })); });
+  /* fecha a casa de novo ao entrar em projetos (só age depois do início do trecho, senão a casa nasceria aberta) */
+  ScrollTrigger.create({ trigger: '#projetos', start: 'top 85%', end: 'top 15%', onUpdate: s => { if (s.progress > 0) st.ex = 1 - s.progress; }, onLeaveBack: () => { st.ex = 1; } });
   gsap.fromTo(st, Object.assign({}, ks[6]), { hx: 0, hy: mob ? 0.4 : -0.5, hz: 1.5, hs: mob ? 0.6 : 0.85, hry: 5.2, px: 0, py: 3.6, pz: 8.4, lx: 0, ly: 0.3, lz: 0, ex: 0, ease: 'none', immediateRender: false, scrollTrigger: { trigger: '#contato', start: 'top 85%', end: 'top 15%', scrub: 1.2 } });
 
   /* cursor, magnéticos, inclinação */
@@ -428,7 +438,7 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:26px
 
     /* 2) casa que se abre por pavimentos, em painel fixo */
     const lv = $$('#lv div');
-    ScrollTrigger.create({ trigger: '#ex', start: 'top top', end: () => '+=' + innerHeight * 2, pin: '#pinw', scrub: true, invalidateOnRefresh: true, onUpdate: s => { st.ex = s.progress; $('#exb').style.transform = 'scaleX(' + s.progress + ')'; const k = s.progress < 0.34 ? 0 : s.progress < 0.7 ? 1 : 2; lv.forEach((d, i) => d.classList.toggle('on', i === k)); } });
+    ScrollTrigger.create({ trigger: '#ex', start: 'top top', end: () => '+=' + innerHeight * 2, pin: '#pinw', scrub: true, invalidateOnRefresh: true, onToggle: s => { calmT = s.isActive ? 1 : 0; }, onUpdate: s => { st.ex = s.progress; $('#exb').style.transform = 'scaleX(' + s.progress + ')'; const k = s.progress < 0.34 ? 0 : s.progress < 0.7 ? 1 : 2; lv.forEach((d, i) => d.classList.toggle('on', i === k)); } });
 
     /* 3) projetos: galeria horizontal, com a arte de cada cartão em parallax */
     ScrollTrigger.matchMedia({ '(min-width: 901px)': () => {

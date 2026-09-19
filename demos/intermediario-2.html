@@ -232,6 +232,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @media(max-width:920px){.opts{grid-template-columns:1fr}.sim,.foot2 .cols{grid-template-columns:1fr}}
 @media(max-width:920px){.top nav{display:none}.hero .wrap,.tabs,.ba,.rv,.contact{grid-template-columns:1fr}.stage{max-width:340px}.tl2{padding-left:56px}.st::before{left:-56px;width:42px;height:42px}.tl2::before,.tl2 .fill{left:19px}.facts{grid-template-columns:1fr}.fab span{display:none}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.js [data-r]{opacity:1;transform:none}}
+
+/* fotos reais */
+.hphoto{position:absolute;left:14%;top:2%;width:72%;height:96%;border-radius:200px 200px 32px 32px;overflow:hidden;box-shadow:0 40px 70px -35px rgba(11,127,134,.6);border:8px solid #fff}
+.hphoto img{width:100%;height:100%;object-fit:cover;object-position:75% 30%;display:block}
+.doc .av{object-fit:cover;background:none!important;display:block}
+.tip .ph{padding:0;overflow:hidden;font-size:0}
+.tip .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.tip:hover .ph img{transform:scale(1.06)}
+.tip .ph{height:190px}
+.cgal{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:230px 230px;gap:16px;margin-top:10px}
+.cgal figure{position:relative;border-radius:26px;overflow:hidden;box-shadow:0 20px 40px -28px rgba(11,127,134,.6)}
+.cgal .c1{grid-row:span 2}
+.cgal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s}
+.cgal figure:hover img{transform:scale(1.05)}
+.cgal figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);color:#0b4f54;padding:6px 14px;border-radius:99px;font-weight:700;font-size:.8rem}
+@media(max-width:800px){.cgal{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:210px}.cgal .c1{grid-row:auto}}
 </style>
 </head>
 <body>
@@ -261,11 +277,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     </form>
   </div>
   <div class="stage" data-r>
-    <svg class="tooth" viewBox="0 0 120 150" role="img" aria-label="Ilustração de um dente saudável">
-      <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#d9f4f0"/></linearGradient></defs>
-      <path d="M60 18C50 6 20 6 16 40C14 60 26 76 26 98C26 120 32 140 42 140C52 140 52 112 60 112C68 112 68 140 78 140C88 140 94 120 94 98C94 76 106 60 104 40C100 6 70 6 60 18Z" fill="url(#tg)" stroke="#ffffff" stroke-width="2"/>
-      <path d="M34 34c4-8 12-10 18-6" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".9"/>
-    </svg>
+    <div class="hphoto"><img src="img/dent-2.jpg" alt="Paciente sorrindo após tratamento" fetchpriority="high"></div>
     <div class="orb o1"><i>🦷</i><div><b>+8.000</b>sorrisos transformados</div></div>
     <div class="orb o2"><i>⭐</i><div><b>4,9</b>avaliação no Google</div></div>
     <div class="orb o3"><i>🩺</i><div><b>12 anos</b>de experiência</div></div>
@@ -318,6 +330,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </div></section>
 
+<section class="sec" style="padding-bottom:0"><div class="wrap">
+  <p class="label" data-r>Nossa clínica</p><h2 data-r>Um ambiente <em>pensado para acolher</em></h2>
+  <div class="cgal" data-r>
+    <figure class="c1"><img src="img/dent-1.jpg" alt="Consultório odontológico" loading="lazy"><figcaption>Consultórios climatizados</figcaption></figure>
+    <figure><img src="img/dent-4.jpg" alt="Sala de atendimento" loading="lazy"><figcaption>Recepção</figcaption></figure>
+    <figure><img src="img/dent-3.jpg" alt="Exame clínico" loading="lazy"><figcaption>Avaliação detalhada</figcaption></figure>
+  </div>
+</div></section>
+
 <section class="sec" id="consulta"><div class="wrap">
   <p class="label" data-r style="text-align:center">Como funciona</p><h2 data-r style="text-align:center">Sua primeira consulta, <em>passo a passo</em></h2><p class="sub" data-r style="margin-inline:auto;text-align:center">Sem surpresas: você sabe o que vai acontecer em cada etapa e quanto vai custar.</p>
   <div class="tl2" id="tl2"><div class="fill" id="fill"></div>
@@ -331,10 +352,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="sec" id="equipe" style="background:#fff"><div class="wrap">
   <p class="label" data-r>Equipe</p><h2 data-r>Especialistas que você <em>pode confiar</em></h2><p class="sub" data-r>Cada tratamento é conduzido pelo profissional certo, com formação e experiência na área.</p>
   <div class="team">
-    <div class="doc" data-r><div class="av">H</div><h3>Dra. Helena Prado</h3><div class="r">Implantodontia e reabilitação</div><p>Mestre em Implantodontia, com mais de 1.500 implantes realizados.</p><small>CRO-UF 00000</small></div>
-    <div class="doc" data-r><div class="av">M</div><h3>Dr. Marcos Vieira</h3><div class="r">Ortodontia e estética</div><p>Especialista em alinhadores invisíveis e aparelhos estéticos.</p><small>CRO-UF 00000</small></div>
-    <div class="doc" data-r><div class="av">L</div><h3>Dra. Lívia Torres</h3><div class="r">Odontopediatria</div><p>Transforma a ida ao dentista em uma experiência divertida para as crianças.</p><small>CRO-UF 00000</small></div>
-    <div class="doc" data-r><div class="av">R</div><h3>Dr. Rafael Nogueira</h3><div class="r">Estética e lentes de contato</div><p>Desenho digital do sorriso e facetas ultrafinas com alto acabamento.</p><small>CRO-UF 00000</small></div>
+    <div class="doc" data-r><img class="av" src="img/dent-doc1.jpg" alt="" loading="lazy"><h3>Dra. Helena Prado</h3><div class="r">Implantodontia e reabilitação</div><p>Mestre em Implantodontia, com mais de 1.500 implantes realizados.</p><small>CRO-UF 00000</small></div>
+    <div class="doc" data-r><img class="av" src="img/dent-doc2.jpg" alt="" loading="lazy"><h3>Dr. Marcos Vieira</h3><div class="r">Ortodontia e estética</div><p>Especialista em alinhadores invisíveis e aparelhos estéticos.</p><small>CRO-UF 00000</small></div>
+    <div class="doc" data-r><img class="av" src="img/dent-doc3.jpg" alt="" loading="lazy"><h3>Dra. Lívia Torres</h3><div class="r">Odontopediatria</div><p>Transforma a ida ao dentista em uma experiência divertida para as crianças.</p><small>CRO-UF 00000</small></div>
+    <div class="doc" data-r><img class="av" src="img/dent-doc4.jpg" alt="" loading="lazy"><h3>Dr. Rafael Nogueira</h3><div class="r">Estética e lentes de contato</div><p>Desenho digital do sorriso e facetas ultrafinas com alto acabamento.</p><small>CRO-UF 00000</small></div>
   </div>
 </div></section>
 
@@ -369,9 +390,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="sec" style="padding-bottom:0"><div class="wrap">
   <p class="label" data-r>Blog</p><h2 data-r>Dicas para o seu <em>sorriso</em></h2>
   <div class="tips">
-    <article class="tip" data-r><div class="ph">🪥</div><div class="bd"><div class="tg">Prevenção</div><h3>Como escovar corretamente: o passo a passo que ninguém ensinou</h3><p>Ângulo, tempo e pressão: pequenos ajustes que evitam cáries e gengivite.</p><small>4 min de leitura</small></div></article>
-    <article class="tip" data-r><div class="ph">✨</div><div class="bd"><div class="tg">Estética</div><h3>Quanto tempo dura o clareamento e como fazer o resultado durar mais</h3><p>Café, vinho e cigarro: o que realmente mancha os dentes depois do tratamento.</p><small>5 min de leitura</small></div></article>
-    <article class="tip" data-r><div class="ph">🧒</div><div class="bd"><div class="tg">Infantil</div><h3>Quando levar a criança ao dentista pela primeira vez</h3><p>A resposta é mais cedo do que você imagina. Veja como preparar o pequeno.</p><small>3 min de leitura</small></div></article>
+    <article class="tip" data-r><div class="ph"><img src="img/dent-tip1.jpg" alt="" loading="lazy"></div><div class="bd"><div class="tg">Prevenção</div><h3>Como escovar corretamente: o passo a passo que ninguém ensinou</h3><p>Ângulo, tempo e pressão: pequenos ajustes que evitam cáries e gengivite.</p><small>4 min de leitura</small></div></article>
+    <article class="tip" data-r><div class="ph"><img src="img/dent-tip2.jpg" alt="" loading="lazy"></div><div class="bd"><div class="tg">Estética</div><h3>Quanto tempo dura o clareamento e como fazer o resultado durar mais</h3><p>Café, vinho e cigarro: o que realmente mancha os dentes depois do tratamento.</p><small>5 min de leitura</small></div></article>
+    <article class="tip" data-r><div class="ph"><img src="img/dent-tip3.jpg" alt="" loading="lazy"></div><div class="bd"><div class="tg">Infantil</div><h3>Quando levar a criança ao dentista pela primeira vez</h3><p>A resposta é mais cedo do que você imagina. Veja como preparar o pequeno.</p><small>3 min de leitura</small></div></article>
   </div>
 </div></section>
 
