@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
 <title>Vértice Arquitetura — Demonstração Avançado</title>
 <meta name="description" content="Estúdio de arquitetura e interiores: projetos residenciais e comerciais com visualização 3D antes da obra.">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -9,7 +9,8 @@
 :root{--bg:#060a12;--ink:#eaf2ff;--mut:#93a4c2;--cy:#67e8f9;--in:#6366f1;--line:rgba(140,190,255,.16);--panel:rgba(8,13,26,.7);--sky:#3f95d8;--sf:'Instrument Serif',Georgia,serif;--mono:'IBM Plex Mono',monospace}
 *{box-sizing:border-box;margin:0;padding:0}
 html.lenis,html.lenis body{height:auto}
-body{font-family:'Space Grotesk',system-ui,sans-serif;background:radial-gradient(120% 80% at 75% 0%,var(--sky),var(--bg) 62%);background-attachment:fixed;color:var(--ink);line-height:1.6;overflow-x:hidden}
+body{font-family:'Space Grotesk',system-ui,sans-serif;background:radial-gradient(120% 80% at 75% 0%,var(--sky),var(--bg) 62%);background-attachment:fixed;color:var(--ink);line-height:1.6;overflow-x:hidden;overflow-x:clip;max-width:100%}
+html{overflow-x:clip;max-width:100%}
 body.loading{overflow:hidden}
 a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 ::selection{background:var(--cy);color:#000}
