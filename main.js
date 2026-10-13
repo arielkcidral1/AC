@@ -7,38 +7,31 @@ gsap.registerPlugin(ScrollTrigger);
    ===================================================== */
 const CONFIG = {
   whatsapp: '5547999845075',            // DDI + DDD + número, só dígitos
-  // Os 3 planos têm o MESMO conteúdo: muda apenas o nível visual.
+  // Os 2 planos têm o MESMO conteúdo: muda apenas o nível visual.
   common: ['Site de até 5 seções', 'Responsivo (celular e computador)', 'Botão de WhatsApp e formulário', 'Entrega em até 10 dias úteis'],
   plans: [
     {
-      name: 'Básico', title: 'Visual Essencial',
-      desc: 'Limpo, direto e profissional. Ideal para quem precisa estar no Google sem complicação.',
-      price: 300,
-      visual: 'Layout clássico e objetivo, sem animações',
-      demos: [['Barbearia Navalha', 'demos/basico-1.html'], ['Doce Manhã Confeitaria', 'demos/basico-2.html']],
-    },
-    {
       name: 'Intermediário', title: 'Visual Dinâmico', hot: true, badge: 'Mais escolhido',
       desc: 'Movimento na medida certa para o seu site parecer moderno e passar mais confiança.',
-      price: 550,
+      price: 600,
       visual: 'Animações suaves, efeitos ao rolar e ao passar o mouse',
       demos: [['Pulse Academia', 'demos/intermediario-1.html'], ['Clínica Sorriso', 'demos/intermediario-2.html']],
     },
     {
       name: 'Avançado', title: 'Visual Imersivo',
       desc: 'O site que ninguém esquece: efeitos 3D e animações de scroll que impressionam.',
-      price: 900,
+      price: 1100,
       visual: 'Objetos 3D, animações de scroll e efeitos imersivos',
       demos: [['Aurora Café', 'demos/avancado-1.html'], ['Vértice Arquitetura', 'demos/avancado-2.html']],
     },
   ],
   // price: número = entra no total; null = "a combinar". monthly: cobrado por mês. qty: pode ter mais de uma unidade
   addons: [
-    { name: 'Manutenção mensal', label: 'R$ 79/mês', price: 79, monthly: true, why: 'Deixo seu site sempre atualizado e cuido dos ajustes' },
-    { name: 'Página extra', label: 'R$ 80', price: 80, qty: true, why: 'Mais espaço para serviços, sobre ou contato' },
-    { name: 'Hospedagem', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null, why: 'Coloca seu site no ar, sem você se preocupar com servidor' },
-    { name: 'Domínio personalizado', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null, why: 'Seu endereço próprio, tipo seunegocio.com.br' },
-    { name: 'Banco de dados', label: 'taxa adicional', note: 'valor varia dependendo do site', price: null, why: 'Para guardar cadastros, pedidos ou agendamentos' },
+    { name: 'Manutenção mensal', label: 'R$ 120/mês', price: 120, monthly: true, why: 'Deixo seu site sempre atualizado e cuido dos ajustes' },
+    { name: 'Página extra', label: 'R$ 100', price: 100, qty: true, why: 'Mais espaço para serviços, sobre ou contato' },
+    { name: 'Hospedagem', label: 'grátis', note: 'para sites sem banco de dados', price: 0, why: 'Coloca seu site no ar, sem você se preocupar com servidor' },
+    { name: 'Domínio personalizado', label: 'taxa de R$20', note: 'domínio comprado por você', price: null, why: 'Seu endereço próprio, tipo seunegocio.com.br' },
+    { name: 'Banco de dados', label: 'a combinar', note: 'varia de acordo com o tamanho do banco', price: null, why: 'Para guardar cadastros, pedidos ou agendamentos' },
   ],
 };
 /* ===================================================== */
@@ -385,7 +378,7 @@ function cartTotals() {
   return { plan, once, monthly, tbd };
 }
 function extraPrice(a, q) {
-  return a.price == null ? 'a combinar' : brl(a.price * q) + (a.monthly ? '/mês' : '');
+  return a.price == null ? 'a combinar' : a.price === 0 ? 'grátis' : brl(a.price * q) + (a.monthly ? '/mês' : '');
 }
 function renderCart() {
   const { plan, once, monthly, tbd } = cartTotals();
