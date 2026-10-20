@@ -25,6 +25,15 @@ const CONFIG = {
       demos: [['Aurora Café', 'demos/avancado-1.html'], ['Vértice Arquitetura', 'demos/avancado-2.html']],
     },
   ],
+  // projetos reais do portfólio: img = nome do arquivo em projetos/ (sem extensão)
+  projects: [
+    { name: 'Artefatos de Cimento Silveira', tag: 'Indústria · Araquari/SC', url: 'https://artefatos-de-cimento-silveira.vercel.app/', img: 'artefatos-de-cimento' },
+    { name: 'Eden Creative Studio', tag: 'Studio de mídias', url: 'https://eden-creative-studio.vercel.app/', img: 'eden-creative-studio' },
+    { name: 'Click PVC', tag: 'Forros e painéis PVC', url: 'https://click-pvc.vercel.app/', img: 'click-pvc' },
+    { name: 'Detona Serralheria', tag: 'Estruturas metálicas', url: 'https://detona-serralheria.com.br/', img: 'detona-serralheria' },
+    { name: 'Costutec', tag: 'Máquinas de costura', url: 'https://constutec.vercel.app/', img: 'constutec' },
+    { name: 'Metro Cúbico Service', tag: 'Limpeza industrial', url: 'https://metro-cubico-pi.vercel.app/', img: 'metro-cubico-pi' },
+  ],
   // price: número = entra no total; null = "a combinar". monthly: cobrado por mês. qty: pode ter mais de uma unidade
   addons: [
     { name: 'Manutenção mensal', label: 'R$ 120/mês', price: 120, monthly: true, why: 'Deixo seu site sempre atualizado e cuido dos ajustes' },
@@ -538,6 +547,15 @@ function renderCards() {
         <span class="demo-card__open mono">Abrir exemplo (${d.plan}) ↗</span>
       </div>
       <div class="demo-card__info"><b>${d.n}</b><span class="demo-card__level mono">${d.title}</span></div>
+    </a>`).join('');
+  $('#projectsGrid').innerHTML = CONFIG.projects.map(p => `
+    <a class="demo-card demo-card--projeto rv" href="${p.url}" target="_blank" rel="noopener">
+      <div class="demo-card__bar"><i></i><i></i><i></i></div>
+      <div class="demo-card__shot">
+        <img src="projetos/${p.img}.jpg" alt="Prévia do site ${p.name}" loading="lazy">
+        <span class="demo-card__open mono">Abrir site ↗</span>
+      </div>
+      <div class="demo-card__info"><b>${p.name}</b><span class="demo-card__level mono">${p.tag}</span></div>
     </a>`).join('');
   $('#addons').innerHTML = CONFIG.addons.map((a, i) => `<li class="rv addon" data-addon="${i}" role="button" tabindex="0" aria-pressed="false"><span>${a.name}</span><span>${a.label}${a.note ? `<small>(${a.note})</small>` : ""}</span></li>`).join('');
   updatePrices(true);

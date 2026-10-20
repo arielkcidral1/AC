@@ -138,6 +138,10 @@ h2{font-size:clamp(2.8rem,8vw,7.5rem);line-height:.92;letter-spacing:-.05em;font
 }
 
 /* pricing */
+.projects{padding:12vh var(--pad) 0}
+.projects .showcase{margin-top:0}
+.demo-card--projeto{--pc:#4cc9ff}
+.demo-card--projeto .demo-card__info span{white-space:normal;text-align:right}
 .pricing{padding:16vh var(--pad) 10vh}
 .pricing__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:2rem;margin-bottom:8vh}
 .pricing__head .label{width:100%;margin-bottom:0}
