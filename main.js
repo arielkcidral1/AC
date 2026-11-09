@@ -38,7 +38,7 @@ const CONFIG = {
   addons: [
     { name: 'Manutenção mensal', label: 'R$ 120/mês', price: 120, monthly: true, why: 'Deixo seu site sempre atualizado e cuido dos ajustes' },
     { name: 'Página extra', label: 'R$ 100', price: 100, qty: true, why: 'Mais espaço para serviços, sobre ou contato' },
-    { name: 'Hospedagem', label: 'grátis', note: 'para sites sem banco de dados', price: 0, why: 'Coloca seu site no ar, sem você se preocupar com servidor' },
+    { name: 'Hospedagem', label: 'Varia de acordo com o site', price: null, why: 'Coloca seu site no ar, sem você se preocupar com servidor' },
     { name: 'Domínio personalizado', label: 'taxa de R$20', note: 'domínio comprado por você', price: null, why: 'Seu endereço próprio, tipo seunegocio.com.br' },
     { name: 'Banco de dados', label: 'a combinar', note: 'varia de acordo com o tamanho do banco', price: null, why: 'Para guardar cadastros, pedidos ou agendamentos' },
   ],
