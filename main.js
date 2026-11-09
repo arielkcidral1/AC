@@ -531,7 +531,7 @@ function renderCards() {
       <span class="card__name">${p.name}</span>
       <h3 class="card__title">${p.title}</h3>
       <p class="card__desc">${p.desc}</p>
-      <div class="card__price"><small>${''}</small><b data-price="${i}"></b></div>
+      <div class="card__price"><small>A partir de</small><b data-price="${i}"></b></div>
       <p class="card__sub" data-sub="${i}"></p>
       <ul><li class="hl">${p.visual}</li>${CONFIG.common.map(f => `<li>${f}</li>`).join('')}</ul>
       <button type="button" class="btn" data-pick="${i}"><span>Adicionar ao carrinho</span><i>+</i></button>
